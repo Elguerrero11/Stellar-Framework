@@ -27,6 +27,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		
 
 		getGeneralConfig() = new StellarPluginGeneralConfig() {
 		};
