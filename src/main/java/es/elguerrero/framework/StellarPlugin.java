@@ -1,37 +1,35 @@
 package es.elguerrero.framework;
 
-import es.elguerrero.framework.generalconfig.StellarPluginGeneralConfig;
 import lombok.Getter;
 import lombok.Setter;
-import net.xconfig.bukkit.XConfigBukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public abstract class StellarPlugin extends JavaPlugin {
 
+	private static volatile StellarPlugin INSTANCE;
 	@Getter
 	@Setter
-	private String pluginName = null;
+	private static String PLUGIN_NAME = null;
 	@Getter
 	@Setter
-	private Double majorPluginVersion = null;
+	private static Double MAJOR_PLUGIN_VERSION = null;
 	@Getter
 	@Setter
-	private Integer minorPluginVersion = null;
+	private static Integer MINOR_PLUGIN_VERSION = null;
 	@Getter
 	@Setter
-	private String autor = null;
-	@Getter
-	@Setter
-	private XConfigBukkit generalConfig;
+	private static String AUTOR = null;
 
 
 	@Override
 	public void onEnable() {
-		
 
-		getGeneralConfig() = new StellarPluginGeneralConfig() {
+
+		/*getGeneralConfig() = new StellarPluginConfig() {
 		};
-		config.load();
+		config.load();*/
 
 	}
 
@@ -45,9 +43,15 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	}
 
-	/*public Instance pluginGetInstance(){
+	public static StellarPlugin getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = JavaPlugin.getPlugin(StellarPlugin.class);
 
-	}*/
+			Objects.requireNonNull(INSTANCE, "The plugin need a full server restart for work fine, not just a reload.");
+		}
+
+		return INSTANCE;
+	}
 
 
 	// Getters for the variables
@@ -55,34 +59,34 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	public String getPluginName() {
 
-		if (pluginName == null) {
+		if (PLUGIN_NAME == null) {
 			throw new NullPointerException();
 		}
-		return pluginName;
+		return PLUGIN_NAME;
 	}
 
 	public Double getMajorPluginVersion() {
 
-		if (majorPluginVersion == null) {
+		if (MAJOR_PLUGIN_VERSION == null) {
 			throw new NullPointerException();
 		}
-		return majorPluginVersion;
+		return MAJOR_PLUGIN_VERSION;
 	}
 
 	public Integer getMinorPluginVersion() {
 
-		if (minorPluginVersion == null) {
+		if (MINOR_PLUGIN_VERSION == null) {
 			throw new NullPointerException();
 		}
-		return minorPluginVersion;
+		return MINOR_PLUGIN_VERSION;
 	}
 
 	public String getAutor() {
 
-		if (autor == null) {
+		if (AUTOR == null) {
 			throw new NullPointerException();
 		}
-		return autor;
+		return AUTOR;
 	}
 
 

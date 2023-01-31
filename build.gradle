@@ -1,6 +1,6 @@
 plugins {
-    id 'java'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'java'
 }
 
 group 'com.elguerrero.stellarframework'
@@ -15,6 +15,7 @@ repositories {
         maven { url = 'https://oss.sonatype.org/content/repositories/central' }
         maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
         maven { url 'https://jitpack.io' }
+        maven { url = "https://repo.codemc.org/repository/maven-public/" }
 }
 
 dependencies {
@@ -25,7 +26,9 @@ dependencies {
 
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
 
-    implementation("com.github.InitSync.XConfig:bukkit:1.1.4")
+    compileOnly "dev.jorel:commandapi-core:8.7.0"
+
+    implementation "dev.dejvokep:boosted-yaml:1.3.1"
 }
 
 java {
