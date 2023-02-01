@@ -1,4 +1,4 @@
-package es.elguerrero.framework.utils;
+package es.elguerrero.stellarframework.utils;
 
 public class GeneralUtils {
 

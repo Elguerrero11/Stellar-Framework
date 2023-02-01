@@ -1,5 +1,6 @@
-package es.elguerrero.framework;
+package es.elguerrero.stellarframework;
 
+import dev.jorel.commandapi.CommandAPI;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,6 +36,8 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	@Override
 	public void onLoad() {
+
+		CommandAPI.onLoad(CommandAPIConfig config);
 
 	}
 
