@@ -31,16 +31,16 @@ public abstract class StellarPluginConfig {
 	 * <p>
 	 * Too, load the variables
 	 */
-	public void onLoad() {
+	public void onConfigLoad() {
 
 		try {
 			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "config.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("config.yml")),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("file-version")).build());
+					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		INSTANCE.CONFIG_VERSION = CONFIG_FILE.getInt("General_Options.Version");
+		INSTANCE.CONFIG_VERSION = CONFIG_FILE.getInt("General_Options.Config_version");
 		INSTANCE.DEBUG = CONFIG_FILE.getBoolean("General_Options.Debug");
 		INSTANCE.BSTATS_METRICS = CONFIG_FILE.getBoolean("General_Options.BStats_Metrics");
 
