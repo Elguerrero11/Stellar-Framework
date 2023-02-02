@@ -16,7 +16,7 @@ public abstract class InfoCommand {
 
 	// Never must hexed more than 5 lines but I need to check exactly how much lines
 	@Getter
-	private static List<String> pluginInfoListMessagesPage1 = null;
+	private static List<String> pluginInfoListMessagesPage2 = null;
 
 	public static void registerPluginInfoCommand() {
 
@@ -52,7 +52,7 @@ public abstract class InfoCommand {
 	private void sendPluginInfoPage2(Player player) {
 
 		GeneralUtils.tellNoPrefix(player, "&b&m------------------------------------");
-		for (String message : pluginInfoListMessagesPage1) {
+		for (String message : pluginInfoListMessagesPage2) {
 			GeneralUtils.tellNoPrefix(player, message);
 		}
 		sendPlayerPage2ClickeableMessage(player);
