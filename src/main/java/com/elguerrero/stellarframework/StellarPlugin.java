@@ -1,10 +1,10 @@
-package es.elguerrero.stellarframework;
+package com.elguerrero.stellarframework;
 
+import com.elguerrero.stellarframework.commands.InfoCommand;
+import com.elguerrero.stellarframework.commands.ReloadCommand;
+import com.elguerrero.stellarframework.config.StellarPluginConfig;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
-import es.elguerrero.stellarframework.commands.InfoCommand;
-import es.elguerrero.stellarframework.commands.ReloadCommand;
-import es.elguerrero.stellarframework.config.StellarPluginConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -1,9 +1,9 @@
-package es.elguerrero.stellarframework.commands;
+package com.elguerrero.stellarframework.commands;
 
+import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.config.StellarPluginConfig;
+import com.elguerrero.stellarframework.config.StellarPluginMessages;
 import dev.jorel.commandapi.CommandAPICommand;
-import es.elguerrero.stellarframework.StellarPlugin;
-import es.elguerrero.stellarframework.config.StellarPluginConfig;
-import es.elguerrero.stellarframework.config.StellarPluginMessages;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ public abstract class ReloadCommand {
 					}
 
 					sender.sendMessage("&aThe plugin has be reloaded √");
-					
+
 				})
 				.register();
 

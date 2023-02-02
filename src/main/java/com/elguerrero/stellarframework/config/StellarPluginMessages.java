@@ -1,12 +1,12 @@
-package es.elguerrero.stellarframework.config;
+package com.elguerrero.stellarframework.config;
 
+import com.elguerrero.stellarframework.StellarPlugin;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
-import es.elguerrero.stellarframework.StellarPlugin;
 import lombok.Getter;
 
 import java.io.File;

@@ -1,8 +1,8 @@
-package es.elguerrero.stellarframework.commands;
+package com.elguerrero.stellarframework.commands;
 
+import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPICommand;
-import es.elguerrero.stellarframework.StellarPlugin;
-import es.elguerrero.stellarframework.utils.GeneralUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;

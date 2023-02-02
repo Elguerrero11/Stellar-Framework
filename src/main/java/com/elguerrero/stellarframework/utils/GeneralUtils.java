@@ -1,4 +1,4 @@
-package es.elguerrero.stellarframework.utils;
+package com.elguerrero.stellarframework.utils;
 
 import org.bukkit.entity.Player;
 
