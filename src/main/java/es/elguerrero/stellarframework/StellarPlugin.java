@@ -1,6 +1,10 @@
 package es.elguerrero.stellarframework;
 
 import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIConfig;
+import es.elguerrero.stellarframework.commands.InfoCommand;
+import es.elguerrero.stellarframework.commands.ReloadCommand;
+import es.elguerrero.stellarframework.config.StellarPluginConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,7 +16,12 @@ public abstract class StellarPlugin extends JavaPlugin {
 	private static volatile StellarPlugin INSTANCE;
 	@Getter
 	@Setter
-	private static String PLUGIN_NAME = null;
+	private static String PLUGIN_NAME = getInstance().getPluginName();
+
+	@Getter
+	// I have to specify the setter method for check null in minor plugin version
+	@Setter
+	private static Double PLUGIN_VERSION = null;
 	@Getter
 	@Setter
 	private static Double MAJOR_PLUGIN_VERSION = null;
@@ -21,28 +30,40 @@ public abstract class StellarPlugin extends JavaPlugin {
 	private static Integer MINOR_PLUGIN_VERSION = null;
 	@Getter
 	@Setter
-	private static String AUTOR = null;
+	private static String PLUGIN_AUTOR = null;
+
+	@Getter
+	@Setter
+	private static String tellPrefix = "";
+	@Getter
+	@Setter
+	private static String logPrefix = "";
+
+	@Getter
+	private static Integer numberOfPages = 1;
 
 
 	@Override
 	public void onEnable() {
 
-
-		/*getGeneralConfig() = new StellarPluginConfig() {
-		};
-		config.load();*/
+		CommandAPI.onEnable(getInstance());
 
 	}
 
 	@Override
 	public void onLoad() {
 
-		CommandAPI.onLoad(CommandAPIConfig config);
+		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarPluginConfig.getDEBUG()).verboseOutput(StellarPluginConfig.getDEBUG()));
+		InfoCommand.registerPluginInfoCommand();
+		ReloadCommand.registerPluginReloadCommand();
+
 
 	}
 
 	@Override
 	public void onDisable() {
+
+		CommandAPI.onDisable();
 
 	}
 
@@ -86,11 +107,10 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	public String getAutor() {
 
-		if (AUTOR == null) {
+		if (PLUGIN_AUTOR == null) {
 			throw new NullPointerException();
 		}
-		return AUTOR;
+		return PLUGIN_AUTOR;
 	}
-
 
 }

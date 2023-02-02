@@ -13,20 +13,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public abstract class StellarPluginConfig {
+public abstract class StellarPluginMessages {
 
 	@Getter
-	private static YamlDocument CONFIG_FILE;
+	private static YamlDocument MESSAGES_FILE;
 	@Getter
 	private final File PLUGIN_DATA_FOLDER = StellarPlugin.getInstance().getDataFolder();
 
-	// The config options
+	// All the messages
 	@Getter
-	private static Integer CONFIG_VERSION;
-	@Getter
-	private static Boolean DEBUG;
-	@Getter
-	private static Boolean BSTATS_METRICS;
+	private static Integer MESSAGES_VERSION;
 
 	/**
 	 * Happen when the plugin loads
@@ -38,15 +34,13 @@ public abstract class StellarPluginConfig {
 	public static void onConfigLoad() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "config.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("config.yml")),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_version")).build());
+			MESSAGES_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "messages.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("messages.yml")),
+					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		CONFIG_VERSION = CONFIG_FILE.getInt("General_Options.Config_version");
-		DEBUG = CONFIG_FILE.getBoolean("General_Options.Debug");
-		BSTATS_METRICS = CONFIG_FILE.getBoolean("General_Options.BStats_Metrics");
+		MESSAGES_VERSION = MESSAGES_FILE.getInt("Messages_version:");
 
 	}
 
