@@ -1,9 +1,15 @@
 # StellarFramework
- About this framework:
+
+ Important advices:
+ 
+   - I dont recommend right now use this framework for create a plugin as it is in a early development build and maybe contain errors and bad code, more it dont have so much features yet.
+   So if you want to use it, I recommend you to wait some time when the framework be better.
+   - I have to change the license of remove conditions in that, but I will not do at this moment. Anyway for sure I will not remove the License and copyright notice condition.
    
-   Important advice: I have to change the license of remove conditions in that, but I will not do at this moment. Anyway for sure I will not remove the License and copyright notice condition.
+ About this framework:
  
    - This is a framework and librery that I am doing for all the plugins I will do in the future, private and publics.
+   - I invite to anyone to collaborate with the framework doing suggestions or create pull request :)
    - Include small plugins or more big like gamemodes.
    - This framework have parts that can be used as librery and it use Java 8 and gradle.
    - Right now the framework only support latest version 1.19.3 and will be updated when a new version come but maybe in the future I will add support to others olders versions.
@@ -30,3 +36,4 @@
   - Foundation from Kangarko dev [https://github.com/kangarko/Foundation] | (I use some parts of it on my framework, anyway of most time I modify it. I will specify what parts I use in the future.)
   - Boosted-yaml from dejvokep dev [https://github.com/dejvokep/boosted-yaml] | (Right now all the config.yml and messages.yml system are managed with this library.)
   - Commandapi from JorelAli dev [https://github.com/JorelAli/CommandAPI] | (Right now all the command parts of the code are made with this library.)
+  - More libreries are planned to use in the future.
