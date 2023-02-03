@@ -28,6 +28,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 	@Getter
 	@Setter
 	private static Integer MINOR_PLUGIN_VERSION = null;
+	
 	@Getter
 	@Setter
 	private static String PLUGIN_AUTOR = null;
