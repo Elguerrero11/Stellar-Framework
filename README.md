@@ -1,5 +1,7 @@
 # StellarFramework
  About this framework:
+   
+   Important advice: I have to change the license of remove conditions in that, but I will not do at this moment. Anyway for sure I will not remove the License and copyright notice condition.
  
    - This is a framework and librery that I am doing for all the plugins I will do in the future, private and publics.
    - Include small plugins or more big like gamemodes.
