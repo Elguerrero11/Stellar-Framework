@@ -4,29 +4,24 @@ plugins {
 }
 
 group 'com.elguerrero.stellarframework'
-version '1.0.6'
+version '1.0.7'
 
 repositories {
     mavenCentral()
-        maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-        maven { url = 'https://oss.sonatype.org/content/repositories/central' }
-        maven { url = 'https://repo.papermc.io/repository/maven-public/' }
-        maven { url = 'https://jitpack.io' }
-        maven { url = "https://repo.codemc.org/repository/maven-public/" }
-
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://jitpack.io' }
+    maven { url = "https://repo.codemc.org/repository/maven-public/" }
 }
 
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
     compileOnly 'org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT'
-
-    compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
-
+    implementation "io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT" 
     implementation "dev.dejvokep:boosted-yaml:1.3.1"
-
     implementation "dev.jorel:commandapi-shade:8.7.4"
 }
 
@@ -34,14 +29,12 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
-tasks {
-    shadowJar {
-        dependencies {
-            include dependency("org.projectlombok:lombok:1.18.24")
-            include dependency("org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT")
-            include dependency("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
-            include dependency("dev.dejvokep:boosted-yaml:1.3.1")
-            include dependency("dev.jorel:commandapi-shade:8.7.4")
-        }
-    }
+shadowJar {
+    relocate 'org.projectlombok:lombok', 'com.elguerrero.stellarframework.libs:lombok'
+    relocate 'org.spigotmc:spigot-api', 'com.elguerrero.stellarframework.libs:spigot-api'
+    relocate 'io.papermc.paper:paper-api', 'com.elguerrero.stellarframework.libs:paper-api'
+    relocate 'dev.dejvokep:boosted-yaml', 'com.elguerrero.stellarframework.libs:boosted-yaml'
+    relocate 'dev.jorel:commandapi-shade', 'com.elguerrero.stellarframework.libs:commandapi-shade'
 }
+
+assemble.dependsOn shadowJar
