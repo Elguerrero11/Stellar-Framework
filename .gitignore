@@ -25,3 +25,14 @@ replay_pid*
 
 # Exclude gradle/wrapper/ directory
 !gradle/wrapper/
+
+# Gradle files
+.gradle/
+
+# IntelliJ IDEA files
+.idea/
+
+# Build folder
+build/
+
+
