@@ -4,7 +4,8 @@ plugins {
 }
 
 group 'com.elguerrero.stellarframework'
-version '1.0.8'
+version '1.0.9'
+description 'A framework for bukkit plugins that use some libreries for do some things and the plugins of the author of this framework.'
 
 repositories {
     mavenCentral()
@@ -29,11 +30,14 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
-shadowJar {
-    relocate 'org.projectlombok:lombok', 'com.elguerrero.stellarframework.libs:lombok'
-    relocate 'org.spigotmc:spigot-api', 'com.elguerrero.stellarframework.libs:spigot-api'
-    relocate 'dev.dejvokep:boosted-yaml', 'com.elguerrero.stellarframework.libs:boosted-yaml'
-    relocate 'dev.jorel:commandapi-shade', 'com.elguerrero.stellarframework.libs:commandapi-shade'
+tasks {
+  shadowJar {
+
+    relocate 'dev.dejvokep.boostedyaml', 'com.elguerrero.stellarframework.libs.boostedyaml'
+    relocate 'dev.jorel.commandapi', 'com.elguerrero.stellarframework.libs.commandapi'
+
+  }
 }
+
 
 assemble.dependsOn shadowJar
