@@ -1,9 +1,27 @@
 # Here will be all the messages that will be in common in my plugins
+# The messages support clasic color codes of & and new rgb hex colors, you can use the & symbol to change the color of the text or use the hex color codes
+#
 
-Prefix: '&7[&1&lMyPlugin&7]&r'
+# You can set the prefix of the plugin here, this will be used in all the messages of the plugin excepting console messages
+# The placeholder for use this is %plugin_prefix%
+Plugin_Prefix: '&7[&1&lMyPlugin&7]&r'
 
+# You can set the debug prefix of the plugin here, this will be used in all the debug messages of the plugin excepting console messages
+# The placeholder for use this is %plugin_prefix_debug%
+# I recommend to leave the plugin prefix placeholder in this messages for not confuse with other plugins debug messages
+Plugin_Prefix_Debug: '&7[&e&lDEBUG&7]&r'
+Debug_Enabled: '%plugin_prefix% &aThe debug mode has been enabled √'
+Debug_Disabled: '%plugin_prefix% &cThe debug mode has been disabled x'
+Debug_Status_Enabled: '%plugin_prefix% &aThe debug mode is enabled √'
+Debug_Status_Disabled: '%plugin_prefix% &cThe debug mode is disabled x'
+# This is the format of the debug messages, you can change the order of the placeholders or put other things
+# The next to that appear is the debug message itself
+Debug_Message_Format: '%plugin_prefix% %plugin_prefix_debug%'
 
-NoPermission: '&cYou do not have permission to do this.'
+Reload: '&aThe plugin has been reloaded √'
+Error: '&cAn error has occurred, check the error.log file generated in the plugin folder and contact the developer if you need.'
+
+NoPermission: '&cYou do not have permission to do that.'
 
 
 # The version of the file

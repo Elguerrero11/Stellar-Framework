@@ -24,10 +24,10 @@ public abstract class InfoCommand {
 				.withRequirement((sender) -> sender instanceof Player && sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".info") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
-					GeneralUtils.tellNoPrefix(player, StellarPlugin.getTellPrefix() + "&b&m------------------------------------");
+					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_PREFIX() + "&b&m------------------------------------");
 					GeneralUtils.tellNoPrefix(player, "");
 					// Add the clickeable message above for go to spigot
-					GeneralUtils.tellNoPrefix(player, StellarPlugin.getTellPrefix() + "&7-" + StellarPlugin.getPLUGIN_NAME() + "&bby &3" + StellarPlugin.getPLUGIN_AUTOR());
+					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_PREFIX() + "&7-" + StellarPlugin.getPLUGIN_NAME() + "&bby &3" + StellarPlugin.getPLUGIN_AUTOR());
 					GeneralUtils.tellNoPrefix(player, " ");
 					GeneralUtils.tellNoPrefix(player, "&6<> &7Optional arguments &6[] &7Required arguments");
 					GeneralUtils.tellNoPrefix(player, " ");
@@ -37,7 +37,7 @@ public abstract class InfoCommand {
 					//player.sendMessage("a" + Check if plugin is up to date with method pluginIsUpdated());
 					GeneralUtils.tellNoPrefix(player, " ");
 					//Add the clickeable message above
-					GeneralUtils.tellNoPrefix(player, "Page 1 of " + StellarPlugin.getNumberOfPages() + "&6&l>>");
+					GeneralUtils.tellNoPrefix(player, "Page 1 of " + StellarPlugin.getNUMBER_OF_PAGES() + "&6&l>>");
 					GeneralUtils.tellNoPrefix(player, "&b&m------------------------------------");
 				}).register();
 
@@ -61,7 +61,7 @@ public abstract class InfoCommand {
 
 	private void sendPlayerPage2ClickeableMessage(Player player) {
 		// Add the clickeable message above
-		GeneralUtils.tellNoPrefix(player, "Page 2 of " + StellarPlugin.getNumberOfPages());
+		GeneralUtils.tellNoPrefix(player, "Page 2 of " + StellarPlugin.getNUMBER_OF_PAGES());
 		// Replace for the clickeable message
 		// Too center the message arrows
 		GeneralUtils.tellNoPrefix(player, "&6&l <<          &6&l>>");
