@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public abstract class InfoCommand {
+public abstract class HelpCommand {
 
 	@Setter
 	private static List<String> descriptionExtraListMessagesPage1 = null;

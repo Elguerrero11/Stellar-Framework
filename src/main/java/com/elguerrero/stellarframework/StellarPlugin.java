@@ -1,7 +1,7 @@
 package com.elguerrero.stellarframework;
 
 import com.elguerrero.stellarframework.commands.DebugCommand;
-import com.elguerrero.stellarframework.commands.InfoCommand;
+import com.elguerrero.stellarframework.commands.HelpCommand;
 import com.elguerrero.stellarframework.commands.ReloadCommand;
 import com.elguerrero.stellarframework.config.StellarPluginConfig;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
@@ -9,7 +9,6 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -62,7 +61,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 	public void onLoad() {
 
 		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarPluginConfig.getDEBUG()).verboseOutput(StellarPluginConfig.getDEBUG()));
-		InfoCommand.registerPluginInfoCommand();
+		HelpCommand.registerPluginInfoCommand();
 		ReloadCommand.registerPluginReloadCommand();
 		DebugCommand.registerPluginDebugCommand();
 		PLUGIN_LOGGER = getInstance().getLogger();

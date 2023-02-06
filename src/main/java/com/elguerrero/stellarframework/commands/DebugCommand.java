@@ -5,7 +5,6 @@ import com.elguerrero.stellarframework.config.StellarPluginConfig;
 import com.elguerrero.stellarframework.config.StellarPluginMessages;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPICommand;
-import org.bukkit.entity.Player;
 
 public class DebugCommand {
 
@@ -35,7 +34,7 @@ public class DebugCommand {
 				})
 				.register();
 
-		InfoCommand.getPluginInfoListMessagesPage2().add("&edebug &7- &fEnable or disable the debug mode of the plugin");
+		HelpCommand.getPluginInfoListMessagesPage2().add("&edebug &7- &fEnable or disable the debug mode of the plugin");
 	}
 
 }
