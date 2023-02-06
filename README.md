@@ -16,10 +16,15 @@
 
  ### Permissions that the framework have for each plugin that use that:
 
-  - pluginname.* (All permissions of the plugin)
-  - pluginname.help (Permission to use help)
-  - pluginname.debug (Permission to use debug command and for see debug messages)
-  - pluginname.reload (Permission to use reload command)
+<details>
+  <summary>Show permissions</summary>
+
+- pluginname.* (All permissions of the plugin)
+- pluginname.help (Permission to use help)
+- pluginname.debug (Permission to use debug command and for see debug messages)
+- pluginname.reload (Permission to use reload command)
+
+</details>
 
  ### About me:
  
