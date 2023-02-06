@@ -27,8 +27,6 @@ public abstract class StellarPlugin extends JavaPlugin {
 	@Getter
 	private static String PLUGIN_VERSION;
 
-	private static Double PLUGIN_MAJOR_VERSION = null;
-	private static Integer PLUGIN_MINOR_VERSION = null;
 	@Getter
 	private static String PLUGIN_DESCRIPTION = null;
 	@Getter
@@ -95,21 +93,6 @@ public abstract class StellarPlugin extends JavaPlugin {
 		return PLUGIN_NAME;
 	}
 
-	public Double getMajorPluginVersion() {
-
-		if (PLUGIN_MAJOR_VERSION == null) {
-			throw new NullPointerException();
-		}
-		return PLUGIN_MAJOR_VERSION;
-	}
-
-	public Integer getMinorPluginVersion() {
-
-		if (PLUGIN_MINOR_VERSION == null) {
-			throw new NullPointerException();
-		}
-		return PLUGIN_MINOR_VERSION;
-	}
 
 	public String getAutor() {
 
