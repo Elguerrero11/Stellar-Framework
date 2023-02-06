@@ -9,6 +9,7 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -21,19 +22,15 @@ public abstract class StellarPlugin extends JavaPlugin {
 	private static Logger PLUGIN_LOGGER;
 	@Getter
 	@Setter
-	private static String PLUGIN_NAME = getInstance().getPluginName();
+	private static String PLUGIN_NAME = null;
 
 	@Getter
-	// I have to specify the setter method for check null in minor plugin version
-	@Setter
-	private static Double PLUGIN_VERSION = null;
+	private static String PLUGIN_VERSION;
+
+	private static Double PLUGIN_MAJOR_VERSION = null;
+	private static Integer PLUGIN_MINOR_VERSION = null;
 	@Getter
-	@Setter
-	private static Double MAJOR_PLUGIN_VERSION = null;
-	@Getter
-	@Setter
-	private static Integer MINOR_PLUGIN_VERSION = null;
-	
+	private static String PLUGIN_DESCRIPTION = null;
 	@Getter
 	@Setter
 	private static String PLUGIN_AUTOR = null;
@@ -100,18 +97,18 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	public Double getMajorPluginVersion() {
 
-		if (MAJOR_PLUGIN_VERSION == null) {
+		if (PLUGIN_MAJOR_VERSION == null) {
 			throw new NullPointerException();
 		}
-		return MAJOR_PLUGIN_VERSION;
+		return PLUGIN_MAJOR_VERSION;
 	}
 
 	public Integer getMinorPluginVersion() {
 
-		if (MINOR_PLUGIN_VERSION == null) {
+		if (PLUGIN_MINOR_VERSION == null) {
 			throw new NullPointerException();
 		}
-		return MINOR_PLUGIN_VERSION;
+		return PLUGIN_MINOR_VERSION;
 	}
 
 	public String getAutor() {
