@@ -5,19 +5,18 @@ import com.elguerrero.stellarframework.config.StellarPluginMessages;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public abstract class HelpCommand {
 
-	@Setter
+	@Getter
 	private static List<String> descriptionExtraListMessagesPage1 = null;
 
 	// Never must hexed more than 5 lines but I need to check exactly how much lines
 	@Getter
-	private static List<String> pluginInfoListMessagesPage2 = null;
+	private static List<String> pluginHelpListMessagesPage2 = null;
 
 	public static void registerPluginInfoCommand() {
 
@@ -32,10 +31,10 @@ public abstract class HelpCommand {
 				})
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
-					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_PREFIX() + "&b&m------------------------------------");
+					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_LOG_PREFIX() + "&b&m------------------------------------");
 					GeneralUtils.tellNoPrefix(player, "");
 					// Add the clickeable message above for go to spigot
-					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_PREFIX() + "&7-" + StellarPlugin.getPLUGIN_NAME() + "&bby &3" + StellarPlugin.getPLUGIN_AUTOR());
+					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_LOG_PREFIX() + "&7-" + StellarPlugin.getPLUGIN_NAME() + "&bby &3" + StellarPlugin.getPLUGIN_AUTOR());
 					GeneralUtils.tellNoPrefix(player, " ");
 					GeneralUtils.tellNoPrefix(player, "&6<> &7Optional arguments &6[] &7Required arguments");
 					GeneralUtils.tellNoPrefix(player, " ");
@@ -60,7 +59,7 @@ public abstract class HelpCommand {
 	private void sendPluginInfoPage2(Player player) {
 
 		GeneralUtils.tellNoPrefix(player, "&b&m------------------------------------");
-		for (String message : pluginInfoListMessagesPage2) {
+		for (String message : pluginHelpListMessagesPage2) {
 			GeneralUtils.tellNoPrefix(player, message);
 		}
 		sendPlayerPage2ClickeableMessage(player);

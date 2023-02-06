@@ -24,17 +24,17 @@ public class DebugCommand {
 					if (StellarPluginConfig.getCONFIG_FILE().getBoolean("General_Options.Debug")) {
 						StellarPluginConfig.getCONFIG_FILE().set("General_Options.Debug", false);
 						sender.sendMessage(GeneralUtils.colorize(StellarPluginMessages.getDEBUG_DISABLED()));
-						StellarPlugin.getPLUGIN_LOGGER().info(GeneralUtils.colorize(StellarPlugin.getLOG_PREFIX() + "&ei &7Debug mode has been disabled x"));
+						StellarPlugin.getPLUGIN_LOGGER().info(GeneralUtils.colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode has been disabled x"));
 					} else {
 						StellarPluginConfig.getCONFIG_FILE().set("General_Options.Debug", true);
 						sender.sendMessage(GeneralUtils.colorize(StellarPluginMessages.getDEBUG_ENABLED()));
-						StellarPlugin.getPLUGIN_LOGGER().info(GeneralUtils.colorize(StellarPlugin.getLOG_PREFIX() + "&ei &7Debug mode has been enabled √"));
+						StellarPlugin.getPLUGIN_LOGGER().info(GeneralUtils.colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode has been enabled √"));
 					}
 
 				})
 				.register();
 
-		HelpCommand.getPluginInfoListMessagesPage2().add("&edebug &7- &fEnable or disable the debug mode of the plugin");
+		HelpCommand.getPluginHelpListMessagesPage2().add("&edebug &7- &fEnable or disable the debug mode of the plugin");
 	}
 
 }

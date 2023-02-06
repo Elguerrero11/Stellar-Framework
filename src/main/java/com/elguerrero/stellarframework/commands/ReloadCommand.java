@@ -40,7 +40,7 @@ public abstract class ReloadCommand {
 				})
 				.register();
 
-		HelpCommand.getPluginInfoListMessagesPage2().add("&ereload &7- &fReload the plugin");
+		HelpCommand.getPluginHelpListMessagesPage2().add("&ereload &7- &fReload the plugin");
 	}
 
 }

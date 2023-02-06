@@ -35,10 +35,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	@Getter
 	@Setter
-	private static String PLUGIN_PREFIX = "";
-	@Getter
-	@Setter
-	private static String LOG_PREFIX = "";
+	private static String PLUGIN_LOG_PREFIX = "[" + PLUGIN_NAME + "]";
 
 	@Getter
 	private static Integer NUMBER_OF_PAGES = 1;
@@ -81,9 +78,10 @@ public abstract class StellarPlugin extends JavaPlugin {
 		return INSTANCE;
 	}
 
-
-	// Getters for the variables
-	// With null check
+	/**
+	 * Get the plugin name
+	 * @return String - Plugin name or null if the plugin name is null
+	 */
 
 	public String getPluginName() {
 
@@ -93,6 +91,10 @@ public abstract class StellarPlugin extends JavaPlugin {
 		return PLUGIN_NAME;
 	}
 
+	/**
+	 * Get the plugin author
+	 * @return String - Plugin author or null if the plugin author is null
+	 */
 
 	public String getAutor() {
 
