@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public abstract class StellarPluginMessages {
+public abstract class Messages {
 
 	@Getter
 	private static YamlDocument MESSAGES_FILE;
@@ -51,7 +51,7 @@ public abstract class StellarPluginMessages {
 	 * <p>
 	 * Too, load the variables
 	 */
-	public static void onConfigLoad() {
+	public static void MessagesLoad() {
 
 		try {
 			MESSAGES_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "messages.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("messages.yml")),

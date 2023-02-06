@@ -1,7 +1,7 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.StellarPluginMessages;
+import com.elguerrero.stellarframework.config.Messages;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public abstract class HelpCommand {
 					if (sender instanceof Player && (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".help") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))) {
 						return true;
 					} else {
-						sender.sendMessage(GeneralUtils.colorize(StellarPluginMessages.getNO_PERMISSION()));
+						sender.sendMessage(GeneralUtils.colorize(Messages.getNO_PERMISSION()));
 						return false;
 					}
 				})

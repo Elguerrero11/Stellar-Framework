@@ -3,13 +3,13 @@ package com.elguerrero.stellarframework;
 import com.elguerrero.stellarframework.commands.DebugCommand;
 import com.elguerrero.stellarframework.commands.HelpCommand;
 import com.elguerrero.stellarframework.commands.ReloadCommand;
-import com.elguerrero.stellarframework.config.StellarPluginConfig;
+import com.elguerrero.stellarframework.config.Config;
+import com.elguerrero.stellarframework.config.Messages;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -38,7 +38,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 	private static String PLUGIN_LOG_PREFIX = "[" + PLUGIN_NAME + "]";
 
 	@Getter
-	private static Integer NUMBER_OF_PAGES = 1;
+	private static Integer NUMBER_OF_PAGES = 2;
 
 
 	@Override
@@ -52,11 +52,13 @@ public abstract class StellarPlugin extends JavaPlugin {
 	@Override
 	public void onLoad() {
 
-		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarPluginConfig.getDEBUG()).verboseOutput(StellarPluginConfig.getDEBUG()));
+		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(Config.getDEBUG()).verboseOutput(Config.getDEBUG()));
 		HelpCommand.registerPluginInfoCommand();
 		ReloadCommand.registerPluginReloadCommand();
 		DebugCommand.registerPluginDebugCommand();
 		PLUGIN_LOGGER = getInstance().getLogger();
+		Config.ConfigLoad();
+		Messages.MessagesLoad();
 
 
 	}

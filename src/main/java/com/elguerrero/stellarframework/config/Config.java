@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public abstract class StellarPluginConfig {
+public abstract class Config {
 
 	@Getter
 	private static YamlDocument CONFIG_FILE;
@@ -35,7 +35,7 @@ public abstract class StellarPluginConfig {
 	 * <p>
 	 * Too, load the variables
 	 */
-	public static void onConfigLoad() {
+	public static void ConfigLoad() {
 
 		try {
 			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "config.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("config.yml")),
