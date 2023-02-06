@@ -41,6 +41,8 @@ public abstract class StellarPluginMessages {
 	private static String RELOAD;
 	@Getter
 	private static String ERROR;
+	@Getter
+	private static String NO_PERMISSION;
 
 	/**
 	 * Happen when the plugin loads
@@ -68,6 +70,7 @@ public abstract class StellarPluginMessages {
 		DEBUG_MESSAGE_FORMAT = MESSAGES_FILE.getString("Debug_Message_Format:");
 		RELOAD = MESSAGES_FILE.getString("Reload:");
 		ERROR = MESSAGES_FILE.getString("Error:");
+		NO_PERMISSION = MESSAGES_FILE.getString("No_Permission:");
 
 	}
 

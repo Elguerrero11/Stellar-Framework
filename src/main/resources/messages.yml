@@ -21,7 +21,7 @@ Debug_Message_Format: '%plugin_prefix% %plugin_prefix_debug%'
 Reload: '&aThe plugin has been reloaded √'
 Error: '&cAn error has occurred, check the error.log file generated in the plugin folder and contact the developer if you need.'
 
-NoPermission: '&cYou do not have permission to do that.'
+No_Permission: '&cYou do not have permission to do that.'
 
 
 # The version of the file

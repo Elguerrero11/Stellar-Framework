@@ -1,6 +1,7 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.config.StellarPluginMessages;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import lombok.Getter;
@@ -21,7 +22,14 @@ public abstract class InfoCommand {
 	public static void registerPluginInfoCommand() {
 
 		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + " help")
-				.withRequirement((sender) -> sender instanceof Player && sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".info") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))
+				.withRequirement((sender) -> {
+					if (sender instanceof Player && (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".help") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))) {
+						return true;
+					} else {
+						sender.sendMessage(GeneralUtils.colorize(StellarPluginMessages.getNO_PERMISSION()));
+						return false;
+					}
+				})
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
 					GeneralUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_PREFIX() + "&b&m------------------------------------");

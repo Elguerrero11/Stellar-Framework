@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 public class GeneralUtils {
 
 	public static String colorize(String message) {
-		return message.replace("&", "§");
+		return message.replaceAll("&", "§")
+				.replaceAll("%plugin_prefix%", StellarPluginMessages.getPLUGIN_PREFIX())
+				.replaceAll("%plugin_prefix_debug%", StellarPluginMessages.getPLUGIN_PREFIX_DEBUG());
 	}
 
 	public static void tellNoPrefix(Player player, String message) {

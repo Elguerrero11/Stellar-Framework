@@ -5,12 +5,20 @@ import com.elguerrero.stellarframework.config.StellarPluginConfig;
 import com.elguerrero.stellarframework.config.StellarPluginMessages;
 import com.elguerrero.stellarframework.utils.GeneralUtils;
 import dev.jorel.commandapi.CommandAPICommand;
+import org.bukkit.entity.Player;
 
 public class DebugCommand {
 
 	public static void registerPluginDebugCommand() {
 		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + " debug")
-				.withRequirement(sender -> sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))
+				.withRequirement((sender) -> {
+					if (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*")) {
+						return true;
+					} else {
+						sender.sendMessage(GeneralUtils.colorize(StellarPluginMessages.getNO_PERMISSION()));
+						return false;
+					}
+				})
 				.withHelp("Enable and disable the debug mode of the plugin", "Send the plugin debug messages to the console and the players")
 				.executes((sender, args) -> {
 

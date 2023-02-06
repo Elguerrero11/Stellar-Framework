@@ -13,7 +13,14 @@ public abstract class ReloadCommand {
 
 	public static void registerPluginReloadCommand() {
 		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + " reload")
-				.withRequirement(sender -> sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))
+				.withRequirement((sender) -> {
+					if (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*")) {
+						return true;
+					} else {
+						sender.sendMessage(GeneralUtils.colorize(StellarPluginMessages.getNO_PERMISSION()));
+						return false;
+					}
+				})
 				.withHelp("Reload the plugin", "Reload the plugin config.yml and messages.yml")
 				.executes((sender, args) -> {
 
