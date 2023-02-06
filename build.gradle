@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.elguerrero.stellarframework'
-version '1.1.0'
+version '1.1.1'
 description 'A framework for bukkit plugins that use some libreries for do some things and the plugins of the author of this framework.'
 
 repositories {
