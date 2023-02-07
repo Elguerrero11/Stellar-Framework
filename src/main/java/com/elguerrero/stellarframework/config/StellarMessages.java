@@ -45,13 +45,11 @@ public abstract class StellarMessages {
 	private static String NO_PERMISSION;
 
 	/**
-	 * Happen when the plugin loads
+	 * Happen when the plugin load and reload
 	 * <p>
 	 * Create the file if dont exist and update it if is not updated
-	 * <p>
-	 * Too, load the variables
 	 */
-	public static void MessagesLoad() {
+	public static void loadMessagesFile() {
 
 		try {
 			MESSAGES_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "messages.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("messages.yml")),
@@ -59,6 +57,14 @@ public abstract class StellarMessages {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+
+	}
+
+	/**
+	 * Happen when the plugin load and reload
+	 * Set the variables to the config values
+	 */
+	public static void loadMessagesVariables(){
 
 		MESSAGES_VERSION = MESSAGES_FILE.getInt("Messages_version:");
 		PLUGIN_PREFIX = MESSAGES_FILE.getString("Plugin_prefix:");

@@ -1,8 +1,5 @@
 package com.elguerrero.stellarframework;
 
-import com.elguerrero.stellarframework.commands.StellarDebugCommand;
-import com.elguerrero.stellarframework.commands.StellarHelpCommand;
-import com.elguerrero.stellarframework.commands.StellarReloadCommand;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -52,13 +49,10 @@ public abstract class StellarPlugin extends JavaPlugin {
 	@Override
 	public void onLoad() {
 
-		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
-		StellarHelpCommand.registerPluginInfoCommand();
-		StellarReloadCommand.registerPluginReloadCommand();
-		StellarDebugCommand.registerPluginDebugCommand();
 		PLUGIN_LOGGER = getInstance().getLogger();
-		StellarConfig.ConfigLoad();
-		StellarMessages.MessagesLoad();
+		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
+		StellarUtils.registerCommands();
+		StellarUtils.loadConfigFiles();
 
 	}
 

@@ -30,13 +30,11 @@ public class StellarConfig {
 	private static Boolean BSTATS_METRICS;
 
 	/**
-	 * Happen when the plugin loads
+	 * Happen when the plugin load and reload
 	 * <p>
 	 * Create the file if dont exist and update it if is not updated
-	 * <p>
-	 * Too, load the variables
 	 */
-	public static void ConfigLoad() {
+	public static void loadConfigFile() {
 
 		try {
 			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "config.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("config.yml")),
@@ -45,12 +43,20 @@ public class StellarConfig {
 			ex.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Happen when the plugin load and reload
+	 * Set the variables to the config values
+	 */
+
+	public static void loadConfigVariables() {
+
 		CONFIG_VERSION = CONFIG_FILE.getInt("General_Options.Config_version");
 		DEBUG = CONFIG_FILE.getBoolean("General_Options.Debug");
 
 		BSTATS_METRICS = CONFIG_FILE.getBoolean("General_Options.BStats_Metrics");
 
 	}
-
 
 }
