@@ -13,7 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public abstract class Config {
+// Abstract removed
+public class StellarConfig {
 
 	@Getter
 	private static YamlDocument CONFIG_FILE;
@@ -46,6 +47,7 @@ public abstract class Config {
 
 		CONFIG_VERSION = CONFIG_FILE.getInt("General_Options.Config_version");
 		DEBUG = CONFIG_FILE.getBoolean("General_Options.Debug");
+
 		BSTATS_METRICS = CONFIG_FILE.getBoolean("General_Options.BStats_Metrics");
 
 	}

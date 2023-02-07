@@ -1,16 +1,16 @@
 package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.Config;
-import com.elguerrero.stellarframework.config.Messages;
+import com.elguerrero.stellarframework.config.StellarConfig;
+import com.elguerrero.stellarframework.config.StellarMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class GeneralUtils {
+public class StellarUtils {
 
 	public static String colorize(String message) {
-		return message.replaceAll("%plugin_prefix%", Messages.getPLUGIN_PREFIX())
-				.replaceAll("%plugin_prefix_debug%", Messages.getPLUGIN_PREFIX_DEBUG())
+		return message.replaceAll("%plugin_prefix%", StellarMessages.getPLUGIN_PREFIX())
+				.replaceAll("%plugin_prefix_debug%", StellarMessages.getPLUGIN_PREFIX_DEBUG())
 				.replaceAll("&", "§");
 	}
 
@@ -19,30 +19,30 @@ public class GeneralUtils {
 	}
 
 	public static void sendDebugMessage(String message) {
-		if (Config.getDEBUG()) {
+		if (StellarConfig.getDEBUG()) {
 			StellarPlugin.getPLUGIN_LOGGER().info(colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&7[&eDEBUG&7] " + message));
 		}
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug")) {
-				player.sendMessage(colorize(Messages.getDEBUG_MESSAGE_FORMAT() + message));
+				player.sendMessage(colorize(StellarMessages.getDEBUG_MESSAGE_FORMAT() + message));
 			}
 		}
 	}
 
 	public static void sendMessageDebugStatus(){
 
-		if (Config.getDEBUG()) {
+		if (StellarConfig.getDEBUG()) {
 			StellarPlugin.getPLUGIN_LOGGER().info(colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode is enabled √"));
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug")) {
-					player.sendMessage(colorize(Messages.getDEBUG_STATUS_ENABLED()));
+					player.sendMessage(colorize(StellarMessages.getDEBUG_STATUS_ENABLED()));
 				}
 			}
 		} else {
 			StellarPlugin.getPLUGIN_LOGGER().info(colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode is disabled x"));
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug")) {
-					player.sendMessage(colorize(Messages.getDEBUG_STATUS_DISABLED()));
+					player.sendMessage(colorize(StellarMessages.getDEBUG_STATUS_DISABLED()));
 				}
 			}
 		}

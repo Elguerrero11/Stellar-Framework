@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public abstract class Messages {
+public abstract class StellarMessages {
 
 	@Getter
 	private static YamlDocument MESSAGES_FILE;

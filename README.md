@@ -17,7 +17,7 @@
  ### Permissions that the framework have for each plugin that use that:
 
 <details>
-  <summary>Show permissions</summary>
+  <summary>Show permissions:</summary>
 
 - pluginname.* (All permissions of the plugin)
 - pluginname.help (Permission to use help)

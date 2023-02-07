@@ -1,11 +1,11 @@
 package com.elguerrero.stellarframework;
 
-import com.elguerrero.stellarframework.commands.DebugCommand;
-import com.elguerrero.stellarframework.commands.HelpCommand;
-import com.elguerrero.stellarframework.commands.ReloadCommand;
-import com.elguerrero.stellarframework.config.Config;
-import com.elguerrero.stellarframework.config.Messages;
-import com.elguerrero.stellarframework.utils.GeneralUtils;
+import com.elguerrero.stellarframework.commands.StellarDebugCommand;
+import com.elguerrero.stellarframework.commands.StellarHelpCommand;
+import com.elguerrero.stellarframework.commands.StellarReloadCommand;
+import com.elguerrero.stellarframework.config.StellarConfig;
+import com.elguerrero.stellarframework.config.StellarMessages;
+import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
@@ -45,21 +45,20 @@ public abstract class StellarPlugin extends JavaPlugin {
 	public void onEnable() {
 
 		CommandAPI.onEnable(getInstance());
-		GeneralUtils.sendMessageDebugStatus();
+		StellarUtils.sendMessageDebugStatus();
 
 	}
 
 	@Override
 	public void onLoad() {
 
-		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(Config.getDEBUG()).verboseOutput(Config.getDEBUG()));
-		HelpCommand.registerPluginInfoCommand();
-		ReloadCommand.registerPluginReloadCommand();
-		DebugCommand.registerPluginDebugCommand();
+		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
+		StellarHelpCommand.registerPluginInfoCommand();
+		StellarReloadCommand.registerPluginReloadCommand();
+		StellarDebugCommand.registerPluginDebugCommand();
 		PLUGIN_LOGGER = getInstance().getLogger();
-		Config.ConfigLoad();
-		Messages.MessagesLoad();
-
+		StellarConfig.ConfigLoad();
+		StellarMessages.MessagesLoad();
 
 	}
 

@@ -1,14 +1,14 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.Config;
-import com.elguerrero.stellarframework.config.Messages;
-import com.elguerrero.stellarframework.utils.GeneralUtils;
+import com.elguerrero.stellarframework.config.StellarConfig;
+import com.elguerrero.stellarframework.config.StellarMessages;
+import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 
 import java.io.IOException;
 
-public abstract class ReloadCommand {
+public abstract class StellarReloadCommand {
 
 
 	public static void registerPluginReloadCommand() {
@@ -17,7 +17,7 @@ public abstract class ReloadCommand {
 					if (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*")) {
 						return true;
 					} else {
-						sender.sendMessage(GeneralUtils.colorize(Messages.getNO_PERMISSION()));
+						sender.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
 						return false;
 					}
 				})
@@ -25,22 +25,22 @@ public abstract class ReloadCommand {
 				.executes((sender, args) -> {
 
 					try {
-						Config.getCONFIG_FILE().reload();
-						Messages.getMESSAGES_FILE().reload();
+						StellarConfig.getCONFIG_FILE().reload();
+						StellarMessages.getMESSAGES_FILE().reload();
 					} catch (IOException ex) {
 
 						// TODO: Handle this exception with debug mode method
 						// TODO: Handle this too with the error.log file
 						ex.printStackTrace();
-						sender.sendMessage(GeneralUtils.colorize(Messages.getERROR()));
+						sender.sendMessage(StellarUtils.colorize(StellarMessages.getERROR()));
 					}
 
-					sender.sendMessage(Messages.getRELOAD());
+					sender.sendMessage(StellarMessages.getRELOAD());
 
 				})
 				.register();
 
-		HelpCommand.getPluginHelpListMessagesPage2().add("&ereload &7- &fReload the plugin");
+		StellarHelpCommand.getPluginHelpListMessagesPage2().add("&ereload &7- &fReload the plugin");
 	}
 
 }
