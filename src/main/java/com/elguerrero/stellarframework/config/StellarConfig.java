@@ -15,14 +15,14 @@ import java.io.InputStream;
 import java.util.Objects;
 
 
-public class StellarConfig {
+public abstract class StellarConfig {
 
 	@Getter
 	private static YamlDocument CONFIG_FILE;
 	@Getter
 	private static final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
 
-	private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("config.yml");
+	//private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("config.yml");
 
 
 	// The config options
@@ -41,7 +41,7 @@ public class StellarConfig {
 	public static void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "config.yml"), Objects.requireNonNull(resourceStream),
+			CONFIG_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "config.yml"), Objects.requireNonNull(StellarPluginFramework.getInstance().getResource("config.yml")),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();

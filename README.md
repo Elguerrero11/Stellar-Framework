@@ -18,12 +18,12 @@
 
 <details>
   <summary>Show permissions:</summary>
-
+ _________________________________________________________
 - pluginname.* (All permissions of the plugin)
 - pluginname.help (Permission to use help)
 - pluginname.debug (Permission to use debug command and for see debug messages)
 - pluginname.reload (Permission to use reload command)
-
+ _________________________________________________________
 </details>
 
  ### About me:
