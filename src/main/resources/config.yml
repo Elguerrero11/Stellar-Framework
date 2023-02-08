@@ -1,5 +1,5 @@
-# General config for each StellarPlugin
+# General config for each StellarPluginFramework
 
-Version: 1.0.0
 Debug_Mode: false
 Metrics: false
+Config_Version: 1.0.0

@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.config;
 
-import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.StellarPluginFramework;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
@@ -18,7 +18,7 @@ public abstract class StellarMessages {
 	@Getter
 	private static YamlDocument MESSAGES_FILE;
 	@Getter
-	private final File PLUGIN_DATA_FOLDER = StellarPlugin.getInstance().getDataFolder();
+	private final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
 
 	// All the messages
 	@Getter
@@ -52,8 +52,8 @@ public abstract class StellarMessages {
 	public static void loadMessagesFile() {
 
 		try {
-			MESSAGES_FILE = YamlDocument.create(new File(StellarPlugin.getInstance().getDataFolder(), "messages.yml"), Objects.requireNonNull(StellarPlugin.getInstance().getResource("messages.yml")),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_version")).build());
+			MESSAGES_FILE = YamlDocument.create(new File(StellarPluginFramework.getInstance().getDataFolder(), "messages.yml"), Objects.requireNonNull(StellarPluginFramework.getInstance().getResource("messages.yml")),
+					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

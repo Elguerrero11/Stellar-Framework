@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
-import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.StellarPluginFramework;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -9,9 +9,9 @@ import dev.jorel.commandapi.CommandAPICommand;
 public class StellarDebugCommand {
 
 	public static void registerPluginDebugCommand() {
-		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + " debug")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " debug")
 				.withRequirement((sender) -> {
-					if (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*")) {
+					if (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".debug") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*")) {
 						return true;
 					} else {
 						sender.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
@@ -24,11 +24,11 @@ public class StellarDebugCommand {
 					if (StellarConfig.getCONFIG_FILE().getBoolean("General_Options.Debug")) {
 						StellarConfig.getCONFIG_FILE().set("General_Options.Debug", false);
 						sender.sendMessage(StellarUtils.colorize(StellarMessages.getDEBUG_DISABLED()));
-						StellarPlugin.getPLUGIN_LOGGER().info(StellarUtils.colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode has been disabled x"));
+						StellarPluginFramework.getPLUGIN_LOGGER().info(StellarUtils.colorize(StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode has been disabled x"));
 					} else {
 						StellarConfig.getCONFIG_FILE().set("General_Options.Debug", true);
 						sender.sendMessage(StellarUtils.colorize(StellarMessages.getDEBUG_ENABLED()));
-						StellarPlugin.getPLUGIN_LOGGER().info(StellarUtils.colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode has been enabled √"));
+						StellarPluginFramework.getPLUGIN_LOGGER().info(StellarUtils.colorize(StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode has been enabled √"));
 					}
 
 				})

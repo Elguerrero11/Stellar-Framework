@@ -1,7 +1,6 @@
 package com.elguerrero.stellarframework;
 
 import com.elguerrero.stellarframework.config.StellarConfig;
-import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
@@ -12,9 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public abstract class StellarPlugin extends JavaPlugin {
+public abstract class StellarPluginFramework extends JavaPlugin {
 
-	private static volatile StellarPlugin INSTANCE;
+	private static volatile StellarPluginFramework INSTANCE;
 	@Getter
 	private static Logger PLUGIN_LOGGER;
 	@Getter
@@ -25,7 +24,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 	private static String PLUGIN_VERSION;
 
 	@Getter
-	private static String PLUGIN_DESCRIPTION = null;
+	private static String PLUGIN_DESCRIPTION = "null";
 	@Getter
 	@Setter
 	private static String PLUGIN_AUTOR = null;
@@ -39,20 +38,23 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 
 	@Override
-	public void onEnable() {
-
-		CommandAPI.onEnable(getInstance());
-		StellarUtils.sendMessageDebugStatus();
-
-	}
-
-	@Override
 	public void onLoad() {
+
+		StellarUtils.checkPluginFolder();
+		StellarConfig.loadConfigFile();
 
 		PLUGIN_LOGGER = getInstance().getLogger();
 		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
 		StellarUtils.registerCommands();
 		StellarUtils.loadConfigFiles();
+
+	}
+
+	@Override
+	public void onEnable() {
+
+		CommandAPI.onEnable(getInstance());
+		StellarUtils.sendMessageDebugStatus();
 
 	}
 
@@ -63,9 +65,10 @@ public abstract class StellarPlugin extends JavaPlugin {
 
 	}
 
-	public static StellarPlugin getInstance() {
+	public static StellarPluginFramework getInstance() {
+
 		if (INSTANCE == null) {
-			INSTANCE = JavaPlugin.getPlugin(StellarPlugin.class);
+			INSTANCE = JavaPlugin.getPlugin(StellarPluginFramework.class);
 
 			Objects.requireNonNull(INSTANCE, "The plugin need a full server restart for work fine, not just a reload.");
 		}

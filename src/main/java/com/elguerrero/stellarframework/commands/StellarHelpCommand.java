@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
-import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.StellarPluginFramework;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
@@ -20,9 +20,9 @@ public abstract class StellarHelpCommand {
 
 	public static void registerPluginInfoCommand() {
 
-		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + " help")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " help")
 				.withRequirement((sender) -> {
-					if (sender instanceof Player && (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".help") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*"))) {
+					if (sender instanceof Player && (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".help") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*"))) {
 						return true;
 					} else {
 						sender.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
@@ -31,10 +31,10 @@ public abstract class StellarHelpCommand {
 				})
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
-					StellarUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_LOG_PREFIX() + "&b&m------------------------------------");
+					StellarUtils.tellNoPrefix(player, StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&b&m------------------------------------");
 					StellarUtils.tellNoPrefix(player, "");
 					// Add the clickeable message above for go to spigot
-					StellarUtils.tellNoPrefix(player, StellarPlugin.getPLUGIN_LOG_PREFIX() + "&7-" + StellarPlugin.getPLUGIN_NAME() + "&bby &3" + StellarPlugin.getPLUGIN_AUTOR());
+					StellarUtils.tellNoPrefix(player, StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&7-" + StellarPluginFramework.getPLUGIN_NAME() + "&bby &3" + StellarPluginFramework.getPLUGIN_AUTOR());
 					StellarUtils.tellNoPrefix(player, " ");
 					StellarUtils.tellNoPrefix(player, "&6<> &7Optional arguments &6[] &7Required arguments");
 					StellarUtils.tellNoPrefix(player, " ");
@@ -44,7 +44,7 @@ public abstract class StellarHelpCommand {
 					//player.sendMessage("a" + Check if plugin is up to date with method pluginIsUpdated());
 					StellarUtils.tellNoPrefix(player, " ");
 					//Add the clickeable message above
-					StellarUtils.tellNoPrefix(player, "Page 1 of " + StellarPlugin.getNUMBER_OF_PAGES() + "&6&l>>");
+					StellarUtils.tellNoPrefix(player, "Page 1 of " + StellarPluginFramework.getNUMBER_OF_PAGES() + "&6&l>>");
 					StellarUtils.tellNoPrefix(player, "&b&m------------------------------------");
 				}).register();
 
@@ -68,7 +68,7 @@ public abstract class StellarHelpCommand {
 
 	private void sendPlayerPage2ClickeableMessage(Player player) {
 		// Add the clickeable message above
-		StellarUtils.tellNoPrefix(player, "Page 2 of " + StellarPlugin.getNUMBER_OF_PAGES());
+		StellarUtils.tellNoPrefix(player, "Page 2 of " + StellarPluginFramework.getNUMBER_OF_PAGES());
 		// Replace for the clickeable message
 		// Too center the message arrows
 		StellarUtils.tellNoPrefix(player, "&6&l <<          &6&l>>");

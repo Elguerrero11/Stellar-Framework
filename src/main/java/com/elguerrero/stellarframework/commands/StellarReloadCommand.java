@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
-import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.StellarPluginFramework;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -12,9 +12,9 @@ public abstract class StellarReloadCommand {
 
 
 	public static void registerPluginReloadCommand() {
-		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + " reload")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " reload")
 				.withRequirement((sender) -> {
-					if (sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*")) {
+					if (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*")) {
 						return true;
 					} else {
 						sender.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));

@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.utils;
 
-import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.StellarPluginFramework;
 import com.elguerrero.stellarframework.commands.StellarDebugCommand;
 import com.elguerrero.stellarframework.commands.StellarHelpCommand;
 import com.elguerrero.stellarframework.commands.StellarReloadCommand;
@@ -23,10 +23,10 @@ public class StellarUtils {
 
 	public static void sendDebugMessage(String message) {
 		if (StellarConfig.getDEBUG()) {
-			StellarPlugin.getPLUGIN_LOGGER().info(colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&7[&eDEBUG&7] " + message));
+			StellarPluginFramework.getPLUGIN_LOGGER().info(colorize(StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&7[&eDEBUG&7] " + message));
 		}
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug")) {
+			if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".debug")) {
 				player.sendMessage(colorize(StellarMessages.getDEBUG_MESSAGE_FORMAT() + message));
 			}
 		}
@@ -35,16 +35,16 @@ public class StellarUtils {
 	public static void sendMessageDebugStatus(){
 
 		if (StellarConfig.getDEBUG()) {
-			StellarPlugin.getPLUGIN_LOGGER().info(colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode is enabled √"));
+			StellarPluginFramework.getPLUGIN_LOGGER().info(colorize(StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode is enabled √"));
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug")) {
+				if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".debug")) {
 					player.sendMessage(colorize(StellarMessages.getDEBUG_STATUS_ENABLED()));
 				}
 			}
 		} else {
-			StellarPlugin.getPLUGIN_LOGGER().info(colorize(StellarPlugin.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode is disabled x"));
+			StellarPluginFramework.getPLUGIN_LOGGER().info(colorize(StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&ei &7Debug mode is disabled x"));
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".debug")) {
+				if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".debug")) {
 					player.sendMessage(colorize(StellarMessages.getDEBUG_STATUS_DISABLED()));
 				}
 			}
@@ -65,6 +65,30 @@ public class StellarUtils {
 		StellarConfig.loadConfigVariables();
 		StellarMessages.loadMessagesFile();
 		StellarMessages.loadMessagesVariables();
+
+	}
+
+	public static void checkPluginFolder(){
+
+		try {
+
+		if (!StellarPluginFramework.getInstance().getDataFolder().exists()) {
+
+			if (StellarPluginFramework.getInstance().getDataFolder().mkdirs()){
+				sendDebugMessage("&ei &7Plugin folder created √");
+			} else {
+				sendDebugMessage("&ei &cWas a problem creating the plugin folder so this has not be created x");
+			}
+
+
+		} else {
+			sendDebugMessage("&ei &7Plugin folder already exists so it not need to be created √");
+		}
+
+		} catch (Exception ex){
+			ex.printStackTrace();
+			sendDebugMessage("&ei &cA problem ocurred when check that the plugin folder exist and create if not x");
+		}
 
 	}
 
