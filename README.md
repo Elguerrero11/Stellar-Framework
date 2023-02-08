@@ -2,6 +2,7 @@
 
  ### Important advices:
  
+   - I think I will delete and made again the repository in the future when the framework be in a more stable version, for clean the commits and releases.
    - I dont recommend right now use this framework for create a plugin as it is in a early development build and maybe contain errors and bad code, more it dont have so much features yet.
    So if you want to use it, I recommend you to wait some time when the framework be better.
    - I have to change the license of remove conditions in that, but I will not do at this moment. Anyway for sure I will not remove the License and copyright notice condition.
