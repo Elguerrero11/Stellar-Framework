@@ -41,12 +41,12 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	public void onLoad() {
 
 		StellarUtils.checkPluginFolder();
-		StellarConfig.loadConfigFile();
+		//StellarConfig.loadConfigFile();
+		StellarUtils.loadConfigFiles();
 
 		PLUGIN_LOGGER = getInstance().getLogger();
 		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
 		StellarUtils.registerCommands();
-		StellarUtils.loadConfigFiles();
 
 	}
 
