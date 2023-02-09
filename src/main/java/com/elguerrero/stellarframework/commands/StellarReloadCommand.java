@@ -32,7 +32,7 @@ public abstract class StellarReloadCommand {
 						// TODO: Handle this exception with debug mode method
 						// TODO: Handle this too with the error.log file
 						ex.printStackTrace();
-						sender.sendMessage(StellarUtils.colorize(StellarMessages.getERROR()));
+						sender.sendMessage(StellarUtils.colorize(StellarMessages.getPLUGIN_ERROR()));
 					}
 
 					sender.sendMessage(StellarMessages.getRELOAD());

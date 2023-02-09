@@ -1,9 +1,6 @@
 package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPluginFramework;
-import com.elguerrero.stellarframework.commands.StellarDebugCommand;
-import com.elguerrero.stellarframework.commands.StellarHelpCommand;
-import com.elguerrero.stellarframework.commands.StellarReloadCommand;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import org.bukkit.Bukkit;
