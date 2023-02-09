@@ -1,6 +1,7 @@
 package com.elguerrero.stellarframework.config;
 
 import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
@@ -11,14 +12,16 @@ import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public abstract class StellarMessages {
 
 	@Getter
 	private static YamlDocument MESSAGES_FILE;
-	@Getter
-	private final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
+
+	private static final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
+	private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("messages.yml");
 
 	// All the messages
 	@Getter
@@ -40,7 +43,7 @@ public abstract class StellarMessages {
 	@Getter
 	private static String RELOAD;
 	@Getter
-	private static String ERROR;
+	private static String PLUGIN_ERROR;
 	@Getter
 	private static String NO_PERMISSION;
 
@@ -52,10 +55,12 @@ public abstract class StellarMessages {
 	public static void loadMessagesFile() {
 
 		try {
-			MESSAGES_FILE = YamlDocument.create(new File(StellarPluginFramework.getInstance().getDataFolder(), "messages.yml"), Objects.requireNonNull(StellarPluginFramework.getInstance().getResource("messages.yml")),
+			MESSAGES_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "messages.yml"), Objects.requireNonNull(resourceStream),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
+			StellarUtils.sendDebugErrorMessage();
+
 		}
 
 	}
@@ -75,7 +80,7 @@ public abstract class StellarMessages {
 		DEBUG_STATUS_DISABLED = MESSAGES_FILE.getString("Debug_Status_Disabled:");
 		DEBUG_MESSAGE_FORMAT = MESSAGES_FILE.getString("Debug_Message_Format:");
 		RELOAD = MESSAGES_FILE.getString("Reload:");
-		ERROR = MESSAGES_FILE.getString("Error:");
+		PLUGIN_ERROR = MESSAGES_FILE.getString("Plugin_Error:");
 		NO_PERMISSION = MESSAGES_FILE.getString("No_Permission:");
 
 	}

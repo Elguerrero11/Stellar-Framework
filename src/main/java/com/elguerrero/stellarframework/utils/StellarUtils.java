@@ -32,6 +32,15 @@ public class StellarUtils {
 		}
 	}
 
+	public static void sendDebugErrorMessage(){
+		StellarPluginFramework.getPLUGIN_LOGGER().severe(colorize(StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&cAn error ocurred with the plugin, please check the errors.log file in the plugin folder"));
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".debug")) {
+				player.sendMessage(colorize(StellarMessages.getPLUGIN_ERROR()));
+			}
+		}
+	}
+
 	public static void sendMessageDebugStatus(){
 
 		if (StellarConfig.getDEBUG()) {
@@ -49,22 +58,6 @@ public class StellarUtils {
 				}
 			}
 		}
-
-	}
-
-	public static void registerCommands(){
-
-		StellarHelpCommand.registerPluginInfoCommand();
-		StellarReloadCommand.registerPluginReloadCommand();
-		StellarDebugCommand.registerPluginDebugCommand();
-	}
-
-	public static void loadConfigFiles(){
-
-		StellarConfig.loadConfigFile();
-		StellarConfig.loadConfigVariables();
-		StellarMessages.loadMessagesFile();
-		StellarMessages.loadMessagesVariables();
 
 	}
 

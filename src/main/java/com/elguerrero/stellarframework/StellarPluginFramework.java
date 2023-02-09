@@ -21,7 +21,7 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	private static String PLUGIN_NAME = null;
 
 	@Getter
-	private static String PLUGIN_VERSION;
+	private static String PLUGIN_VERSION = null;
 
 	@Getter
 	private static String PLUGIN_DESCRIPTION = "null";
@@ -41,12 +41,8 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	public void onLoad() {
 
 		StellarUtils.checkPluginFolder();
-		//StellarConfig.loadConfigFile();
-		StellarUtils.loadConfigFiles();
-
 		PLUGIN_LOGGER = getInstance().getLogger();
 		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
-		StellarUtils.registerCommands();
 
 	}
 

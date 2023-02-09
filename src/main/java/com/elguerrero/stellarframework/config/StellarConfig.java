@@ -1,6 +1,7 @@
 package com.elguerrero.stellarframework.config;
 
 import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
@@ -19,10 +20,8 @@ public abstract class StellarConfig {
 
 	@Getter
 	private static YamlDocument CONFIG_FILE;
-	@Getter
 	private static final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
-
-	//private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("config.yml");
+	private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("config.yml");
 
 
 	// The config options
@@ -41,10 +40,11 @@ public abstract class StellarConfig {
 	public static void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "config.yml"), Objects.requireNonNull(StellarPluginFramework.getInstance().getResource("config.yml")),
+			CONFIG_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "config.yml"), Objects.requireNonNull(resourceStream),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
+			StellarUtils.sendDebugErrorMessage();
 		}
 
 	}
