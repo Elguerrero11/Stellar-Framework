@@ -40,9 +40,8 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	@Override
 	public void onLoad() {
 
-		StellarUtils.checkPluginFolder();
 		PLUGIN_LOGGER = getInstance().getLogger();
-		CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
+		StellarUtils.checkPluginFolder();
 
 	}
 

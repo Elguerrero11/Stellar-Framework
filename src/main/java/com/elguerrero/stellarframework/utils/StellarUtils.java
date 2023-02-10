@@ -64,20 +64,13 @@ public class StellarUtils {
 
 		if (!StellarPluginFramework.getInstance().getDataFolder().exists()) {
 
-			if (StellarPluginFramework.getInstance().getDataFolder().mkdirs()){
-				sendDebugMessage("&ei &7Plugin folder created √");
-			} else {
-				sendDebugMessage("&ei &cWas a problem creating the plugin folder so this has not be created x");
-			}
+			StellarPluginFramework.getInstance().getDataFolder().mkdirs();
 
-
-		} else {
-			sendDebugMessage("&ei &7Plugin folder already exists so it not need to be created √");
 		}
 
 		} catch (Exception ex){
 			ex.printStackTrace();
-			sendDebugMessage("&ei &cA problem ocurred when check that the plugin folder exist and create if not x");
+
 		}
 
 	}
