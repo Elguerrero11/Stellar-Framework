@@ -1,9 +1,7 @@
 package com.elguerrero.stellarframework;
 
-import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,7 +14,6 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	private static volatile StellarPluginFramework INSTANCE;
 	@Getter
 	private static Logger PLUGIN_LOGGER;
-	@Getter
 	@Setter
 	private static String PLUGIN_NAME = null;
 
@@ -26,7 +23,6 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	@Getter
 	private static String PLUGIN_DESCRIPTION = "null";
 	@Getter
-	@Setter
 	private static String PLUGIN_AUTOR = null;
 
 	@Getter
@@ -72,7 +68,7 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	 * @return String - Plugin name or null if the plugin name is null
 	 */
 
-	public String getPluginName() {
+	public static String getPLUGIN_NAME() {
 
 		if (PLUGIN_NAME == null) {
 			throw new NullPointerException();
@@ -85,7 +81,7 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	 * @return String - Plugin author or null if the plugin author is null
 	 */
 
-	public String getAutor() {
+	public static String getAutor() {
 
 		if (PLUGIN_AUTOR == null) {
 			throw new NullPointerException();

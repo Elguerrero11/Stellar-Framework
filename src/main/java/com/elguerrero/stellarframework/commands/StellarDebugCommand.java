@@ -12,7 +12,7 @@ import java.io.Console;
 public class StellarDebugCommand {
 
 	public static void registerPluginDebugCommand() {
-		new CommandAPICommand(StellarPluginFramework.getInstance().getPluginName() + " debug")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " debug")
 				.withRequirement((sender) -> {
 					if (sender instanceof Player player) {
 						if (StellarUtils.checkPlayerPermission(player, "debug", true)){

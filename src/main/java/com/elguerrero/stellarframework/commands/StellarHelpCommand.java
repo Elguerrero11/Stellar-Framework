@@ -5,7 +5,6 @@ import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import lombok.Getter;
-import org.bukkit.command.defaults.HelpCommand;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public abstract class StellarHelpCommand {
 
 	public static void registerPluginInfoCommand() {
 
-		new CommandAPICommand(StellarPluginFramework.getInstance().getPluginName() + " help")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " help")
 				.withRequirement((sender) -> {
 					if (sender instanceof Player && (StellarUtils.checkPlayerPermission((Player) sender, "help", true))) {
 						return true;
