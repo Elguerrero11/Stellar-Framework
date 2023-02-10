@@ -5,6 +5,7 @@ import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import lombok.Getter;
+import org.bukkit.command.defaults.HelpCommand;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -20,9 +21,9 @@ public abstract class StellarHelpCommand {
 
 	public static void registerPluginInfoCommand() {
 
-		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " help")
+		new CommandAPICommand(StellarPluginFramework.getInstance().getPluginName() + " help")
 				.withRequirement((sender) -> {
-					if (sender instanceof Player && (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".help") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*"))) {
+					if (sender instanceof Player && (StellarUtils.checkPlayerPermission((Player) sender, "help", true))) {
 						return true;
 					} else {
 						sender.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
@@ -31,10 +32,10 @@ public abstract class StellarHelpCommand {
 				})
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
-					StellarUtils.tellNoPrefix(player, StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&b&m------------------------------------");
+					StellarUtils.tellNoPrefix(player, "&b&m------------------------------------");
 					StellarUtils.tellNoPrefix(player, "");
 					// Add the clickeable message above for go to spigot
-					StellarUtils.tellNoPrefix(player, StellarPluginFramework.getPLUGIN_LOG_PREFIX() + "&7-" + StellarPluginFramework.getPLUGIN_NAME() + "&bby &3" + StellarPluginFramework.getPLUGIN_AUTOR());
+					StellarUtils.tellNoPrefix(player, "&7[" + StellarPluginFramework.getPLUGIN_NAME() + "&7] -" + StellarPluginFramework.getPLUGIN_VERSION() + "&bby &3" + StellarPluginFramework.getPLUGIN_AUTOR());
 					StellarUtils.tellNoPrefix(player, " ");
 					StellarUtils.tellNoPrefix(player, "&6<> &7Optional arguments &6[] &7Required arguments");
 					StellarUtils.tellNoPrefix(player, " ");

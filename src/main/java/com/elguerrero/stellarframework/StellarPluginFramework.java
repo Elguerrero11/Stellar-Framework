@@ -30,10 +30,6 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	private static String PLUGIN_AUTOR = null;
 
 	@Getter
-	@Setter
-	private static String PLUGIN_LOG_PREFIX = "[" + PLUGIN_NAME + "]";
-
-	@Getter
 	private static Integer NUMBER_OF_PAGES = 2;
 
 

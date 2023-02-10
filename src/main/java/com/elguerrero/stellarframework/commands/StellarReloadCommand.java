@@ -12,7 +12,7 @@ public abstract class StellarReloadCommand {
 
 
 	public static void registerPluginReloadCommand() {
-		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " reload")
+		new CommandAPICommand(StellarPluginFramework.getInstance().getPluginName() + " reload")
 				.withRequirement((sender) -> {
 					if (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*")) {
 						return true;
