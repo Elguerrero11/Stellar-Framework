@@ -7,16 +7,17 @@ import dev.jorel.commandapi.CommandAPICommand;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StellarHelpCommand {
 
 	@Getter
-	private static List<String> descriptionExtraListMessagesPage1 = null;
+	private static List<String> descriptionExtraListMessagesPage1 = new ArrayList<>();
 
 	// Never must hexed more than 5 lines but I need to check exactly how much lines
 	@Getter
-	private static List<String> pluginHelpListMessagesPage2 = null;
+	private static List<String> pluginHelpListMessagesPage2 = new ArrayList<>();
 
 	public static void registerPluginInfoCommand() {
 

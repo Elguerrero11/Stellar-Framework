@@ -10,7 +10,6 @@ import java.io.IOException;
 
 public abstract class StellarReloadCommand {
 
-
 	public static void registerPluginReloadCommand() {
 		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " reload")
 				.withRequirement((sender) -> {

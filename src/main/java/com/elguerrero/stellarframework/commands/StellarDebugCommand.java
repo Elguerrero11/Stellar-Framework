@@ -7,8 +7,6 @@ import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.entity.Player;
 
-import java.io.Console;
-
 public class StellarDebugCommand {
 
 	public static void registerPluginDebugCommand() {
