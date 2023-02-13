@@ -1,6 +1,7 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -16,16 +17,16 @@ public abstract class StellarReloadCommand {
 					if (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*")) {
 						return true;
 					} else {
-						sender.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
+						sender.sendMessage(StellarUtils.colorize(StellarLangManager.getSELECTED_LANGUAGE_FILE().getString("NO_PERMISSION")));
 						return false;
 					}
 				})
-				.withHelp("Reload the plugin", "Reload the plugin config.yml and messages.yml")
+				.withHelp("Reload the plugin", "Reload the plugin config.yml and en_US.yml")
 				.executes((sender, args) -> {
 
 					try {
 						StellarConfig.getCONFIG_FILE().reload();
-						StellarMessages.getMESSAGES_FILE().reload();
+						StellarLangManager.getSELECTED_LANGUAGE_FILE().reload();
 					} catch (IOException ex) {
 
 						// TODO: Handle this exception with debug mode method

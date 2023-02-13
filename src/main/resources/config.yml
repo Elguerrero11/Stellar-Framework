@@ -1,5 +1,13 @@
 # General config for each StellarPluginFramework
 
+
+# The language that the plugin uses, if the language is not found, it will use the default language
+# The avalibles languages are: en_US, es_ES
+Lang: "en_US"
+# The debug mode of the plugin, if it is enabled, it will show all the debug messages in the console
 Debug_Mode: false
-Metrics: false
+# The metrics of the plugin, if it is enabled, it will send the metrics to bStats
+BStats_Metrics: false
+# The version of the config file, please do not change this or can bug the plugin, this is managed automatically by the plugin
 Config_Version: 1.0.0
+

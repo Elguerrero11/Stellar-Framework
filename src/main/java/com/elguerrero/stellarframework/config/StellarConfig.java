@@ -20,11 +20,11 @@ public abstract class StellarConfig {
 
 	@Getter
 	private static YamlDocument CONFIG_FILE;
-	private static final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
-	private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("config.yml");
-
+	private static final InputStream resourceStream = StellarPluginFramework.getINSTANCE().getResource("config.yml");
 
 	// The config options
+	@Getter
+	private static String LANG;
 	@Getter
 	private static Integer CONFIG_VERSION;
 	@Getter
@@ -40,11 +40,11 @@ public abstract class StellarConfig {
 	public static void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "config.yml"), Objects.requireNonNull(resourceStream),
+			CONFIG_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "config.yml"), Objects.requireNonNull(resourceStream),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			StellarUtils.sendDebugErrorMessage();
+			StellarUtils.sendPluginErrorMessage();
 		}
 
 	}
@@ -56,10 +56,11 @@ public abstract class StellarConfig {
 
 	public static void loadConfigVariables() {
 
-		CONFIG_VERSION = CONFIG_FILE.getInt("General_Options.Config_version");
-		DEBUG = CONFIG_FILE.getBoolean("General_Options.Debug");
+		LANG = CONFIG_FILE.getString("Lang");
+		CONFIG_VERSION = CONFIG_FILE.getInt("Config_Version");
+		DEBUG = CONFIG_FILE.getBoolean("Debug");
 
-		BSTATS_METRICS = CONFIG_FILE.getBoolean("General_Options.BStats_Metrics");
+		BSTATS_METRICS = CONFIG_FILE.getBoolean("BStats_Metrics");
 
 	}
 

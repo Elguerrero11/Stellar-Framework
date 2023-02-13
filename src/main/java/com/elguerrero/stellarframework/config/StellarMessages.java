@@ -8,7 +8,9 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,73 +19,40 @@ import java.util.Objects;
 
 public abstract class StellarMessages {
 
-	@Getter
-	private static YamlDocument MESSAGES_FILE;
-
-	private static final File PLUGIN_DATA_FOLDER = StellarPluginFramework.getInstance().getDataFolder();
-	private static final InputStream resourceStream = StellarPluginFramework.getInstance().getResource("messages.yml");
-
 	// All the messages
 	@Getter
-	private static Integer MESSAGES_VERSION;
+	@Setter(AccessLevel.PACKAGE)
+	private static Integer MESSAGES_VERSION = null;
 	@Getter
-	private static String PLUGIN_PREFIX;
+	@Setter(AccessLevel.PACKAGE)
+	private static String PLUGIN_PREFIX = null;
 	@Getter
-	private static String PLUGIN_PREFIX_DEBUG;
+	@Setter(AccessLevel.PACKAGE)
+	private static String PLUGIN_PREFIX_DEBUG = null;
 	@Getter
-	private static String DEBUG_ENABLED;
+	@Setter(AccessLevel.PACKAGE)
+	private static String DEBUG_ENABLED = null;
 	@Getter
-	private static String DEBUG_DISABLED;
+	@Setter(AccessLevel.PACKAGE)
+	private static String DEBUG_DISABLED = null;
 	@Getter
-	private static String DEBUG_STATUS_ENABLED;
+	@Setter(AccessLevel.PACKAGE)
+	private static String DEBUG_STATUS_ENABLED = null;
 	@Getter
-	private static String DEBUG_STATUS_DISABLED;
+	@Setter(AccessLevel.PACKAGE)
+	private static String DEBUG_STATUS_DISABLED = null;
 	@Getter
-	private static String DEBUG_MESSAGE_FORMAT;
+	@Setter(AccessLevel.PACKAGE)
+	private static String DEBUG_MESSAGE_FORMAT = null;
 	@Getter
-	private static String RELOAD;
+	@Setter(AccessLevel.PACKAGE)
+	private static String RELOAD = null;
 	@Getter
-	private static String PLUGIN_ERROR;
+	@Setter(AccessLevel.PACKAGE)
+	private static String PLUGIN_ERROR = null;
 	@Getter
-	private static String NO_PERMISSION;
-
-	/**
-	 * Happen when the plugin load and reload
-	 * <p>
-	 * Create the file if dont exist and update it if is not updated
-	 */
-	public static void loadMessagesFile() {
-
-		try {
-			MESSAGES_FILE = YamlDocument.create(new File(PLUGIN_DATA_FOLDER, "messages.yml"), Objects.requireNonNull(resourceStream),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			StellarUtils.sendDebugErrorMessage();
-
-		}
-
-	}
-
-	/**
-	 * Happen when the plugin load and reload
-	 * Set the variables to the config values
-	 */
-	public static void loadMessagesVariables(){
-
-		MESSAGES_VERSION = MESSAGES_FILE.getInt("Messages_version:");
-		PLUGIN_PREFIX = MESSAGES_FILE.getString("Plugin_prefix:");
-		PLUGIN_PREFIX_DEBUG = MESSAGES_FILE.getString("Plugin_Prefix_Debug:");
-		DEBUG_ENABLED = MESSAGES_FILE.getString("Debug_Enabled:");
-		DEBUG_DISABLED = MESSAGES_FILE.getString("Debug_Disabled:");
-		DEBUG_STATUS_ENABLED = MESSAGES_FILE.getString("Debug_Status_Enabled:");
-		DEBUG_STATUS_DISABLED = MESSAGES_FILE.getString("Debug_Status_Disabled:");
-		DEBUG_MESSAGE_FORMAT = MESSAGES_FILE.getString("Debug_Message_Format:");
-		RELOAD = MESSAGES_FILE.getString("Reload:");
-		PLUGIN_ERROR = MESSAGES_FILE.getString("Plugin_Error:");
-		NO_PERMISSION = MESSAGES_FILE.getString("No_Permission:");
-
-	}
+	@Setter(AccessLevel.PACKAGE)
+	private static String NO_PERMISSION = null;
 
 
 }

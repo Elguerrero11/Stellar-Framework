@@ -1,46 +1,58 @@
 package com.elguerrero.stellarframework;
 
+import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPI;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public abstract class StellarPluginFramework extends JavaPlugin {
 
+	@Getter
 	private static volatile StellarPluginFramework INSTANCE;
 	@Getter
-	private static Logger PLUGIN_LOGGER;
-	@Setter
-	private static String PLUGIN_NAME = null;
-
+	private static Logger PLUGIN_LOGGER = null;
 	@Getter
-	private static String PLUGIN_VERSION = null;
-
+	private static final File PLUGIN_FOLDER = StellarPluginFramework.getINSTANCE().getDataFolder();
+	@Getter
+	private static final File LANG_FOLDER = new File(PLUGIN_FOLDER, "lang");
+	@Getter
+	private static String PLUGIN_NAME = null;
 	@Getter
 	private static String PLUGIN_DESCRIPTION = "null";
 	@Getter
-	private static String PLUGIN_AUTOR = null;
+	private static String PLUGIN_VERSION = null;
+	@Getter
+	private static String PLUGIN_AUTHOR = null;
 
 	@Getter
-	private static Integer NUMBER_OF_PAGES = 2;
+	@Setter(AccessLevel.PROTECTED)
+	private static Integer HELP_COMMAND_NUMBER_OF_PAGES = 2;
 
 
 	@Override
 	public void onLoad() {
 
-		PLUGIN_LOGGER = getInstance().getLogger();
+		// Declare the plugin main class as the instance of the plugin
+		// When this is called in the son class of the plugin of this class using super.onLoad()
+		INSTANCE = this;
+	    setVariablesValues();
 		StellarUtils.checkPluginFolder();
+		StellarLangManager.loadSelectedLangMessages();
+
 
 	}
 
 	@Override
 	public void onEnable() {
 
-		CommandAPI.onEnable(getInstance());
+		CommandAPI.onEnable(INSTANCE);
 		StellarUtils.sendMessageDebugStatus();
 
 	}
@@ -52,41 +64,14 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 
 	}
 
-	public static StellarPluginFramework getInstance() {
+	private static void setVariablesValues() {
 
-		if (INSTANCE == null) {
-			INSTANCE = JavaPlugin.getPlugin(StellarPluginFramework.class);
+		StellarPluginFramework.PLUGIN_LOGGER = INSTANCE.getLogger();
+		StellarPluginFramework.PLUGIN_NAME = Objects.requireNonNull(INSTANCE).getName();
+		StellarPluginFramework.PLUGIN_DESCRIPTION = INSTANCE.getDescription().getDescription();
+		StellarPluginFramework.PLUGIN_VERSION = INSTANCE.getDescription().getVersion();
+		StellarPluginFramework.PLUGIN_AUTHOR = INSTANCE.getDescription().getAuthors().toString();
 
-			Objects.requireNonNull(INSTANCE, "The plugin need a full server restart for work fine, not just a reload.");
-		}
-
-		return INSTANCE;
-	}
-
-	/**
-	 * Get the plugin name
-	 * @return String - Plugin name or null if the plugin name is null
-	 */
-
-	public static String getPLUGIN_NAME() {
-
-		if (PLUGIN_NAME == null) {
-			throw new NullPointerException();
-		}
-		return PLUGIN_NAME;
-	}
-
-	/**
-	 * Get the plugin author
-	 * @return String - Plugin author or null if the plugin author is null
-	 */
-
-	public static String getAutor() {
-
-		if (PLUGIN_AUTOR == null) {
-			throw new NullPointerException();
-		}
-		return PLUGIN_AUTOR;
 	}
 
 }

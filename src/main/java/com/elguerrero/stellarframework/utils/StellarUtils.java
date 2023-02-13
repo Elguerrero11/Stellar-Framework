@@ -22,14 +22,10 @@ public class StellarUtils {
 		if (StellarConfig.getDEBUG()) {
 			StellarPluginFramework.getPLUGIN_LOGGER().info(colorize("&7[&eDEBUG&7] " + message));
 		}
-		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".debug")) {
-				player.sendMessage(colorize(StellarMessages.getDEBUG_MESSAGE_FORMAT() + message));
-			}
-		}
 	}
 
-	public static void sendDebugErrorMessage(){
+	public static void sendPluginErrorMessage(){
+
 		StellarPluginFramework.getPLUGIN_LOGGER().severe(colorize("&cAn error ocurred with the plugin, please check the errors.log file in the plugin folder"));
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (checkPlayerPermission(player, "debug", false)) {
@@ -62,9 +58,9 @@ public class StellarUtils {
 
 		try {
 
-		if (!StellarPluginFramework.getInstance().getDataFolder().exists()) {
+		if (!StellarPluginFramework.getINSTANCE().getDataFolder().exists()) {
 
-			StellarPluginFramework.getInstance().getDataFolder().mkdirs();
+			StellarPluginFramework.getINSTANCE().getDataFolder().mkdirs();
 
 		}
 
@@ -92,5 +88,19 @@ public class StellarUtils {
 			return "console";
 		}
 	}
+
+	public static void sendConsoleInfoMessage(String message){
+		StellarPluginFramework.getPLUGIN_LOGGER().info(colorize(message));
+	}
+
+	public static void sendConsoleWarnMessage(String message){
+		StellarPluginFramework.getPLUGIN_LOGGER().warning(colorize(message));
+	}
+
+	public static void sendConsoleSevereMessage(String message){
+		StellarPluginFramework.getPLUGIN_LOGGER().severe(colorize(message));
+	}
+
+
 
 }
