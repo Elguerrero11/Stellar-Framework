@@ -10,10 +10,10 @@ Plugin_Prefix: '&7[&1&lMiPlugin&7]&r'
 # El marcador de posición para usar esto es %plugin_prefix_debug%
 # Recomiendo dejar el marcador de posición del prefijo del plugin en estos mensajes para no confundir con otros mensajes de depuración de plugins
 Plugin_Prefix_Debug: '&7[&e&lDEBUG&7]&r'
-Debug_Enabled: '%plugin_prefix% &aSe ha habilitado el modo de depuración √'
-Debug_Disabled: '%plugin_prefix% &cSe ha deshabilitado el modo de depuración x'
-Debug_Status_Enabled: '%plugin_prefix% &aEl modo de depuración está habilitado √'
-Debug_Status_Disabled: '%plugin_prefix% &cEl modo de depuración está deshabilitado x'
+Debug_Enabled: '%plugin_prefix% &aSe ha habilitado el modo debug √'
+Debug_Disabled: '%plugin_prefix% &cSe ha deshabilitado el modo debug x'
+Debug_Status_Enabled: '%plugin_prefix% &aEl modo debug está habilitado √'
+Debug_Status_Disabled: '%plugin_prefix% &cEl modo debug está deshabilitado x'
 # Este es el formato de los mensajes de depuración, puede cambiar el orden de los marcadores de posición o poner otras cosas
 # Lo siguiente a lo que aparece es el mensaje de depuración en sí
 Debug_Message_Format: '%plugin_prefix% %plugin_prefix_debug%'

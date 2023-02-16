@@ -33,10 +33,11 @@ public abstract class StellarLangManager {
 	 * The plugin folder was already checked
 	 * <p>
 	 * 1 - Check the lang folder and create it if dont exist
-	 * 2 - If the config lang is not the same as the selected lang, update the selected lang
-	 * Too check if the config lang is valid for avoid that be empty or not in the list
+	 * 2 - If the config lang is not the same as the selected
+	 * lang, update the selected lang Too check if the config lang is valid for avoid that be empty or not in the list
 	 * If is send a warn message and use the default lang
-	 * 3 - Generate and save as selected language file object the selected language file
+	 * 3 - Generate and save as selected language file object the
+	 * selected language file
 	 * 4 - Generate all the others messages files
 	 * 5 - Set the messages of StellarMessages class to the messages of the selected language file
 	 */
@@ -44,13 +45,13 @@ public abstract class StellarLangManager {
 
 		try {
 
-			StellarLangManager.checkPluginLangFolder();
+			checkPluginLangFolder();
 
 			if (!StellarConfig.getLANG().equals(SELECTED_LANGUAGE)) {
 				SELECTED_LANGUAGE = StellarConfig.getLANG();
 			} else if (StellarConfig.getLANG().isEmpty() || !LANGUAGES_LIST.contains(StellarConfig.getLANG())) {
-				StellarUtils.sendPluginErrorMessage();
-				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used");
+				StellarUtils.sendErrorMessageConsole();
+				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used.");
 			}
 
 			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang/" + SELECTED_LANGUAGE_FILE + ".yml"), Objects.requireNonNull(StellarPluginFramework.getINSTANCE().getResource("Lang/" + SELECTED_LANGUAGE + ".yml")),
@@ -69,9 +70,9 @@ public abstract class StellarLangManager {
 			StellarLangManager.setStellarMessages();
 
 		} catch (IOException ex) {
-		ex.printStackTrace();
-		StellarUtils.sendPluginErrorMessage();
-	 }
+			ex.printStackTrace();
+			StellarUtils.sendErrorMessageConsole();
+		}
 	}
 
 	private static void setStellarMessages() {
@@ -86,7 +87,7 @@ public abstract class StellarLangManager {
 		StellarMessages.setDEBUG_STATUS_DISABLED(SELECTED_LANGUAGE_FILE.getString("Debug_Status_Disabled"));
 		StellarMessages.setDEBUG_MESSAGE_FORMAT(SELECTED_LANGUAGE_FILE.getString("Debug_Message_Format"));
 		StellarMessages.setRELOAD(SELECTED_LANGUAGE_FILE.getString("Reload"));
-        StellarMessages.setPLUGIN_ERROR(SELECTED_LANGUAGE_FILE.getString("Plugin_Error"));
+		StellarMessages.setPLUGIN_ERROR(SELECTED_LANGUAGE_FILE.getString("Plugin_Error"));
 		StellarMessages.setNO_PERMISSION(SELECTED_LANGUAGE_FILE.getString("No_Permission"));
 
 		StellarMessages.setMESSAGES_VERSION(SELECTED_LANGUAGE_FILE.getInt("Messages_Version"));
@@ -94,21 +95,21 @@ public abstract class StellarLangManager {
 	}
 
 	/**
-	 * Check if the plugin lang folder exists in the plugin folder, if not, create it
+	 * Check if the plugin lang folder exists in the plugin folder, if not, create it.
 	 */
-	private static void checkPluginLangFolder(){
+	private static void checkPluginLangFolder() {
 
 
 		try {
 			if (!StellarPluginFramework.getLANG_FOLDER().exists()) {
 				if (StellarPluginFramework.getLANG_FOLDER().mkdir()) {
-					StellarUtils.sendDebugMessage("The 'Lang' folder has been created in the plugin folder.");
+					StellarUtils.sendDebugMessage("&cThe 'Lang' folder has been created in the plugin folder.");
 				} else {
-					StellarUtils.sendDebugMessage("The 'Lang' folder could not be created in the plugin folder.");
+					StellarUtils.sendDebugMessage("&cThe 'Lang' folder could not be created in the plugin folder.");
 				}
 			}
 		} catch (Exception ex) {
-			StellarUtils.sendPluginErrorMessage();
+			StellarUtils.sendErrorMessageConsole();
 			ex.printStackTrace();
 		}
 

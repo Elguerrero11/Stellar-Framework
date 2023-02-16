@@ -6,6 +6,7 @@ import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
+import org.bukkit.entity.Player;
 
 import java.io.IOException;
 
@@ -14,11 +15,12 @@ public abstract class StellarReloadCommand {
 	public static void registerPluginReloadCommand() {
 		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " reload")
 				.withRequirement((sender) -> {
-					if (sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".reload") || sender.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*")) {
+					if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "reload", true)) {
 						return true;
-					} else {
-						sender.sendMessage(StellarUtils.colorize(StellarLangManager.getSELECTED_LANGUAGE_FILE().getString("NO_PERMISSION")));
+					} else if (!(StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "reload", false))) {
 						return false;
+					} else {
+						return true;
 					}
 				})
 				.withHelp("Reload the plugin", "Reload the plugin config.yml and en_US.yml")
@@ -32,15 +34,19 @@ public abstract class StellarReloadCommand {
 						// TODO: Handle this exception with debug mode method
 						// TODO: Handle this too with the error.log file
 						ex.printStackTrace();
-						sender.sendMessage(StellarUtils.colorize(StellarMessages.getPLUGIN_ERROR()));
+						StellarUtils.sendErrorMessageConsole();
 					}
 
-					sender.sendMessage(StellarMessages.getRELOAD());
+					if (StellarUtils.senderIsConsole(sender)) {
+						StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded. V");
+					} else {
+						StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarMessages.getRELOAD()));
+						StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded by " + sender.getName() + ". V");
+					}
 
 				})
 				.register();
 
-		StellarHelpCommand.getPluginHelpListMessagesPage2().add("&ereload &7- &fReload the plugin");
 	}
 
 }

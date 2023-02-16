@@ -44,7 +44,7 @@ public abstract class StellarConfig {
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			StellarUtils.sendPluginErrorMessage();
+			StellarUtils.sendErrorMessageConsole();
 		}
 
 	}
