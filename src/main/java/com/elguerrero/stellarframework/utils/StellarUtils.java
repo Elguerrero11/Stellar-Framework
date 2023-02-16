@@ -9,7 +9,11 @@ import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import org.bukkit.entity.Player;
 
-import java.io.Console;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 public class StellarUtils {
 
@@ -175,6 +179,59 @@ public class StellarUtils {
 		StellarDebugCommand.registerPluginDebugCommand();
 		StellarReloadCommand.registerPluginReloadCommand();
 
+	}
+
+	// METHODS RELATED TO THE ERRORS_LOGS
+
+	private static void logException(Exception ex) {
+
+		Date date = new Date();
+		String formattedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
+		String exceptionType = ex.getClass().getName();
+		String exceptionStack = Arrays.stream(ex.getStackTrace())
+				.map(StackTraceElement::toString)
+				.collect(Collectors.joining("\n"));
+
+
+		try (FileWriter writer = new FileWriter(StellarPluginFramework.getERRORS_LOG(), true);
+			 PrintWriter printWriter = new PrintWriter(writer)) {
+
+			printWriter.println("");
+			printWriter.println("[Error date] " + formattedDate + " - " + ex.getMessage());
+			printWriter.println("[Exception type] " + exceptionType);
+			printWriter.println("[Exception stack] " + exceptionStack);
+			printWriter.println("");
+		} catch (IOException exx) {
+			exx.printStackTrace();
+		}
+	}
+
+	/**
+	 * Check if the errors.log file exists, if not, create it
+	 */
+	private static void ErrorsFileExist(){
+
+		File ERRORS_LOG = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "errors.log");
+		if (!ERRORS_LOG.exists()) {
+			try {
+				ERRORS_LOG.createNewFile();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * 1 - Send the general error message to the console when a BIG error ocurred with the plugin
+	 * 2 - Check if the errors.log file exists, if not, create it
+	 * 3 - Log the exception in the errors.log file
+	 * @param ex
+	 */
+	public static void sendErrorMessageConsole(Exception ex) {
+
+		ErrorsFileExist();
+		logException(ex);
+		sendErrorMessageConsole();
 	}
 
 }

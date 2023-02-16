@@ -23,6 +23,9 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	private static final File PLUGIN_FOLDER = StellarPluginFramework.getINSTANCE().getDataFolder();
 	@Getter
 	private static File LANG_FOLDER = null;
+
+	@Getter
+	private static final File ERRORS_LOG = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "errors.log");
 	@Getter
 	private static String PLUGIN_NAME = null;
 	@Getter
