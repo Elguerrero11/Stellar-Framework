@@ -37,7 +37,7 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private static Integer HELP_COMMAND_NUMBER_OF_PAGES = 2;
+	private static int HELP_COMMAND_NUMBER_OF_PAGES = 2;
 
 
 	@Override
@@ -46,6 +46,8 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 			// Declare the plugin main class as the instance of the plugin
 			// When this is called in the son class of the plugin of this class using super.onLoad()
 			INSTANCE = this;
+			checkIfInstanceIsNull();
+			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + INSTANCE.getName() + " , who have the main class:" + INSTANCE.getClass().getName());
 			setVariablesValues();
 			StellarUtils.checkPluginFolder();
 			StellarUtils.loadPluginConfigs();
@@ -82,13 +84,21 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 
 	private static void setVariablesValues() {
 
-		StellarPluginFramework.PLUGIN_LOGGER = INSTANCE.getLogger();
-		StellarPluginFramework.PLUGIN_NAME = Objects.requireNonNull(INSTANCE).getName();
-		StellarPluginFramework.PLUGIN_DESCRIPTION = INSTANCE.getDescription().getDescription();
-		StellarPluginFramework.PLUGIN_VERSION = INSTANCE.getDescription().getVersion();
-		StellarPluginFramework.PLUGIN_AUTHOR = INSTANCE.getDescription().getAuthors().toString();
+		PLUGIN_LOGGER = INSTANCE.getLogger();
+		PLUGIN_NAME = Objects.requireNonNull(INSTANCE).getName();
+		PLUGIN_DESCRIPTION = INSTANCE.getDescription().getDescription();
+		PLUGIN_VERSION = INSTANCE.getDescription().getVersion();
+		PLUGIN_AUTHOR = INSTANCE.getDescription().getAuthors().toString();
 		LANG_FOLDER = new File(PLUGIN_FOLDER, "lang");
 
+	}
+
+	private static void checkIfInstanceIsNull() {
+		if (INSTANCE == null) {
+			StellarUtils.sendConsoleSevereMessage("&cThe plugin need a restart of the server for work properly.");
+			StellarUtils.sendConsoleSevereMessage("&cDisabling the plugin for avoid errors.... Please restart the server.");
+			INSTANCE.onDisable();
+		}
 	}
 
 }

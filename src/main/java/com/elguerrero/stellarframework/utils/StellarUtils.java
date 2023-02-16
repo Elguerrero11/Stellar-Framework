@@ -51,7 +51,7 @@ public class StellarUtils {
 	 * @param sendNoPermissionMessage - If send the no permission message to the player in case it dont have permission
 	 * @return boolean - If the player has the permission
 	 */
-	public static boolean checkPlayerPermission(Player player, String permission, Boolean sendNoPermissionMessage) {
+	public static boolean checkPlayerPermission(Player player, String permission, boolean sendNoPermissionMessage) {
 
 		if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*") || player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + "." + permission)) {
 			return true;
@@ -129,7 +129,7 @@ public class StellarUtils {
 		if (StellarConfig.getDEBUG()) {
 			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is enabled V");
 		} else {
-			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is disabled x");
+			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is disabled X");
 		}
 
 	}
@@ -140,7 +140,7 @@ public class StellarUtils {
 	/**
 	 * Check if the plugin folder exists, if not, create it
 	 *
-	 * @throws Exception - If the plugin folder cant be created it can throw a SecurityException or a IOException
+	 * Exception - If the plugin folder cant be created it can throw a SecurityException or a IOException
 	 * (The exception is launched inside the method with a try and catch)
 	 */
 	public static void checkPluginFolder() {

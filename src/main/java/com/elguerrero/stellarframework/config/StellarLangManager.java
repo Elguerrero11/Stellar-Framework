@@ -47,7 +47,7 @@ public abstract class StellarLangManager {
 
 			checkPluginLangFolder();
 
-			if (!StellarConfig.getLANG().equals(SELECTED_LANGUAGE)) {
+			if (!StellarConfig.getLANG().equalsIgnoreCase(SELECTED_LANGUAGE)) {
 				SELECTED_LANGUAGE = StellarConfig.getLANG();
 			} else if (StellarConfig.getLANG().isEmpty() || !LANGUAGES_LIST.contains(StellarConfig.getLANG())) {
 				StellarUtils.sendErrorMessageConsole();
@@ -59,7 +59,7 @@ public abstract class StellarLangManager {
 
 			for (String lang : LANGUAGES_LIST) {
 
-				if (!SELECTED_LANGUAGE.equals(lang)) {
+				if (!SELECTED_LANGUAGE.equalsIgnoreCase(lang)) {
 
 					YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang/" + lang + ".yml"), Objects.requireNonNull(StellarPluginFramework.getINSTANCE().getResource("Lang/" + lang + ".yml")),
 							GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
