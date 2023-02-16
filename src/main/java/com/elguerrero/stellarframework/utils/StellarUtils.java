@@ -196,10 +196,10 @@ public class StellarUtils {
 		try (FileWriter writer = new FileWriter(StellarPluginFramework.getERRORS_LOG(), true);
 			 PrintWriter printWriter = new PrintWriter(writer)) {
 
-			printWriter.println("");
-			printWriter.println("[Error date] " + formattedDate + " - " + ex.getMessage());
-			printWriter.println("[Exception type] " + exceptionType);
+			printWriter.println("[Error date] " + formattedDate);
+			printWriter.println("[Exception type] " + ex);
 			printWriter.println("[Exception stack] " + exceptionStack);
+			printWriter.println("");
 			printWriter.println("");
 		} catch (IOException exx) {
 			exx.printStackTrace();

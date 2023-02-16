@@ -58,7 +58,7 @@ public abstract class StellarConfig {
 
 		LANG = CONFIG_FILE.getString("Lang");
 		CONFIG_VERSION = CONFIG_FILE.getInt("Config_Version");
-		DEBUG = CONFIG_FILE.getBoolean("Debug");
+		DEBUG = CONFIG_FILE.getBoolean("Debug_Mode");
 
 		BSTATS_METRICS = CONFIG_FILE.getBoolean("BStats_Metrics");
 
