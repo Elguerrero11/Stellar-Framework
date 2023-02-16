@@ -50,8 +50,8 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 			// When this is called in the son class of the plugin of this class using super.onLoad()
 			INSTANCE = this;
 			checkIfInstanceIsNull();
-			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + INSTANCE.getName() + " , who have the main class:" + INSTANCE.getClass().getName());
 			setVariablesValues();
+			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + INSTANCE.getName() + " , who have the main class:" + INSTANCE.getClass().getName());
 			StellarUtils.checkPluginFolder();
 			StellarUtils.loadPluginConfigs();
 			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
