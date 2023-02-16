@@ -50,7 +50,6 @@ public abstract class StellarLangManager {
 			if (!StellarConfig.getLANG().equalsIgnoreCase(SELECTED_LANGUAGE)) {
 				SELECTED_LANGUAGE = StellarConfig.getLANG();
 			} else if (StellarConfig.getLANG().isEmpty() || !LANGUAGES_LIST.contains(StellarConfig.getLANG())) {
-				StellarUtils.sendErrorMessageConsole();
 				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used.");
 			}
 
@@ -70,8 +69,7 @@ public abstract class StellarLangManager {
 			StellarLangManager.setStellarMessages();
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
-			StellarUtils.sendErrorMessageConsole();
+			StellarUtils.sendErrorMessageConsole(ex);
 		}
 	}
 
@@ -109,8 +107,7 @@ public abstract class StellarLangManager {
 				}
 			}
 		} catch (Exception ex) {
-			StellarUtils.sendErrorMessageConsole();
-			ex.printStackTrace();
+			StellarUtils.sendErrorMessageConsole(ex);
 		}
 
 	}

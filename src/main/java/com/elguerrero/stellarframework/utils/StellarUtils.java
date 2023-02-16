@@ -104,15 +104,6 @@ public class StellarUtils {
 		player.sendMessage(colorize(message));
 	}
 
-
-	/**
-	 * Send the general error message to the console when a BIG error ocurred with the plugin
-	 */
-	public static void sendErrorMessageConsole() {
-
-		sendConsoleSevereMessage("&cAn error ocurred with the plugin, please check the errors.log file in the plugin folder.");
-	}
-
 	/**
 	 * Send a DEBUG message to the console with the DEBUG prefix
 	 *
@@ -225,13 +216,13 @@ public class StellarUtils {
 	 * 1 - Send the general error message to the console when a BIG error ocurred with the plugin
 	 * 2 - Check if the errors.log file exists, if not, create it
 	 * 3 - Log the exception in the errors.log file
-	 * @param ex
+	 * @param ex - The exception to log
 	 */
 	public static void sendErrorMessageConsole(Exception ex) {
 
 		ErrorsFileExist();
 		logException(ex);
-		sendErrorMessageConsole();
+		sendConsoleSevereMessage("An error ocurred with the plugin, please check the errors.log file in the plugin folder.");
 	}
 
 }

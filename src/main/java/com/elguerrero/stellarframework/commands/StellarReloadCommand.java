@@ -32,9 +32,7 @@ public abstract class StellarReloadCommand {
 					} catch (IOException ex) {
 
 						// TODO: Handle this exception with debug mode method
-						// TODO: Handle this too with the error.log file
-						ex.printStackTrace();
-						StellarUtils.sendErrorMessageConsole();
+						StellarUtils.sendErrorMessageConsole(ex);
 					}
 
 					if (StellarUtils.senderIsConsole(sender)) {

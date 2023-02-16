@@ -43,8 +43,7 @@ public abstract class StellarConfig {
 			CONFIG_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "config.yml"), Objects.requireNonNull(resourceStream),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
-			ex.printStackTrace();
-			StellarUtils.sendErrorMessageConsole();
+			StellarUtils.sendErrorMessageConsole(ex);
 		}
 
 	}
