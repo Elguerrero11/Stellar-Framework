@@ -16,16 +16,16 @@ import java.util.logging.Logger;
 public abstract class StellarPluginFramework extends JavaPlugin {
 
 	@Getter
-	private static volatile StellarPluginFramework INSTANCE;
+	private static volatile StellarPluginFramework INSTANCE = null;
 	@Getter
 	private static Logger PLUGIN_LOGGER = null;
 	@Getter
-	private static final File PLUGIN_FOLDER = StellarPluginFramework.getINSTANCE().getDataFolder();
+	private static File PLUGIN_FOLDER = null;
 	@Getter
 	private static File LANG_FOLDER = null;
 
 	@Getter
-	private static final File ERRORS_LOG = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "errors.log");
+	private static File ERRORS_LOG = null;
 	@Getter
 	private static String PLUGIN_NAME = null;
 	@Getter
@@ -88,6 +88,8 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	private static void setVariablesValues() {
 
 		PLUGIN_LOGGER = INSTANCE.getLogger();
+		PLUGIN_FOLDER = INSTANCE.getDataFolder();
+		ERRORS_LOG = new File(PLUGIN_FOLDER, "errors.log");
 		PLUGIN_NAME = Objects.requireNonNull(INSTANCE).getName();
 		PLUGIN_DESCRIPTION = INSTANCE.getDescription().getDescription();
 		PLUGIN_VERSION = INSTANCE.getDescription().getVersion();
