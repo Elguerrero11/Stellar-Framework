@@ -36,7 +36,8 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	@Getter
 	private static String PLUGIN_VERSION = null;
 	@Getter
-	private static String PLUGIN_AUTHOR = null;
+	@Setter(AccessLevel.PROTECTED)
+	private static String PLUGIN_AUTHOR = "&3Elguerrero|MoonWalker";
 
 	@Getter
 	@Setter(AccessLevel.PROTECTED)

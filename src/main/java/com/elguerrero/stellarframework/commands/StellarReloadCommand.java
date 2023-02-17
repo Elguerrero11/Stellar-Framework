@@ -28,18 +28,23 @@ public abstract class StellarReloadCommand {
 
 					try {
 						StellarConfig.getCONFIG_FILE().reload();
+						StellarLangManager.loadSelectedLangMessages();
 						StellarLangManager.getSELECTED_LANGUAGE_FILE().reload();
-					} catch (IOException ex) {
 
-						// TODO: Handle this exception with debug mode method
-						StellarUtils.sendErrorMessageConsole(ex);
-					}
 
 					if (StellarUtils.senderIsConsole(sender)) {
 						StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded. V");
 					} else {
 						StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarMessages.getRELOAD()));
 						StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded by " + sender.getName() + ". V");
+					}
+					} catch (IOException ex) {
+
+						if (!StellarUtils.senderIsConsole(sender)) {
+							StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarMessages.getPLUGIN_ERROR()));
+							StellarUtils.sendConsoleInfoMessage("&ei &c" + sender.getName() + "has try to reload the plugin but an error ocurred. X");
+						}
+						StellarUtils.sendErrorMessageConsole(ex);
 					}
 
 				})

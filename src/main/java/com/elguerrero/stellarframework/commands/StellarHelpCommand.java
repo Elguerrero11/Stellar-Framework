@@ -34,12 +34,12 @@ public abstract class StellarHelpCommand {
 				})
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
-					StellarUtils.sendMessagePlayer(player, "&b&m------------------------------------");
+					StellarUtils.sendMessagePlayer(player, "&6&m------------------------------------------------------");
 					StellarUtils.sendMessagePlayer(player, "");
 					// Add the clickeable message above for go to spigot
-					StellarUtils.sendMessagePlayer(player, "&7[" + StellarPluginFramework.getPLUGIN_NAME() + "&7] -" + StellarPluginFramework.getPLUGIN_VERSION() + "&bby &3" + StellarPluginFramework.getPLUGIN_AUTHOR());
+					StellarUtils.sendMessagePlayer(player, "&7[" + StellarPluginFramework.getPLUGIN_FORMAT() + "&7] - " + StellarPluginFramework.getPLUGIN_VERSION() + "&bby " + StellarPluginFramework.getPLUGIN_AUTHOR());
 					StellarUtils.sendMessagePlayer(player, " ");
-					StellarUtils.sendMessagePlayer(player, "&6<> &7Optional arguments &6[] &7Required arguments");
+					StellarUtils.sendMessagePlayer(player, "&6&l<>&r &7Optional arguments &6[] &7Required arguments");
 					StellarUtils.sendMessagePlayer(player, " ");
 					//sendListMessages(player);
 					StellarUtils.sendMessagePlayer(player, " ");
@@ -47,8 +47,8 @@ public abstract class StellarHelpCommand {
 					//player.sendMessage("a" + Check if plugin is up to date with method pluginIsUpdated());
 					StellarUtils.sendMessagePlayer(player, " ");
 					//Add the clickeable message above
-					StellarUtils.sendMessagePlayer(player, "Page 1 of " + StellarPluginFramework.getHELP_COMMAND_NUMBER_OF_PAGES() + "&6&l>>");
-					StellarUtils.sendMessagePlayer(player, "&b&m------------------------------------");
+					StellarUtils.sendMessagePlayer(player, "Page 1 of " + StellarPluginFramework.getHELP_COMMAND_NUMBER_OF_PAGES() + " &6&l>>");
+					StellarUtils.sendMessagePlayer(player, "&6&m------------------------------------------------------");
 				}).register();
 
 		// Add the page 2 content
