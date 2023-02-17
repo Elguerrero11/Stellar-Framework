@@ -146,6 +146,7 @@ public class StellarUtils {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			StellarUtils.sendErrorMessageConsole(ex);
 		}
 
 	}
