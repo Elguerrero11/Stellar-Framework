@@ -146,7 +146,6 @@ public class StellarUtils {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			StellarUtils.sendErrorMessageConsole(ex);
 		}
 
 	}
@@ -225,5 +224,27 @@ public class StellarUtils {
 		logException(ex);
 		sendConsoleSevereMessage("An error ocurred with the plugin, please check the errors.log file in the plugin folder.");
 	}
+
+	// METHODS RELATED TO THE OTHER ERRORS
+
+	/**
+	 * Send the error message to the console when a SMALL error ocurred with the plugin
+	 * @param message - The message to send to the console
+	 */
+	public static void sendErrorMessageConsole(String message) {
+		sendConsoleSevereMessage(message);
+	}
+
+	/**
+	 * Method used for manage some errors in the plugin that I cant always manage with errors.log
+	 * @param ex
+	 */
+	public static void sendPluginErrorConsole(Exception ex){
+		// Poner mensaje de Plugin error: x como al generar x carpeta
+		sendConsoleWarnMessage("---------------------------------------");
+        // Poner mensaje con el error del exception con el strack, con severe de color rojo
+		sendConsoleWarnMessage("---------------------------------------");
+	}
+
 
 }
