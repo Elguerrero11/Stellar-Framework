@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class StellarDebugCommand {
 
 	public static void registerPluginDebugCommand() {
-		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " debug")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + "-debug")
 				.withRequirement((sender) -> {
 					if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "debug", true)){
 						return true;

@@ -21,7 +21,7 @@ public abstract class StellarHelpCommand {
 
 	public static void registerPluginInfoCommand() {
 
-		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + " help")
+		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + "-help")
 				.withRequirement((sender) -> {
 					if (!StellarUtils.senderIsConsole(sender) && (StellarUtils.checkPlayerPermission((Player) sender, "help", true))) {
 						return true;

@@ -53,7 +53,7 @@ public abstract class StellarLangManager {
 				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used.");
 			}
 
-			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang/" + SELECTED_LANGUAGE_FILE + ".yml"), Objects.requireNonNull(StellarPluginFramework.getINSTANCE().getResource("Lang/" + SELECTED_LANGUAGE + ".yml")),
+			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang/" + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPluginFramework.getINSTANCE().getResource("Lang/" + SELECTED_LANGUAGE + ".yml")),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
 
 			for (String lang : LANGUAGES_LIST) {

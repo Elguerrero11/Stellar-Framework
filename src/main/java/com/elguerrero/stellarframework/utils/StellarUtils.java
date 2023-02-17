@@ -189,8 +189,7 @@ public class StellarUtils {
 
 			printWriter.println("[Error date] " + formattedDate);
 			printWriter.println("[Exception type] " + ex);
-			printWriter.println("[Exception stack] " + exceptionStack);
-			printWriter.println("");
+			printWriter.println("[Exception StackTrace] " + exceptionStack);
 			printWriter.println("");
 		} catch (IOException exx) {
 			exx.printStackTrace();
