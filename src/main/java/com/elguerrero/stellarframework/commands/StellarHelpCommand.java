@@ -19,7 +19,7 @@ public abstract class StellarHelpCommand {
 	@Getter(AccessLevel.PROTECTED)
 	private static List<String> pluginHelpListMessagesPage2 = new ArrayList<>();
 
-	public static void registerPluginInfoCommand() {
+	public static void registerInfoCommand() {
 
 		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + "-help")
 				.withRequirement((sender) -> {
@@ -34,10 +34,10 @@ public abstract class StellarHelpCommand {
 				})
 				.withHelp("Show the plugin info", "Show the plugin info")
 				.executesPlayer((player, args) -> {
-					StellarUtils.sendMessagePlayer(player, "&6&m------------------------------------------------------");
+					StellarUtils.sendMessagePlayer(player, "&6&m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m");
 					StellarUtils.sendMessagePlayer(player, "");
 					// Add the clickeable message above for go to spigot
-					StellarUtils.sendMessagePlayer(player, "&7[" + StellarPluginFramework.getPLUGIN_FORMAT() + "&7] - " + StellarPluginFramework.getPLUGIN_VERSION() + "&bby " + StellarPluginFramework.getPLUGIN_AUTHOR());
+					StellarUtils.sendMessagePlayer(player, "&7[" + StellarPluginFramework.getPLUGIN_FORMAT() + "&7] - " + StellarPluginFramework.getPLUGIN_VERSION() + " &bby " + StellarPluginFramework.getPLUGIN_AUTHOR());
 					StellarUtils.sendMessagePlayer(player, " ");
 					StellarUtils.sendMessagePlayer(player, "&6&l<>&r &7Optional arguments &6[] &7Required arguments");
 					StellarUtils.sendMessagePlayer(player, " ");
@@ -48,7 +48,7 @@ public abstract class StellarHelpCommand {
 					StellarUtils.sendMessagePlayer(player, " ");
 					//Add the clickeable message above
 					StellarUtils.sendMessagePlayer(player, "Page 1 of " + StellarPluginFramework.getHELP_COMMAND_NUMBER_OF_PAGES() + " &6&l>>");
-					StellarUtils.sendMessagePlayer(player, "&6&m------------------------------------------------------");
+					StellarUtils.sendMessagePlayer(player, "&6&m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m");
 				}).register();
 
 		// Add the page 2 content

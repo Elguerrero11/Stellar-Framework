@@ -26,6 +26,9 @@ public abstract class StellarLangManager {
 	@Getter
 	private static YamlDocument SELECTED_LANGUAGE_FILE = null;
 
+	@Getter
+	private static final File LANG_FOLDER = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang");;
+
 
 	/**
 	 * Happen when the plugin load and reload
@@ -99,8 +102,8 @@ public abstract class StellarLangManager {
 
 
 		try {
-			if (!StellarPluginFramework.getLANG_FOLDER().exists()) {
-				if (StellarPluginFramework.getLANG_FOLDER().mkdir()) {
+			if (!getLANG_FOLDER().exists()) {
+				if (getLANG_FOLDER().mkdir()) {
 					StellarUtils.sendDebugMessage("&cThe 'Lang' folder has been created in the plugin folder.");
 				} else {
 					StellarUtils.sendDebugMessage("&cThe 'Lang' folder could not be created in the plugin folder.");

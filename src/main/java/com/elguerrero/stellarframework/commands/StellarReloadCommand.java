@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public abstract class StellarReloadCommand {
 
-	public static void registerPluginReloadCommand() {
+	public static void registerReloadCommand() {
 		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + "-reload")
 				.withRequirement((sender) -> {
 					if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "reload", true)) {

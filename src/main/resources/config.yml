@@ -8,6 +8,10 @@ Lang: "en_US"
 Debug_Mode: false
 # The metrics of the plugin, if it is enabled, it will send the metrics to bStats
 BStats_Metrics: false
+
 # The version of the config file, please do not change this or can bug the plugin, this is managed automatically by the plugin
 Config_Version: 1.0.0
-
+# The format of the date that will be used in the errors.log file when a big error happens and in the debug report.
+# By default is the english date format.
+# The spanish format is: "dd/MM/yyyy HH:mm:ss"
+Date_Format: "MM/dd/yyyy HH:mm:ss"

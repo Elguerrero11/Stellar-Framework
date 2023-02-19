@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-public class StellarUtils {
+public abstract class StellarUtils {
 
 	// METHODS WITH MIXED UTILITIES
 
@@ -166,9 +166,9 @@ public class StellarUtils {
 	 */
 	public static void registerCommands() {
 
-		StellarHelpCommand.registerPluginInfoCommand();
-		StellarDebugCommand.registerPluginDebugCommand();
-		StellarReloadCommand.registerPluginReloadCommand();
+		StellarHelpCommand.registerInfoCommand();
+		StellarDebugCommand.registerDebugCommand();
+		StellarReloadCommand.registerReloadCommand();
 
 	}
 
@@ -177,8 +177,7 @@ public class StellarUtils {
 	private static void logException(Exception ex) {
 
 		Date date = new Date();
-		String formattedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
-		String exceptionType = ex.getClass().getName();
+		String formattedDate = new SimpleDateFormat(StellarConfig.getDATE_FORMAT()).format(date);
 		String exceptionStack = Arrays.stream(ex.getStackTrace())
 				.map(StackTraceElement::toString)
 				.collect(Collectors.joining("\n"));
@@ -201,10 +200,10 @@ public class StellarUtils {
 	 */
 	private static void ErrorsFileExist(){
 
-		File ERRORS_LOG = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "errors.log");
-		if (!ERRORS_LOG.exists()) {
+		final File errorsLogFile = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "errors.log");
+		if (!errorsLogFile.exists()) {
 			try {
-				ERRORS_LOG.createNewFile();
+				errorsLogFile.createNewFile();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
@@ -244,6 +243,5 @@ public class StellarUtils {
         // Poner mensaje con el error del exception con el strack, con severe de color rojo
 		sendConsoleWarnMessage("---------------------------------------");
 	}
-
 
 }

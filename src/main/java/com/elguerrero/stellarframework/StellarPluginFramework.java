@@ -7,6 +7,8 @@ import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -20,9 +22,9 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 	@Getter
 	private static Logger PLUGIN_LOGGER = null;
 	@Getter
-	private static File PLUGIN_FOLDER = null;
+	private static final PluginManager PLUGIN_MANAGER = Bukkit.getPluginManager();
 	@Getter
-	private static File LANG_FOLDER = null;
+	private static File PLUGIN_FOLDER = null;
 
 	@Getter
 	private static File ERRORS_LOG = null;
@@ -96,7 +98,6 @@ public abstract class StellarPluginFramework extends JavaPlugin {
 		PLUGIN_DESCRIPTION = INSTANCE.getDescription().getDescription();
 		PLUGIN_VERSION = INSTANCE.getDescription().getVersion();
 		PLUGIN_AUTHOR = INSTANCE.getDescription().getAuthors().toString();
-		LANG_FOLDER = new File(PLUGIN_FOLDER, "lang");
 
 	}
 

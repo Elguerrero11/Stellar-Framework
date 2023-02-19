@@ -31,6 +31,8 @@ public abstract class StellarConfig {
 	private static Boolean DEBUG;
 	@Getter
 	private static Boolean BSTATS_METRICS;
+	@Getter
+	private static String DATE_FORMAT;
 
 	/**
 	 * Happen when the plugin load and reload
@@ -60,6 +62,7 @@ public abstract class StellarConfig {
 		DEBUG = CONFIG_FILE.getBoolean("Debug_Mode");
 
 		BSTATS_METRICS = CONFIG_FILE.getBoolean("BStats_Metrics");
+		DATE_FORMAT = CONFIG_FILE.getString("Date_Format");
 
 	}
 
