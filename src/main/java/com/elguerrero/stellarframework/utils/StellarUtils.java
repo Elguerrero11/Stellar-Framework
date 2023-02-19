@@ -2,6 +2,7 @@ package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPluginFramework;
 import com.elguerrero.stellarframework.commands.StellarDebugCommand;
+import com.elguerrero.stellarframework.commands.StellarDebugReportCommand;
 import com.elguerrero.stellarframework.commands.StellarHelpCommand;
 import com.elguerrero.stellarframework.commands.StellarReloadCommand;
 import com.elguerrero.stellarframework.config.StellarConfig;
@@ -169,6 +170,7 @@ public abstract class StellarUtils {
 		StellarHelpCommand.registerInfoCommand();
 		StellarDebugCommand.registerDebugCommand();
 		StellarReloadCommand.registerReloadCommand();
+		StellarDebugReportCommand.registerDebugReportCommand();
 
 	}
 
