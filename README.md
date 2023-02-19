@@ -47,7 +47,7 @@
 
  ### Credits to others libreries and frameworks that I used as dependencies:
 
-  - Foundation from Kangarko dev [https://github.com/kangarko/Foundation] | (I use some parts of it on my framework, anyway of most time I modify it. I will specify what parts I use in the future.)
   - Boosted-yaml from dejvokep dev [https://github.com/dejvokep/boosted-yaml] | (Right now all the config.yml and messages.yml system are managed with this library.)
   - Commandapi from JorelAli dev [https://github.com/JorelAli/CommandAPI] | (Right now all the command parts of the code are made with this library.)
+  - Commons-io library from apache [https://github.com/apache/commons-io] | (Used for manage some files things.)
   - I will use more libreries that are planned in the future.
