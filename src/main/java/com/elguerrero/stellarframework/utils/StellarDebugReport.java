@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.utils;
 
-import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarLangManager;
 import org.apache.commons.io.FileUtils;
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class DebugReport {
+public class StellarDebugReport {
 
-	private static final File PLUGIN_DEBUG_REPORTS_FOLDER = new File(StellarPluginFramework.getPLUGIN_FOLDER(),"Debug reports");
+	private static final File PLUGIN_DEBUG_REPORTS_FOLDER = new File(StellarPlugin.getPLUGIN_FOLDER(),"Debug reports");
 
 	// The lines that contains this strings will be ignored in the debug report
 	private static final List<String> ignoreLines = Arrays.asList("# Define the address and port for the database.",
@@ -57,8 +57,8 @@ public class DebugReport {
 			// Don't copy the lines that contains the strings in the ignoreLines list
 			// Replace the lines that contains the strings in the replaceLines map with the value of the map
 
-			File originalConfigFile = new File(StellarPluginFramework.getPLUGIN_FOLDER().getPath(), "config.yml");
-			File debugConfigFile = new File(debugReportFolder.getPath(), "config.yml");
+			File originalConfigFile = new File(StellarPlugin.getPLUGIN_FOLDER().getPath(), "StellarPlugin/config.yml");
+			File debugConfigFile = new File(debugReportFolder.getPath(), "StellarPlugin/config.yml");
 			FileUtils.copyFile(originalConfigFile, debugConfigFile,StandardCopyOption.COPY_ATTRIBUTES);
 
 
@@ -66,7 +66,7 @@ public class DebugReport {
 					.filter(line -> ignoreLines.stream().noneMatch(line::contains))
 					.map(line -> replaceLines.getOrDefault(line, line))
 					.collect(Collectors.toList());
-			Files.write(debugReportFolder.toPath().resolve("config.yml"), debugConfigLines, StandardCharsets.UTF_8);
+			Files.write(debugReportFolder.toPath().resolve("StellarPlugin/config.yml"), debugConfigLines, StandardCharsets.UTF_8);
 
 
 			// Copy the lang folder to the debug report folder with all the lang files
@@ -78,7 +78,7 @@ public class DebugReport {
 
 			// If exist, copy the errors.log file to the debug report folder
 
-			final File originalErrorsLogFile = new File(StellarPluginFramework.getPLUGIN_FOLDER() + "errors.log");
+			final File originalErrorsLogFile = new File(StellarPlugin.getPLUGIN_FOLDER() + "errors.log");
 
 			if (originalErrorsLogFile.exists()){
 
@@ -91,7 +91,7 @@ public class DebugReport {
 
 			final File debugLogFile = new File(debugReportFolder.getPath(), "debug.log");
 
-			final boolean pluginEnabled = StellarPluginFramework.getPLUGIN_MANAGER().isPluginEnabled(StellarPluginFramework.getINSTANCE());
+			final boolean pluginEnabled = StellarPlugin.getPLUGIN_MANAGER().isPluginEnabled(StellarPlugin.getINSTANCE());
 			final String platform = Bukkit.getVersion().replace("git-", "").replace("\\(MC: .+\\)", "");
 
 
@@ -105,7 +105,7 @@ public class DebugReport {
 			writer.write("[Minecraft version] " + Bukkit.getBukkitVersion()  + "\n");
 			writer.write("[Server platform] " + platform + "\n");
 			writer.write("[Plugin status] " + (pluginEnabled ? "Enabled V" : "Disabled X") + "\n");
-			writer.write("[Version of " + StellarPluginFramework.getPLUGIN_NAME() + "] " + StellarPluginFramework.getPLUGIN_VERSION() + "\n");
+			writer.write("[Version of " + StellarPlugin.getPLUGIN_NAME() + "] " + StellarPlugin.getPLUGIN_VERSION() + "\n");
 			writer.write("[Plugins] " + pluginsList + "\n");
 
 			writer.close();

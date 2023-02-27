@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.config;
 
-import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
@@ -27,7 +27,7 @@ public abstract class StellarLangManager {
 	private static YamlDocument SELECTED_LANGUAGE_FILE = null;
 
 	@Getter
-	private static final File LANG_FOLDER = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang");;
+	private static final File LANG_FOLDER = new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang");;
 
 
 	/**
@@ -56,14 +56,14 @@ public abstract class StellarLangManager {
 				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used.");
 			}
 
-			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang/" + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPluginFramework.getINSTANCE().getResource("Lang/" + SELECTED_LANGUAGE + ".yml")),
+			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang/" + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPlugin.getINSTANCE().getResource("StellarPlugin/Lang/" + SELECTED_LANGUAGE + ".yml")),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
 
 			for (String lang : LANGUAGES_LIST) {
 
 				if (!SELECTED_LANGUAGE.equalsIgnoreCase(lang)) {
 
-					YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "Lang/" + lang + ".yml"), Objects.requireNonNull(StellarPluginFramework.getINSTANCE().getResource("Lang/" + lang + ".yml")),
+					YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang/" + lang + ".yml"), Objects.requireNonNull(StellarPlugin.getINSTANCE().getResource("StellarPlugin/Lang/" + lang + ".yml")),
 							GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
 
 				}

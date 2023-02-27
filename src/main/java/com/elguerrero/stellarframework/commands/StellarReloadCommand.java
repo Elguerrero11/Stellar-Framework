@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
-import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
@@ -13,7 +13,7 @@ import java.io.IOException;
 public abstract class StellarReloadCommand {
 
 	public static void registerReloadCommand() {
-		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + "-reload")
+		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-reload")
 				.withRequirement((sender) -> {
 					if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "reload", true)) {
 						return true;

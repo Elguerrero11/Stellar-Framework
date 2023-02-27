@@ -15,10 +15,10 @@ import java.io.File;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public abstract class StellarPluginFramework extends JavaPlugin {
+public abstract class StellarPlugin extends JavaPlugin {
 
 	@Getter
-	private static volatile StellarPluginFramework INSTANCE = null;
+	private static volatile StellarPlugin INSTANCE = null;
 	@Getter
 	private static Logger PLUGIN_LOGGER = null;
 	@Getter

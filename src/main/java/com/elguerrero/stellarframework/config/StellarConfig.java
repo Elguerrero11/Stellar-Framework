@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.config;
 
-import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
@@ -20,7 +20,7 @@ public abstract class StellarConfig {
 
 	@Getter
 	private static YamlDocument CONFIG_FILE;
-	private static final InputStream resourceStream = StellarPluginFramework.getINSTANCE().getResource("config.yml");
+	private static final InputStream resourceStream = StellarPlugin.getINSTANCE().getResource("StellarPlugin/config.yml");
 
 	// The config options
 	@Getter
@@ -42,7 +42,7 @@ public abstract class StellarConfig {
 	public static void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(StellarPluginFramework.getPLUGIN_FOLDER(), "config.yml"), Objects.requireNonNull(resourceStream),
+			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/config.yml"), Objects.requireNonNull(resourceStream),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
 			StellarUtils.sendErrorMessageConsole(ex);
@@ -57,7 +57,7 @@ public abstract class StellarConfig {
 
 	public static void loadConfigVariables() {
 
-		LANG = CONFIG_FILE.getString("Lang");
+		LANG = CONFIG_FILE.getString("StellarPlugin/Lang");
 		CONFIG_VERSION = CONFIG_FILE.getInt("Config_Version");
 		DEBUG = CONFIG_FILE.getBoolean("Debug_Mode");
 

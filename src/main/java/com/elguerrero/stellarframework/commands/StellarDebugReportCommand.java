@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
-import com.elguerrero.stellarframework.utils.DebugReport;
+import com.elguerrero.stellarframework.utils.StellarDebugReport;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 
@@ -12,7 +12,7 @@ public abstract class StellarDebugReportCommand {
 				.withRequirement(StellarUtils::senderIsConsole)
 				.executesConsole((sender, args) -> {
 
-					DebugReport.generateDebugReport();
+					StellarDebugReport.generateDebugReport();
 
 				})
 				.register();

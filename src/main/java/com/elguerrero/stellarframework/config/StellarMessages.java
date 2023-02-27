@@ -41,5 +41,4 @@ public abstract class StellarMessages {
 	@Setter(AccessLevel.PACKAGE)
 	private static String NO_PERMISSION = null;
 
-
 }

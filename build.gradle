@@ -5,7 +5,7 @@ plugins {
 
 group 'com.elguerrero.stellarframework'
 version '1.5.3'
-description 'A framework for bukkit plugins that use some libreries for do some things and the plugins of the author of this framework.'
+description 'A framework for spigot/paper plugins.'
 
 repositories {
     mavenCentral()

@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.utils;
 
-import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.commands.StellarDebugCommand;
 import com.elguerrero.stellarframework.commands.StellarDebugReportCommand;
 import com.elguerrero.stellarframework.commands.StellarHelpCommand;
@@ -8,6 +8,7 @@ import com.elguerrero.stellarframework.commands.StellarReloadCommand;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarMessages;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.io.*;
@@ -58,7 +59,7 @@ public abstract class StellarUtils {
 	 */
 	public static boolean checkPlayerPermission(Player player, String permission, boolean sendNoPermissionMessage) {
 
-		if (player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + ".*") || player.hasPermission(StellarPluginFramework.getPLUGIN_NAME() + "." + permission)) {
+		if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*") || player.hasPermission(StellarPlugin.getPLUGIN_NAME() + "." + permission)) {
 			return true;
 		} else if (sendNoPermissionMessage) {
 			player.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
@@ -74,7 +75,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleInfoMessage(String message) {
-		StellarPluginFramework.getPLUGIN_LOGGER().info(colorize(message));
+		StellarPlugin.getPLUGIN_LOGGER().info(colorize(message));
 	}
 
 	/**
@@ -83,7 +84,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleWarnMessage(String message) {
-		StellarPluginFramework.getPLUGIN_LOGGER().warning(colorize(message));
+		StellarPlugin.getPLUGIN_LOGGER().warning(colorize(message));
 	}
 
 	/**
@@ -92,7 +93,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleSevereMessage(String message) {
-		StellarPluginFramework.getPLUGIN_LOGGER().severe(colorize(message));
+		StellarPlugin.getPLUGIN_LOGGER().severe(colorize(message));
 	}
 
 	/**
@@ -102,7 +103,9 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the player
 	 */
 	public static void sendMessagePlayer(Player player, String message) {
-		player.sendMessage(colorize(message));
+		if (message != null){
+			player.sendMessage(colorize(message));
+		}
 	}
 
 	/**
@@ -142,8 +145,8 @@ public abstract class StellarUtils {
 	public static void checkPluginFolder() {
 
 		try {
-			if (!StellarPluginFramework.getINSTANCE().getDataFolder().exists()) {
-				StellarPluginFramework.getINSTANCE().getDataFolder().mkdirs();
+			if (!StellarPlugin.getINSTANCE().getDataFolder().exists()) {
+				StellarPlugin.getINSTANCE().getDataFolder().mkdirs();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -176,7 +179,7 @@ public abstract class StellarUtils {
 
 	// METHODS RELATED TO THE ERRORS_LOGS
 
-	private static void logException(Exception ex) {
+	public static void logException(Exception ex) {
 
 		Date date = new Date();
 		String formattedDate = new SimpleDateFormat(StellarConfig.getDATE_FORMAT()).format(date);
@@ -185,7 +188,7 @@ public abstract class StellarUtils {
 				.collect(Collectors.joining("\n"));
 
 
-		try (FileWriter writer = new FileWriter(StellarPluginFramework.getERRORS_LOG(), true);
+		try (FileWriter writer = new FileWriter(StellarPlugin.getERRORS_LOG(), true);
 			 PrintWriter printWriter = new PrintWriter(writer)) {
 
 			printWriter.println("[Error date] " + formattedDate);
@@ -202,7 +205,7 @@ public abstract class StellarUtils {
 	 */
 	private static void ErrorsFileExist(){
 
-		final File errorsLogFile = new File(StellarPluginFramework.getPLUGIN_FOLDER(), "errors.log");
+		final File errorsLogFile = new File(StellarPlugin.getPLUGIN_FOLDER(), "errors.log");
 		if (!errorsLogFile.exists()) {
 			try {
 				errorsLogFile.createNewFile();
@@ -244,6 +247,18 @@ public abstract class StellarUtils {
 		sendConsoleWarnMessage("---------------------------------------");
         // Poner mensaje con el error del exception con el strack, con severe de color rojo
 		sendConsoleWarnMessage("---------------------------------------");
+	}
+
+
+	// PLAYERS UTILS
+
+	/**
+	 * Teleport the player to a specified location
+	 * @param player - The player to teleport
+	 * @param location - The location where the player will be teleported
+	 */
+	public void teleportPlayer(Player player, Location location){
+		player.teleport(location);
 	}
 
 }

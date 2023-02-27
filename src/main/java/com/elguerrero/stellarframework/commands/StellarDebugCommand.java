@@ -1,6 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
-import com.elguerrero.stellarframework.StellarPluginFramework;
+import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class StellarDebugCommand {
 
 	public static void registerDebugCommand() {
-		new CommandAPICommand(StellarPluginFramework.getPLUGIN_NAME() + "-debug")
+		new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-debug")
 				.withRequirement((sender) -> {
 					if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "debug", true)){
 						return true;
