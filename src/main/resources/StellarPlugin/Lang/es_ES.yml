@@ -23,5 +23,5 @@ Plugin_Error: '&cSe ha producido un error, consulte el archivo error.log generad
 
 No_Permission: '&cNo tienes permiso para hacer eso.'
 
-# La versión del archivo
+# Versión de la configuracion de mensajes - NO CAMBIES ESTO!
 Messages_Version: 1.0

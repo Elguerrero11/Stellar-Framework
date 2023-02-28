@@ -24,5 +24,5 @@ Plugin_Error: '&cAn error has occurred, check the error.log file generated in th
 No_Permission: '&cYou do not have permission to do that.'
 
 
-# The version of the file
+# Messages config version - DO NOT CHANGE IT!
 Messages_Version: 1.0
