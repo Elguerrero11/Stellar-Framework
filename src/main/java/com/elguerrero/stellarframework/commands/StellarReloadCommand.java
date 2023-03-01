@@ -1,7 +1,7 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.StellarLangManager;
+import com.elguerrero.stellarframework.config.StellarLangManagerStellar;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -28,8 +28,8 @@ public abstract class StellarReloadCommand {
 
 					try {
 						StellarConfig.getCONFIG_FILE().reload();
-						StellarLangManager.loadSelectedLangMessages();
-						StellarLangManager.getSELECTED_LANGUAGE_FILE().reload();
+						StellarLangManagerStellar.loadSelectedLangMessages();
+						StellarLangManagerStellar.getSELECTED_LANGUAGE_FILE().reload();
 
 
 					if (StellarUtils.senderIsConsole(sender)) {
@@ -44,7 +44,7 @@ public abstract class StellarReloadCommand {
 							StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarMessages.getPLUGIN_ERROR()));
 							StellarUtils.sendConsoleInfoMessage("&ei &c" + sender.getName() + "has try to reload the plugin but an error ocurred. X");
 						}
-						StellarUtils.sendErrorMessageConsole(ex);
+						StellarUtils.logErrorException(ex);
 					}
 
 				})

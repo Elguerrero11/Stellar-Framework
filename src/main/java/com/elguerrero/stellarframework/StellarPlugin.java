@@ -54,7 +54,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 			INSTANCE = this;
 			checkIfInstanceIsNull();
 			setVariablesValues();
-			StellarUtils.checkPluginFolder();
+			StellarUtils.checkPluginFileExist(PLUGIN_FOLDER, true);
 			StellarUtils.loadPluginConfigs();
 			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + INSTANCE.getName() + " , who have the main class:" + INSTANCE.getClass().getName());
 
@@ -62,7 +62,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 			StellarUtils.registerCommands();
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			StellarUtils.logErrorException(ex);
 		}
 	}
 
@@ -74,7 +74,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 			CommandAPI.onEnable(INSTANCE);
 			StellarUtils.sendMessageDebugStatus();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			StellarUtils.logErrorException(ex);
 		}
 	}
 
@@ -84,7 +84,7 @@ public abstract class StellarPlugin extends JavaPlugin {
 		try {
 			CommandAPI.onDisable();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			StellarUtils.logErrorException(ex);
 		}
 
 	}

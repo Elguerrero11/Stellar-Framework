@@ -6,7 +6,7 @@ import com.elguerrero.stellarframework.commands.StellarDebugReportCommand;
 import com.elguerrero.stellarframework.commands.StellarHelpCommand;
 import com.elguerrero.stellarframework.commands.StellarReloadCommand;
 import com.elguerrero.stellarframework.config.StellarConfig;
-import com.elguerrero.stellarframework.config.StellarLangManager;
+import com.elguerrero.stellarframework.config.StellarLangManagerStellar;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -103,7 +103,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the player
 	 */
 	public static void sendMessagePlayer(Player player, String message) {
-		if (message != null){
+		if (message != null) {
 			player.sendMessage(colorize(message));
 		}
 	}
@@ -136,20 +136,25 @@ public abstract class StellarUtils {
 
 	// METHODS RELATED TO LOAD PLUGIN CONFIG, MESSAGES AND TO REGISTER THINGS LIKE COMMANDS
 
+
 	/**
-	 * Check if the plugin folder exists, if not, create it
+	 * Check if a file or folder exists, if not, create it
 	 *
-	 * Exception - If the plugin folder cant be created it can throw a SecurityException or a IOException
-	 * (The exception is launched inside the method with a try and catch)
+	 * @param file     - The file or folder to check
+	 * @param isFolder - If the file is a folder or not
 	 */
-	public static void checkPluginFolder() {
+	public static void checkPluginFileExist(File file, boolean isFolder) {
 
 		try {
-			if (!StellarPlugin.getINSTANCE().getDataFolder().exists()) {
-				StellarPlugin.getINSTANCE().getDataFolder().mkdirs();
+			if (!file.exists()) {
+				if (isFolder) {
+					file.mkdir();
+				} else {
+					file.createNewFile();
+				}
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logErrorException(ex);
 		}
 
 	}
@@ -161,7 +166,7 @@ public abstract class StellarUtils {
 
 		StellarConfig.loadConfigFile();
 		StellarConfig.loadConfigVariables();
-		StellarLangManager.loadSelectedLangMessages();
+		StellarLangManagerStellar.loadSelectedLangMessages();
 
 	}
 
@@ -179,59 +184,50 @@ public abstract class StellarUtils {
 
 	// METHODS RELATED TO THE ERRORS_LOGS
 
-	public static void logException(Exception ex) {
+	/**
+	 * Log an exception in the errors.log file
+	 * Check if the errors.log file exists, if not, create it
+	 * If there is an error while logging the exception, log it in the console
+	 * Both, the error exception and the argument exception of the method
+	 * Too send a message to the console saying that an error ocurred with the plugin
+	 *
+	 * @param ex - The error exception to log
+	 */
+	public static void logErrorException(Exception ex) {
 
-		Date date = new Date();
-		String formattedDate = new SimpleDateFormat(StellarConfig.getDATE_FORMAT()).format(date);
-		String exceptionStack = Arrays.stream(ex.getStackTrace())
-				.map(StackTraceElement::toString)
-				.collect(Collectors.joining("\n"));
+		try {
+			checkPluginFileExist(StellarPlugin.getERRORS_LOG(), false);
+
+			Date date = new Date();
+			String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+			String exceptionStack = Arrays.stream(ex.getStackTrace())
+					.map(StackTraceElement::toString)
+					.collect(Collectors.joining("\n"));
 
 
-		try (FileWriter writer = new FileWriter(StellarPlugin.getERRORS_LOG(), true);
-			 PrintWriter printWriter = new PrintWriter(writer)) {
+			FileWriter writer = new FileWriter(StellarPlugin.getERRORS_LOG(), true);
+			PrintWriter printWriter = new PrintWriter(writer);
 
 			printWriter.println("[Error date] " + formattedDate);
 			printWriter.println("[Exception type] " + ex);
 			printWriter.println("[Exception StackTrace] " + exceptionStack);
 			printWriter.println("");
-		} catch (IOException exx) {
+
+			sendConsoleSevereMessage("An error ocurred with the plugin, please check the errors.log file in the plugin folder.");
+
+		} catch (Exception exx) {
 			exx.printStackTrace();
+			ex.printStackTrace();
 		}
+
 	}
 
-	/**
-	 * Check if the errors.log file exists, if not, create it
-	 */
-	private static void ErrorsFileExist(){
-
-		final File errorsLogFile = new File(StellarPlugin.getPLUGIN_FOLDER(), "errors.log");
-		if (!errorsLogFile.exists()) {
-			try {
-				errorsLogFile.createNewFile();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-
-	/**
-	 * 1 - Send the general error message to the console when a BIG error ocurred with the plugin
-	 * 2 - Check if the errors.log file exists, if not, create it
-	 * 3 - Log the exception in the errors.log file
-	 * @param ex - The exception to log
-	 */
-	public static void sendErrorMessageConsole(Exception ex) {
-
-		ErrorsFileExist();
-		logException(ex);
-		sendConsoleSevereMessage("An error ocurred with the plugin, please check the errors.log file in the plugin folder.");
-	}
 
 	// METHODS RELATED TO THE OTHER ERRORS
 
 	/**
 	 * Send the error message to the console when a SMALL error ocurred with the plugin
+	 *
 	 * @param message - The message to send to the console
 	 */
 	public static void sendErrorMessageConsole(String message) {
@@ -240,12 +236,13 @@ public abstract class StellarUtils {
 
 	/**
 	 * Method used for manage some errors in the plugin that I cant always manage with errors.log
+	 *
 	 * @param ex
 	 */
-	public static void sendPluginErrorConsole(Exception ex){
+	public static void sendPluginErrorConsole(Exception ex) {
 		// Poner mensaje de Plugin error: x como al generar x carpeta
 		sendConsoleWarnMessage("---------------------------------------");
-        // Poner mensaje con el error del exception con el strack, con severe de color rojo
+		// Poner mensaje con el error del exception con el strack, con severe de color rojo
 		sendConsoleWarnMessage("---------------------------------------");
 	}
 
@@ -254,10 +251,11 @@ public abstract class StellarUtils {
 
 	/**
 	 * Teleport the player to a specified location
-	 * @param player - The player to teleport
+	 *
+	 * @param player   - The player to teleport
 	 * @param location - The location where the player will be teleported
 	 */
-	public void teleportPlayer(Player player, Location location){
+	public void teleportPlayer(Player player, Location location) {
 		player.teleport(location);
 	}
 

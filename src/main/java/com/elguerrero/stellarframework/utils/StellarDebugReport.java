@@ -2,7 +2,7 @@ package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.config.StellarConfig;
-import com.elguerrero.stellarframework.config.StellarLangManager;
+import com.elguerrero.stellarframework.config.StellarLangManagerStellar;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -41,16 +41,14 @@ public class StellarDebugReport {
 		put("Password:", "# The Password: line is omited for security");
 	}};
 
-	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern(StellarConfig.getDATE_FORMAT());
-
-
 	public static void generateDebugReport() {
 
 		try {
+			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-			final File debugReportFolder = new File(PLUGIN_DEBUG_REPORTS_FOLDER, "Debug_" + LocalDateTime.now().format(DATE_FORMAT));
+			final File debugReportFolder = new File(PLUGIN_DEBUG_REPORTS_FOLDER, "Debug_" + LocalDateTime.now().format(dateFormatter));
 
-			checkDebugReportsFolder();
+			StellarUtils.checkPluginFileExist(PLUGIN_DEBUG_REPORTS_FOLDER, true);
 			debugReportFolder.mkdir();
 
 			// Copy the config file to the debug report folder
@@ -71,7 +69,7 @@ public class StellarDebugReport {
 
 			// Copy the lang folder to the debug report folder with all the lang files
 
-			final File originalLangFolder = new File(StellarLangManager.getLANG_FOLDER().getPath());
+			final File originalLangFolder = new File(StellarLangManagerStellar.getLANG_FOLDER().getPath());
 			final File debugLangFolder = new File(debugReportFolder.getPath());
 
 			FileUtils.copyDirectory(originalLangFolder, debugLangFolder, true);
@@ -141,19 +139,6 @@ public class StellarDebugReport {
 		} catch (Exception ex) {
 			StellarUtils.sendPluginErrorConsole(ex);
 		}
-	}
-
-
-	private static void checkDebugReportsFolder() {
-
-		try {
-			if (!PLUGIN_DEBUG_REPORTS_FOLDER.exists()) {
-				PLUGIN_DEBUG_REPORTS_FOLDER.mkdirs();
-			}
-		} catch (Exception ex) {
-			StellarUtils.sendPluginErrorConsole(ex);
-		}
-
 	}
 
 }

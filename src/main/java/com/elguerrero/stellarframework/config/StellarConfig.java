@@ -8,7 +8,9 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +18,10 @@ import java.io.InputStream;
 import java.util.Objects;
 
 
-public abstract class StellarConfig {
+public abstract class StellarConfig implements StellarConfigManager {
 
+	@Setter(AccessLevel.PROTECTED)
+	private static StellarConfig CHILD_INSTANCE = null;
 	@Getter
 	private static YamlDocument CONFIG_FILE;
 	private static final InputStream resourceStream = StellarPlugin.getINSTANCE().getResource("StellarPlugin/config.yml");
@@ -31,8 +35,6 @@ public abstract class StellarConfig {
 	private static Boolean DEBUG;
 	@Getter
 	private static Boolean BSTATS_METRICS;
-	@Getter
-	private static String DATE_FORMAT;
 
 	/**
 	 * Happen when the plugin load and reload
@@ -42,10 +44,10 @@ public abstract class StellarConfig {
 	public static void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/config.yml"), Objects.requireNonNull(resourceStream),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
+				CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/config.yml"), Objects.requireNonNull(resourceStream),
+						GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
 		} catch (IOException ex) {
-			StellarUtils.sendErrorMessageConsole(ex);
+			StellarUtils.logErrorException(ex);
 		}
 
 	}
@@ -62,8 +64,10 @@ public abstract class StellarConfig {
 		DEBUG = CONFIG_FILE.getBoolean("Debug_Mode");
 
 		BSTATS_METRICS = CONFIG_FILE.getBoolean("BStats_Metrics");
-		DATE_FORMAT = CONFIG_FILE.getString("Date_Format");
+
+		CHILD_INSTANCE.loadStellarPluginConfigVariables();
 
 	}
+
 
 }

@@ -10,6 +10,7 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class StellarLangManager {
+public abstract class StellarLangManagerStellar implements StellarConfigManager {
 
+	@Setter(AccessLevel.PROTECTED)
+	private static StellarConfig CHILD_INSTANCE = null;
 	@Getter(AccessLevel.PROTECTED)
 	private static final List<String> LANGUAGES_LIST = new ArrayList<>(Arrays.asList("es_ES", "en_US"));
 	private static String SELECTED_LANGUAGE = "en_US";
@@ -48,7 +51,7 @@ public abstract class StellarLangManager {
 
 		try {
 
-			checkPluginLangFolder();
+			StellarUtils.checkPluginFileExist(LANG_FOLDER, true);
 
 			if (!StellarConfig.getLANG().equalsIgnoreCase(SELECTED_LANGUAGE)) {
 				SELECTED_LANGUAGE = StellarConfig.getLANG();
@@ -69,10 +72,10 @@ public abstract class StellarLangManager {
 				}
 			}
 
-			StellarLangManager.setStellarMessages();
+			StellarLangManagerStellar.setStellarMessages();
 
 		} catch (IOException ex) {
-			StellarUtils.sendErrorMessageConsole(ex);
+			StellarUtils.logErrorException(ex);
 		}
 	}
 
@@ -93,25 +96,7 @@ public abstract class StellarLangManager {
 
 		StellarMessages.setMESSAGES_VERSION(SELECTED_LANGUAGE_FILE.getInt("Messages_Version"));
 
-	}
-
-	/**
-	 * Check if the plugin lang folder exists in the plugin folder, if not, create it.
-	 */
-	private static void checkPluginLangFolder() {
-
-
-		try {
-			if (!getLANG_FOLDER().exists()) {
-				if (getLANG_FOLDER().mkdir()) {
-					StellarUtils.sendDebugMessage("&cThe 'Lang' folder has been created in the plugin folder.");
-				} else {
-					StellarUtils.sendDebugMessage("&cThe 'Lang' folder could not be created in the plugin folder.");
-				}
-			}
-		} catch (Exception ex) {
-			StellarUtils.sendErrorMessageConsole(ex);
-		}
+		CHILD_INSTANCE.loadStellarPluginMessagesVariables();
 
 	}
 
