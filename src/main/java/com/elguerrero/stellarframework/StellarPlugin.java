@@ -1,6 +1,7 @@
 package com.elguerrero.stellarframework;
 
 import com.elguerrero.stellarframework.config.StellarConfig;
+import com.elguerrero.stellarframework.utils.StellarPluginUtils;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
@@ -15,10 +16,10 @@ import java.io.File;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public abstract class StellarPlugin extends JavaPlugin {
+public abstract class StellarPlugin extends JavaPlugin implements StellarPluginUtils {
 
 	@Getter
-	private static volatile StellarPlugin INSTANCE = null;
+	private static volatile StellarPlugin PLUGIN_INSTANCE = null;
 	@Getter
 	private static Logger PLUGIN_LOGGER = null;
 	@Getter
@@ -51,18 +52,20 @@ public abstract class StellarPlugin extends JavaPlugin {
 		try {
 			// Declare the plugin main class as the instance of the plugin
 			// When this is called in the son class of the plugin of this class using super.onLoad()
-			INSTANCE = this;
+			PLUGIN_INSTANCE = this;
 			checkIfInstanceIsNull();
 			setVariablesValues();
-			StellarUtils.checkPluginFileExist(PLUGIN_FOLDER, true);
+			if (!StellarUtils.pluginFileExist(PLUGIN_FOLDER, true)){
+				return;
+			}
 			StellarUtils.loadPluginConfigs();
-			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + INSTANCE.getName() + " , who have the main class:" + INSTANCE.getClass().getName());
+			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + PLUGIN_INSTANCE.getName() + " , who have the main class:" + PLUGIN_INSTANCE.getClass().getName());
 
 			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
 			StellarUtils.registerCommands();
 
 		} catch (Exception ex) {
-			StellarUtils.logErrorException(ex);
+			StellarUtils.logErrorException(ex, "default");
 		}
 	}
 
@@ -71,10 +74,11 @@ public abstract class StellarPlugin extends JavaPlugin {
 	public void onEnable() {
 
 		try {
-			CommandAPI.onEnable(INSTANCE);
+			CommandAPI.onEnable(PLUGIN_INSTANCE);
 			StellarUtils.sendMessageDebugStatus();
+			this.consoleSendPluginStartMessage();
 		} catch (Exception ex) {
-			StellarUtils.logErrorException(ex);
+			StellarUtils.logErrorException(ex, "default");
 		}
 	}
 
@@ -84,28 +88,28 @@ public abstract class StellarPlugin extends JavaPlugin {
 		try {
 			CommandAPI.onDisable();
 		} catch (Exception ex) {
-			StellarUtils.logErrorException(ex);
+			StellarUtils.logErrorException(ex, "default");
 		}
 
 	}
 
 	private static void setVariablesValues() {
 
-		PLUGIN_LOGGER = INSTANCE.getLogger();
-		PLUGIN_FOLDER = INSTANCE.getDataFolder();
+		PLUGIN_LOGGER = PLUGIN_INSTANCE.getLogger();
+		PLUGIN_FOLDER = PLUGIN_INSTANCE.getDataFolder();
 		ERRORS_LOG = new File(PLUGIN_FOLDER, "errors.log");
-		PLUGIN_NAME = Objects.requireNonNull(INSTANCE).getName();
-		PLUGIN_DESCRIPTION = INSTANCE.getDescription().getDescription();
-		PLUGIN_VERSION = INSTANCE.getDescription().getVersion();
-		PLUGIN_AUTHOR = INSTANCE.getDescription().getAuthors().toString();
+		PLUGIN_NAME = Objects.requireNonNull(PLUGIN_INSTANCE).getName();
+		PLUGIN_DESCRIPTION = PLUGIN_INSTANCE.getDescription().getDescription();
+		PLUGIN_VERSION = PLUGIN_INSTANCE.getDescription().getVersion();
+		PLUGIN_AUTHOR = PLUGIN_INSTANCE.getDescription().getAuthors().toString();
 
 	}
 
 	private static void checkIfInstanceIsNull() {
-		if (INSTANCE == null) {
+		if (PLUGIN_INSTANCE == null) {
 			StellarUtils.sendConsoleSevereMessage("&cThe plugin need a restart of the server for work properly.");
 			StellarUtils.sendConsoleSevereMessage("&cDisabling the plugin for avoid errors.... Please restart the server.");
-			INSTANCE.onDisable();
+			PLUGIN_INSTANCE.onDisable();
 		}
 	}
 

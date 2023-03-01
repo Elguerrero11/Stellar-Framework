@@ -8,14 +8,20 @@ import dev.jorel.commandapi.CommandAPICommand;
 public abstract class StellarDebugReportCommand {
 
 	public static void registerDebugReportCommand() {
-		new CommandAPICommand("--debugreport")
-				.withRequirement(StellarUtils::senderIsConsole)
-				.executesConsole((sender, args) -> {
 
-					StellarDebugReport.generateDebugReport();
+		try {
+			new CommandAPICommand("--debugreport")
+					.withRequirement(StellarUtils::senderIsConsole)
+					.executesConsole((sender, args) -> {
 
-				})
-				.register();
+						StellarDebugReport.generateDebugReport();
+
+					})
+					.register();
+
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
 
 	}
 }

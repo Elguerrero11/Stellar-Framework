@@ -143,18 +143,23 @@ public abstract class StellarUtils {
 	 * @param file     - The file or folder to check
 	 * @param isFolder - If the file is a folder or not
 	 */
-	public static void checkPluginFileExist(File file, boolean isFolder) {
+	public static boolean pluginFileExist(File file, boolean isFolder) {
 
 		try {
 			if (!file.exists()) {
 				if (isFolder) {
 					file.mkdir();
+					return true;
 				} else {
 					file.createNewFile();
+					return true;
 				}
+			} else {
+				return true;
 			}
 		} catch (Exception ex) {
-			logErrorException(ex);
+			logErrorException(ex,"default");
+			return false;
 		}
 
 	}
@@ -165,7 +170,6 @@ public abstract class StellarUtils {
 	public static void loadPluginConfigs() {
 
 		StellarConfig.loadConfigFile();
-		StellarConfig.loadConfigVariables();
 		StellarLangManagerStellar.loadSelectedLangMessages();
 
 	}
@@ -193,10 +197,15 @@ public abstract class StellarUtils {
 	 *
 	 * @param ex - The error exception to log
 	 */
-	public static void logErrorException(Exception ex) {
+	public static void logErrorException(Exception ex, String consoleMessage) {
 
 		try {
-			checkPluginFileExist(StellarPlugin.getERRORS_LOG(), false);
+
+			String defaultConsoleMessage = "An error ocurred with the plugin, please check the errors.log file in the plugin folder.";
+
+			if (!pluginFileExist(StellarPlugin.getERRORS_LOG(), false)){
+				return;
+			}
 
 			Date date = new Date();
 			String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
@@ -213,7 +222,11 @@ public abstract class StellarUtils {
 			printWriter.println("[Exception StackTrace] " + exceptionStack);
 			printWriter.println("");
 
-			sendConsoleSevereMessage("An error ocurred with the plugin, please check the errors.log file in the plugin folder.");
+			if (consoleMessage.equals("default")){
+				sendConsoleSevereMessage(defaultConsoleMessage);
+			} else {
+				sendConsoleSevereMessage(consoleMessage);
+			}
 
 		} catch (Exception exx) {
 			exx.printStackTrace();

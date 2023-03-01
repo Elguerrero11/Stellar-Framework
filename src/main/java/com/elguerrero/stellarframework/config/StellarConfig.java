@@ -24,7 +24,11 @@ public abstract class StellarConfig implements StellarConfigManager {
 	private static StellarConfig CHILD_INSTANCE = null;
 	@Getter
 	private static YamlDocument CONFIG_FILE;
-	private static final InputStream resourceStream = StellarPlugin.getINSTANCE().getResource("StellarPlugin/config.yml");
+	private static final InputStream resourceStream = StellarPlugin.getPLUGIN_INSTANCE().getResource("StellarPlugin/config.yml");
+
+	@Getter
+	private static final String CONFIG_PATH = "StellarPlugin/config.yml";
+	private static final String CONFIG_VERSION_PATH = "Config_Version";
 
 	// The config options
 	@Getter
@@ -44,23 +48,26 @@ public abstract class StellarConfig implements StellarConfigManager {
 	public static void loadConfigFile() {
 
 		try {
-				CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/config.yml"), Objects.requireNonNull(resourceStream),
-						GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Config_Version")).build());
+			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), CONFIG_PATH), Objects.requireNonNull(resourceStream),
+					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(CONFIG_VERSION_PATH)).build());
+
+			loadConfigVariables();
+
 		} catch (IOException ex) {
-			StellarUtils.logErrorException(ex);
+			StellarUtils.logErrorException(ex, "default");
 		}
+
 
 	}
 
 	/**
-	 * Happen when the plugin load and reload
-	 * Set the variables to the config values
+	 * Happen when the plugin load and reload Set the variables to the config values
 	 */
 
 	public static void loadConfigVariables() {
 
-		LANG = CONFIG_FILE.getString("StellarPlugin/Lang");
-		CONFIG_VERSION = CONFIG_FILE.getInt("Config_Version");
+		LANG = CONFIG_FILE.getString("Lang");
+		CONFIG_VERSION = CONFIG_FILE.getInt(CONFIG_VERSION_PATH);
 		DEBUG = CONFIG_FILE.getBoolean("Debug_Mode");
 
 		BSTATS_METRICS = CONFIG_FILE.getBoolean("BStats_Metrics");

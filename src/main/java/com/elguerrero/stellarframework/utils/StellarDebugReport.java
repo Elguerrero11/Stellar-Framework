@@ -1,7 +1,6 @@
 package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarLangManagerStellar;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -48,8 +47,12 @@ public class StellarDebugReport {
 
 			final File debugReportFolder = new File(PLUGIN_DEBUG_REPORTS_FOLDER, "Debug_" + LocalDateTime.now().format(dateFormatter));
 
-			StellarUtils.checkPluginFileExist(PLUGIN_DEBUG_REPORTS_FOLDER, true);
-			debugReportFolder.mkdir();
+			if (!StellarUtils.pluginFileExist(PLUGIN_DEBUG_REPORTS_FOLDER, true)){
+				return;
+			}
+			if (!debugReportFolder.mkdir()){
+				return;
+			}
 
 			// Copy the config file to the debug report folder
 			// Don't copy the lines that contains the strings in the ignoreLines list
@@ -89,7 +92,7 @@ public class StellarDebugReport {
 
 			final File debugLogFile = new File(debugReportFolder.getPath(), "debug.log");
 
-			final boolean pluginEnabled = StellarPlugin.getPLUGIN_MANAGER().isPluginEnabled(StellarPlugin.getINSTANCE());
+			final boolean pluginEnabled = StellarPlugin.getPLUGIN_MANAGER().isPluginEnabled(StellarPlugin.getPLUGIN_INSTANCE());
 			final String platform = Bukkit.getVersion().replace("git-", "").replace("\\(MC: .+\\)", "");
 
 

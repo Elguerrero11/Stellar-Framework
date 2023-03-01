@@ -32,6 +32,10 @@ public abstract class StellarLangManagerStellar implements StellarConfigManager 
 	@Getter
 	private static final File LANG_FOLDER = new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang");;
 
+	@Getter
+	private static final String LANG_PATH = "StellarPlugin/Lang/";
+	private static final String LANG_VERSION_PATH = "Messages_Version";
+
 
 	/**
 	 * Happen when the plugin load and reload
@@ -51,23 +55,21 @@ public abstract class StellarLangManagerStellar implements StellarConfigManager 
 
 		try {
 
-			StellarUtils.checkPluginFileExist(LANG_FOLDER, true);
-
 			if (!StellarConfig.getLANG().equalsIgnoreCase(SELECTED_LANGUAGE)) {
 				SELECTED_LANGUAGE = StellarConfig.getLANG();
 			} else if (StellarConfig.getLANG().isEmpty() || !LANGUAGES_LIST.contains(StellarConfig.getLANG())) {
 				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used.");
 			}
 
-			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang/" + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPlugin.getINSTANCE().getResource("StellarPlugin/Lang/" + SELECTED_LANGUAGE + ".yml")),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
+			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), LANG_PATH + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPlugin.getPLUGIN_INSTANCE().getResource(LANG_PATH + SELECTED_LANGUAGE + ".yml")),
+					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(LANG_VERSION_PATH)).build());
 
 			for (String lang : LANGUAGES_LIST) {
 
 				if (!SELECTED_LANGUAGE.equalsIgnoreCase(lang)) {
 
-					YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang/" + lang + ".yml"), Objects.requireNonNull(StellarPlugin.getINSTANCE().getResource("StellarPlugin/Lang/" + lang + ".yml")),
-							GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("Messages_Version")).build());
+					YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), LANG_PATH + lang + ".yml"), Objects.requireNonNull(StellarPlugin.getPLUGIN_INSTANCE().getResource(LANG_PATH + lang + ".yml")),
+							GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(LANG_VERSION_PATH)).build());
 
 				}
 			}
@@ -75,7 +77,7 @@ public abstract class StellarLangManagerStellar implements StellarConfigManager 
 			StellarLangManagerStellar.setStellarMessages();
 
 		} catch (IOException ex) {
-			StellarUtils.logErrorException(ex);
+			StellarUtils.logErrorException(ex,"default");
 		}
 	}
 
@@ -94,7 +96,7 @@ public abstract class StellarLangManagerStellar implements StellarConfigManager 
 		StellarMessages.setPLUGIN_ERROR(SELECTED_LANGUAGE_FILE.getString("Plugin_Error"));
 		StellarMessages.setNO_PERMISSION(SELECTED_LANGUAGE_FILE.getString("No_Permission"));
 
-		StellarMessages.setMESSAGES_VERSION(SELECTED_LANGUAGE_FILE.getInt("Messages_Version"));
+		StellarMessages.setMESSAGES_VERSION(SELECTED_LANGUAGE_FILE.getInt(LANG_VERSION_PATH));
 
 		CHILD_INSTANCE.loadStellarPluginMessagesVariables();
 
