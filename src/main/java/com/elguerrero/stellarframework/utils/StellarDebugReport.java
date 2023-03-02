@@ -1,7 +1,7 @@
 package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.StellarLangManagerStellar;
+import com.elguerrero.stellarframework.config.StellarLangManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -72,7 +72,7 @@ public class StellarDebugReport {
 
 			// Copy the lang folder to the debug report folder with all the lang files
 
-			final File originalLangFolder = new File(StellarLangManagerStellar.getLANG_FOLDER().getPath());
+			final File originalLangFolder = new File(StellarLangManager.getLANG_FOLDER().getPath());
 			final File debugLangFolder = new File(debugReportFolder.getPath());
 
 			FileUtils.copyDirectory(originalLangFolder, debugLangFolder, true);

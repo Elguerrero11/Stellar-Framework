@@ -6,7 +6,7 @@ import com.elguerrero.stellarframework.commands.StellarDebugReportCommand;
 import com.elguerrero.stellarframework.commands.StellarHelpCommand;
 import com.elguerrero.stellarframework.commands.StellarReloadCommand;
 import com.elguerrero.stellarframework.config.StellarConfig;
-import com.elguerrero.stellarframework.config.StellarLangManagerStellar;
+import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarMessages;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -170,7 +170,7 @@ public abstract class StellarUtils {
 	public static void loadPluginConfigs() {
 
 		StellarConfig.loadConfigFile();
-		StellarLangManagerStellar.loadSelectedLangMessages();
+		StellarLangManager.loadSelectedLangMessages();
 
 	}
 

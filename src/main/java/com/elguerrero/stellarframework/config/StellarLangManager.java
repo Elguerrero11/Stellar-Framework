@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class StellarLangManagerStellar implements StellarConfigManager {
+public abstract class StellarLangManager implements StellarConfigManager {
 
 	@Setter(AccessLevel.PROTECTED)
 	private static StellarConfig CHILD_INSTANCE = null;
@@ -74,7 +74,7 @@ public abstract class StellarLangManagerStellar implements StellarConfigManager 
 				}
 			}
 
-			StellarLangManagerStellar.setStellarMessages();
+			StellarLangManager.setStellarMessages();
 
 		} catch (IOException ex) {
 			StellarUtils.logErrorException(ex,"default");
