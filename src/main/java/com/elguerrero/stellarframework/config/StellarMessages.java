@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class StellarMessages {
+public abstract class StellarMessages implements StellarMessagesManager{
 
 	// All the messages
 	@Getter

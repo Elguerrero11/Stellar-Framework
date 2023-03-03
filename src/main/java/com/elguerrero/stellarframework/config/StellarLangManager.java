@@ -19,10 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class StellarLangManager implements StellarConfigManager {
+public abstract class StellarLangManager implements StellarConfigManager, StellarMessagesManager{
 
 	@Setter(AccessLevel.PROTECTED)
-	private static StellarConfig CHILD_INSTANCE = null;
+	private static StellarMessages CHILD_INSTANCE = null;
 	@Getter(AccessLevel.PROTECTED)
 	private static final List<String> LANGUAGES_LIST = new ArrayList<>(Arrays.asList("es_ES", "en_US"));
 	private static String SELECTED_LANGUAGE = "en_US";
