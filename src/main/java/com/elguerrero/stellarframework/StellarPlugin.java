@@ -74,10 +74,6 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + PLUGIN_INSTANCE.getName() + " , who have the main class:" + PLUGIN_INSTANCE.getClass().getName());
 
 			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
-			StellarUtils.registerCommands();
-
-			// Load the addons system if is enabled with the addons
-			AddonsManager.getInstance().loadAllAddons();
 
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
@@ -90,6 +86,11 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 
 		try {
 			CommandAPI.onEnable(PLUGIN_INSTANCE);
+			StellarUtils.registerCommands();
+
+			// Load the addons system if is enabled with the addons
+			AddonsManager.getInstance().loadAllAddons();
+
 			StellarUtils.sendMessageDebugStatus();
 			this.consoleSendPluginStartMessage();
 		} catch (Exception ex) {
