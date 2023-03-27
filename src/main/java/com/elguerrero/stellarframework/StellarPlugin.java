@@ -31,6 +31,7 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 	@Getter
 	private static File ERRORS_LOG = null;
 	@Getter
+	@Setter(AccessLevel.PROTECTED)
 	private static String PLUGIN_NAME = null;
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
