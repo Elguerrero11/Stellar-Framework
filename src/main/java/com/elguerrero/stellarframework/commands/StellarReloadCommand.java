@@ -6,7 +6,7 @@ import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.entity.Player;
 
-public abstract class StellarReloadCommand {
+public class StellarReloadCommand {
 
 	public static void registerReloadCommand() {
 

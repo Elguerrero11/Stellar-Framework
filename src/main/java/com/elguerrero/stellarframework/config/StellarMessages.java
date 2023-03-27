@@ -12,33 +12,58 @@ public abstract class StellarMessages implements StellarMessagesManager{
 	private static Integer MESSAGES_VERSION = null;
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String PLUGIN_PREFIX = null;
+	private static String PLUGIN_PREFIX = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String PLUGIN_PREFIX_DEBUG = null;
+	private static String PLUGIN_PREFIX_DEBUG = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String DEBUG_ENABLED = null;
+	private static String DEBUG_ENABLED = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String DEBUG_DISABLED = null;
+	private static String DEBUG_DISABLED = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String DEBUG_STATUS_ENABLED = null;
+	private static String DEBUG_STATUS_ENABLED = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String DEBUG_STATUS_DISABLED = null;
+	private static String DEBUG_STATUS_DISABLED = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String DEBUG_MESSAGE_FORMAT = null;
+	private static String DEBUG_MESSAGE_FORMAT = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String RELOAD = null;
+	private static String RELOAD = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String PLUGIN_ERROR = null;
+	private static String PLUGIN_ERROR = "";
 	@Getter
 	@Setter(AccessLevel.PACKAGE)
-	private static String NO_PERMISSION = null;
+	private static String NO_PERMISSION = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Already_Enabled = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Already_Disabled = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Disabled = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Enabled = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Not_Found = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Not_Registered = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Cant_Reload = "";
+	@Getter
+	@Setter(AccessLevel.PACKAGE)
+	private static String Addon_Reloaded = "";
+
 
 }

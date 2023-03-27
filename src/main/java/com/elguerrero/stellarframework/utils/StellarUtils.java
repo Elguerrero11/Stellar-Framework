@@ -5,6 +5,7 @@ import com.elguerrero.stellarframework.commands.StellarDebugCommand;
 import com.elguerrero.stellarframework.commands.StellarDebugReportCommand;
 import com.elguerrero.stellarframework.commands.StellarHelpCommand;
 import com.elguerrero.stellarframework.commands.StellarReloadCommand;
+import com.elguerrero.stellarframework.commands.addonscommands.*;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarMessages;
@@ -184,6 +185,15 @@ public abstract class StellarUtils {
 		StellarReloadCommand.registerReloadCommand();
 		StellarDebugReportCommand.registerDebugReportCommand();
 
+		// ADDONS COMMANDS
+		if (StellarPlugin.isADDONS_SYSTEM_ENABLED()){
+			StDisableAddonCmd.registerDisableAddonCmd();
+			StEnableAddonCmd.registerEnableAddonCmd();
+			StReloadAddonCmd.registerReloadAddonCmd();
+			StListDisabledAddonsCmd.registerListDisabledAddonsCmd();
+			StListEnabledAddonsCmd.registerListEnabledAddonsCommand();
+		}
+
 	}
 
 	// METHODS RELATED TO THE ERRORS_LOGS
@@ -271,5 +281,9 @@ public abstract class StellarUtils {
 	public void teleportPlayer(Player player, Location location) {
 		player.teleport(location);
 	}
+
+	/**
+	 * Send a actionbar message to the player
+	 */
 
 }

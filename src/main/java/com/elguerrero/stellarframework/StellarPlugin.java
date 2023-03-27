@@ -1,5 +1,6 @@
 package com.elguerrero.stellarframework;
 
+import com.elguerrero.stellarframework.addonsystem.AddonsManager;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.utils.StellarPluginUtils;
 import com.elguerrero.stellarframework.utils.StellarUtils;
@@ -46,6 +47,17 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 	@Setter(AccessLevel.PROTECTED)
 	private static int HELP_COMMAND_NUMBER_OF_PAGES = 2;
 
+	@Getter
+	private static boolean ADDONS_SYSTEM_ENABLED = false;
+
+	@Getter
+	private static File PLUGIN_ADDONS_FOLDER = new File(PLUGIN_INSTANCE.getDataFolder().getPath() + "Addons");
+
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	private static boolean PLUGIN_A_STELLAR_MINIGAME = false;
+
+
 
 	@Override
 	public void onLoad() {
@@ -63,6 +75,9 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 
 			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
 			StellarUtils.registerCommands();
+
+			// Load the addons system if is enabled with the addons
+			AddonsManager.getInstance().loadAllAddons();
 
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
@@ -112,5 +127,7 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 			PLUGIN_INSTANCE.onDisable();
 		}
 	}
+
+
 
 }

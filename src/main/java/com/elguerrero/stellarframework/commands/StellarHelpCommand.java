@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class StellarHelpCommand {
+public class StellarHelpCommand {
 
 	@Getter(AccessLevel.PROTECTED)
 	private static List<String> descriptionExtraListMessagesPage1 = new ArrayList<>();

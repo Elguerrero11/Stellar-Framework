@@ -24,5 +24,18 @@ Plugin_Error: '&cAn error has occurred, check the error.log file generated in th
 No_Permission: '&cYou do not have permission to do that.'
 
 
+# Messages about the addon system commands
+# You can use the placeholder %addon% to show the addon name in this messages
+
+Addon_Already_Disabled: "&cThe addon %addon% is already disabled."
+Addon_Already_Enabled: "&cThe addon %addon% is already enabled."
+Addon_Disabled: "&aThe addon %addon% has been disabled."
+Addon_Enabled: "&aThe addon %addon% has been enabled."
+Addon_Not_Found: "&cThe addon %addon% is not in the addons folder."
+Addon_Not_Registered: "&cThe addon %addon% is in the addons folder but it is not registered, restart the server to register it."
+Addon_Cant_Reload: "&cThe addon %addon% can't be reloaded because it is not enabled."
+Addon_Reloaded: "&aThe addon %addon% has been reloaded."
+
+
 # Messages config version - DO NOT CHANGE IT!
 Messages_Version: 1.0

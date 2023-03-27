@@ -95,6 +95,15 @@ public abstract class StellarLangManager implements StellarConfigManager, Stella
 		StellarMessages.setRELOAD(SELECTED_LANGUAGE_FILE.getString("Reload"));
 		StellarMessages.setPLUGIN_ERROR(SELECTED_LANGUAGE_FILE.getString("Plugin_Error"));
 		StellarMessages.setNO_PERMISSION(SELECTED_LANGUAGE_FILE.getString("No_Permission"));
+		StellarMessages.setAddon_Already_Enabled(SELECTED_LANGUAGE_FILE.getString("Addon_Already_Enabled"));
+		StellarMessages.setAddon_Already_Disabled(SELECTED_LANGUAGE_FILE.getString("Addon_Already_Disabled"));
+		StellarMessages.setAddon_Disabled(SELECTED_LANGUAGE_FILE.getString("Addon_Disabled"));
+		StellarMessages.setAddon_Enabled(SELECTED_LANGUAGE_FILE.getString("Addon_Enabled"));
+		StellarMessages.setAddon_Not_Found(SELECTED_LANGUAGE_FILE.getString("Addon_Not_Found"));
+		StellarMessages.setAddon_Not_Registered(SELECTED_LANGUAGE_FILE.getString("Addon_Not_Registered"));
+		StellarMessages.setAddon_Cant_Reload(SELECTED_LANGUAGE_FILE.getString("Addon_Cant_Reload"));
+		StellarMessages.setAddon_Reloaded(SELECTED_LANGUAGE_FILE.getString("Addon_ReLoaded"));
+
 
 		StellarMessages.setMESSAGES_VERSION(SELECTED_LANGUAGE_FILE.getInt(LANG_VERSION_PATH));
 
