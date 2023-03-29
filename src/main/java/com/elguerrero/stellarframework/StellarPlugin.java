@@ -65,7 +65,11 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 		try {
 			// Declare the plugin main class as the instance of the plugin
 			// When this is called in the son class of the plugin of this class using super.onLoad()
-			PLUGIN_INSTANCE = this;
+
+			if (PLUGIN_INSTANCE == null){
+				PLUGIN_INSTANCE = this;
+			}
+
 			checkIfInstanceIsNull();
 			setVariablesValues();
 			if (!StellarUtils.pluginFileExist(PLUGIN_FOLDER, true)){
@@ -129,7 +133,5 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 			PLUGIN_INSTANCE.onDisable();
 		}
 	}
-
-
 
 }
