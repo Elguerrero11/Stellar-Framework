@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.14"
+version = "1.6.15"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -25,6 +25,11 @@ dependencies {
     implementation("dev.jorel:commandapi-shade:8.7.5")
     implementation("commons-io:commons-io:2.11.0")
 }
+
+tasks.named("build") {
+    dependsOn.remove("publishToMavenLocal")
+}
+
 
 java {
     toolchain {
