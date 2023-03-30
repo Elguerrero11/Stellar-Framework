@@ -1,9 +1,9 @@
 plugins {
-    id("java")
+    java
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.11"
+version = "1.6.12"
 description = "A framework for spigot/paper plugins."
 
 repositories {
