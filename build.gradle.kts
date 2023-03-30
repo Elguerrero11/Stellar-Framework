@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.7"
+version = "1.6.8"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -26,24 +26,6 @@ dependencies {
     implementation("dev.dejvokep:boosted-yaml:1.3.1")
     implementation("dev.jorel:commandapi-shade:8.7.5")
     implementation("commons-io:commons-io:2.11.0")
-}
-
-tasks {
-    shadowJar {
-        arrayOf(
-                "dev.dejvokep.boosted-yaml",
-                "dev.jorel.command-api",
-                "org.apache.commons-io"
-        ).forEach {
-            relocate(it, "$group.libs.${it.substringAfterLast(".")}")
-        }
-    }
-    withType<PublishToMavenLocal> {
-        onlyIf { false }
-    }
-    named("assemble") {
-        dependsOn(shadowJar)
-    }
 }
 
 java {
