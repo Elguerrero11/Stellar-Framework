@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.6"
+version = "1.6.7"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -35,7 +35,7 @@ tasks {
                 "dev.jorel.command-api",
                 "org.apache.commons-io"
         ).forEach {
-            relocate(it, "${group}.libs.${it.substringAfterLast(".")}")
+            relocate(it, "$group.libs.${it.substringAfterLast(".")}")
         }
     }
     withType<PublishToMavenLocal> {
