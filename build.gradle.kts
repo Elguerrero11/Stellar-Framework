@@ -3,10 +3,11 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
     kotlin("jvm") version "1.6.10"
     `kotlin-dsl`
+    `maven-publish`
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.18"
+version = "1.6.19"
 description = "A framework for spigot/paper plugins."
 
 repositories {

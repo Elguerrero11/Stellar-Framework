@@ -1,4 +1,0 @@
-build:
-  script: './gradlew build --stacktrace'
-deploy:
-  maven: false
