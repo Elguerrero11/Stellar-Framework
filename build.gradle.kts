@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.5"
+version = "1.6.6"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -37,6 +37,9 @@ tasks {
         ).forEach {
             relocate(it, "${group}.libs.${it.substringAfterLast(".")}")
         }
+    }
+    withType<PublishToMavenLocal> {
+        onlyIf { false }
     }
     named("assemble") {
         dependsOn(shadowJar)
