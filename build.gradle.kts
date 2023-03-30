@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.8"
+version = "1.6.9"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -34,3 +34,8 @@ java {
     }
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
