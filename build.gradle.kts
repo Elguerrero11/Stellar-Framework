@@ -1,11 +1,10 @@
 plugins {
     id("java")
-    kotlin("jvm") version "1.8.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.9"
+version = "1.6.10"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -30,12 +29,6 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-kotlin {
-    jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
