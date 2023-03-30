@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.4"
+version = "1.6.5"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -38,6 +38,9 @@ tasks {
             relocate(it, "${group}.libs.${it.substringAfterLast(".")}")
         }
     }
+    named("assemble") {
+        dependsOn(shadowJar)
+    }
 }
 
 java {
@@ -45,3 +48,4 @@ java {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
+
