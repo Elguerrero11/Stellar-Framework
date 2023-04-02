@@ -27,8 +27,10 @@ public abstract class StellarUtils {
 	 * placeholder with the plugin prefix in the messages file used Also replace the plugin prefix debug placeholder
 	 * with the plugin prefix debug in the messages file used
 	 * <p>
-	 * TODO: Add support to the hex color codes
+	 * TODO: Add support to the hex(rgb) color codes
 	 * TODO: Add support to minimessages library
+	 * TODO: Add placeholderapi support
+	 * TODO: Maybe add regex patterns support
 	 *
 	 * @param message - The message to colorize
 	 * @return String - The message colorized
