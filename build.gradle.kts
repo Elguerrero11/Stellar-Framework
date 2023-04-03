@@ -1,12 +1,12 @@
 plugins {
-    java
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    java
     `kotlin-dsl`
     `maven-publish`
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.7.1"
+version = "1.7.2"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -49,5 +49,8 @@ tasks.withType<JavaCompile> {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
+        repositories {
+            mavenCentral()
+        }
     }
 }
