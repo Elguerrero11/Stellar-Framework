@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.7.0"
+version = "1.7.1"
 description = "A framework for spigot/paper plugins."
 
 repositories {
