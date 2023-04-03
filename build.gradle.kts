@@ -2,10 +2,11 @@ plugins {
     java
     id("com.github.johnrengelman.shadow") version "7.1.2"
     `kotlin-dsl`
+    `maven-publish`
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.6.22"
+version = "1.6.23"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -32,16 +33,18 @@ tasks {
     shadowJar {
         listOf(
                 "dev.dejvokep.boosted-yaml",
-                "dev.jorel.command-api",
+                "dev.jorel.commandapi-shade",
                 "org.apache.commons-io"
         ).forEach { packageName ->
-            val parts = packageName.split('.')
-            val name = parts[parts.size - 1]
+            val name = packageName.substringAfterLast('.')
             relocate(packageName, "${group}.libs.$name")
         }
     }
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
 
 java {
     toolchain {
