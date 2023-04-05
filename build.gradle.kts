@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.7.10"
+version = "1.8.0"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -39,6 +39,17 @@ tasks {
             val name = packageName.substringAfterLast('.')
             relocate(packageName, "libs.$name")
         }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        mavenLocal()
     }
 }
 
