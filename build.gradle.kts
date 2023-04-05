@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.7.5"
+version = "1.7.6"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -26,7 +26,7 @@ dependencies {
     implementation("dev.dejvokep:boosted-yaml:1.3.1")
     implementation("dev.jorel:commandapi-shade:8.7.5")
     implementation("commons-io:commons-io:2.11.0")
-    implementation("com.github.elguerrero11:Stellar-Framework:1.7.5")
+    implementation("com.github.Elguerrero11:Stellar-Framework:1.7.6")
 }
 
 tasks {
