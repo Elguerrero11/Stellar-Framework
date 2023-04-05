@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.7.8"
+version = "1.7.9"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -41,6 +41,22 @@ tasks {
         }
     }
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+tasks.named("publishToMavenLocal").configure {
+    dependsOn("assemble")
+}
+
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
