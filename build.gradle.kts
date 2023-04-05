@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.8.4"
+version = "1.8.5"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -58,6 +58,7 @@ publishing {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.ORACLE)
         implementation.set(JvmImplementation.VENDOR_SPECIFIC)
     }
 }
