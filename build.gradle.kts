@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.7.7"
+version = "1.7.8"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -41,7 +41,6 @@ tasks {
         }
     }
 }
-
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"

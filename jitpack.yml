@@ -1,2 +1,4 @@
 jdk:
   - openjdk17
+environment:
+  GRADLE_OPTS: -Dorg.gradle.daemon=false -Dkotlin.incremental=false
