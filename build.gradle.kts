@@ -41,6 +41,15 @@ tasks {
             relocate(packageName, "libs.$name")
         }
         relocate("org.apache.commons.io", "libs.commons-io")
+
+        val projectName: String = "StellarFramework"
+        archiveFileName.set("${projectName}-$version.jar")
+    }
+    build {
+        dependsOn(shadowJar)
+    }
+    jar {
+        enabled = false
     }
 }
 
@@ -58,8 +67,6 @@ publishing {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
-        vendor.set(JvmVendorSpec.ORACLE)
-        implementation.set(JvmImplementation.VENDOR_SPECIFIC)
     }
 }
 
