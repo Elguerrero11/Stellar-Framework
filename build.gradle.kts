@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.8.8"
+version = "1.8.9"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -27,7 +27,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
 
     implementation("dev.dejvokep:boosted-yaml:1.3.1")
-    implementation("dev.jorel:commandapi-shade:8.7.5")
+    implementation("dev.jorel:commandapi-shade:8.8.0")
     implementation("commons-io:commons-io:2.11.0")
 }
 
@@ -42,8 +42,8 @@ tasks {
         }
         relocate("org.apache.commons.io", "libs.commons-io")
 
-        val projectName: String = "StellarFramework"
-        archiveFileName.set("${projectName}-$version.jar")
+        archiveClassifier.set("")
+        minimize()
     }
     build {
         dependsOn(shadowJar)
@@ -61,14 +61,12 @@ publishing {
     }
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
-
