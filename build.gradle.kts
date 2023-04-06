@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.8.6"
+version = "1.8.7"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -44,12 +44,6 @@ tasks {
 
         val projectName: String = "StellarFramework"
         archiveFileName.set("${projectName}-$version.jar")
-    }
-    build {
-        dependsOn(shadowJar)
-    }
-    jar {
-        enabled = false
     }
 }
 
