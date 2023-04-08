@@ -7,7 +7,7 @@ import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.entity.Player;
 
-public class StellarDebugCommand {
+public class StDebugCmd {
 
 	public static void registerDebugCommand() {
 

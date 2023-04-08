@@ -1,4 +1,4 @@
-package com.elguerrero.stellarframework.addonsystem;
+package com.elguerrero.stellarframework.api;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;

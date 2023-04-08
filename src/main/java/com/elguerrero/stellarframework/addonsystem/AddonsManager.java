@@ -2,6 +2,7 @@ package com.elguerrero.stellarframework.addonsystem;
 
 
 import com.elguerrero.stellarframework.StellarPlugin;
+import com.elguerrero.stellarframework.api.AddonsInterfaz;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.jorel.commandapi.CommandAPI;

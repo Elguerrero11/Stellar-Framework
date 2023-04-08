@@ -6,7 +6,7 @@ import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 
 
-public class StellarDebugReportCommand {
+public class StDebugReportCmd {
 
 	public static void registerDebugReportCommand() {
 

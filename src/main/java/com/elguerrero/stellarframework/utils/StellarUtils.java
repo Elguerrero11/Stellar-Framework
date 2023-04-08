@@ -1,10 +1,10 @@
 package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.commands.StellarDebugCommand;
-import com.elguerrero.stellarframework.commands.StellarDebugReportCommand;
-import com.elguerrero.stellarframework.commands.StellarHelpCommand;
-import com.elguerrero.stellarframework.commands.StellarReloadCommand;
+import com.elguerrero.stellarframework.commands.StDebugCmd;
+import com.elguerrero.stellarframework.commands.StDebugReportCmd;
+import com.elguerrero.stellarframework.commands.StHelpCmd;
+import com.elguerrero.stellarframework.commands.StReloadCmd;
 import com.elguerrero.stellarframework.commands.addonscommands.*;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarLangManager;
@@ -182,10 +182,10 @@ public abstract class StellarUtils {
 	 */
 	public static void registerCommands() {
 
-		StellarHelpCommand.registerInfoCommand();
-		StellarDebugCommand.registerDebugCommand();
-		StellarReloadCommand.registerReloadCommand();
-		StellarDebugReportCommand.registerDebugReportCommand();
+		StHelpCmd.registerInfoCommand();
+		StDebugCmd.registerDebugCommand();
+		StReloadCmd.registerReloadCommand();
+		StDebugReportCmd.registerDebugReportCommand();
 
 		// ADDONS COMMANDS
 		if (StellarPlugin.isADDONS_SYSTEM_ENABLED()){
