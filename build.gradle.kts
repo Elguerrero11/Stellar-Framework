@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.elguerrero.stellarframework"
-version = "1.8.9"
+version = "1.8.10"
 description = "A framework for spigot/paper plugins."
 
 repositories {
@@ -33,17 +33,20 @@ dependencies {
 
 tasks {
     shadowJar.configure {
-        listOf(
-                "dev.dejvokep.boosted-yaml",
-                "dev.jorel.commandapi-shade",
-        ).forEach { packageName ->
-            val name = packageName.substringAfterLast('.')
-            relocate(packageName, "libs.$name")
+        mapOf(
+                "dev.dejvokep.boostedyaml" to "boosted-yaml",
+                "dev.jorel.commandapi" to "command-api",
+                "org.apache.commons.io" to "commons-io",
+                "org.jetbrains.annotations" to "jetbrains-annotations",
+        ).forEach { (packageName, newName) ->
+            relocate(packageName, "libs.$newName")
         }
-        relocate("org.apache.commons.io", "libs.commons-io")
 
         archiveClassifier.set("")
         minimize()
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/NOTICE.txt")
+        relocate("resources/LICENSE", "LICENSE")
     }
     build {
         dependsOn(shadowJar)
