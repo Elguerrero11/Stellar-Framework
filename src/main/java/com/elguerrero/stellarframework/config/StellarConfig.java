@@ -22,7 +22,7 @@ public abstract class StellarConfig implements StellarConfigManager {
 
 	@Setter(AccessLevel.PROTECTED)
 	private static StellarConfig CHILD_INSTANCE = null;
-	@Getter
+	@Getter(AccessLevel.PUBLIC)
 	private static YamlDocument CONFIG_FILE;
 	private static final InputStream resourceStream = StellarPlugin.getPLUGIN_INSTANCE().getResource("StellarPlugin/config.yml");
 
