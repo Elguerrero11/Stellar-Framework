@@ -2,7 +2,6 @@ package com.elguerrero.stellarframework;
 
 import com.elguerrero.stellarframework.addonsystem.AddonsManager;
 import com.elguerrero.stellarframework.config.StellarConfig;
-import com.elguerrero.stellarframework.utils.StellarPluginUtils;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
@@ -12,72 +11,76 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
-import java.util.Objects;
 import java.util.logging.Logger;
 
-public abstract class StellarPlugin extends JavaPlugin implements StellarPluginUtils {
+public abstract class StellarPlugin extends JavaPlugin{
+
+	@Setter(AccessLevel.PROTECTED)
+	private static StellarPlugin pluginInstance = null;
 
 	@Getter
-	private static volatile StellarPlugin PLUGIN_INSTANCE = null;
+	private PluginManager pluginManager = null;
 	@Getter
-	private static Logger PLUGIN_LOGGER = null;
+	private Logger pluginLogger = null;
 	@Getter
-	private static final PluginManager PLUGIN_MANAGER = Bukkit.getPluginManager();
+	private File pluginFolder = null;
 	@Getter
-	private static File PLUGIN_FOLDER = null;
-
+	private File addonsFolder = null;
 	@Getter
-	private static File ERRORS_LOG = null;
+	private File errorsLog = null;
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private static String PLUGIN_NAME = null;
+	private String pluginName = "";
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private static String PLUGIN_FORMAT = null;
-	@Getter
-	private static String PLUGIN_DESCRIPTION = null;
-	@Getter
-	private static String PLUGIN_VERSION = null;
+	private String pluginFormat = "";
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private static String PLUGIN_AUTHOR = "&3Elguerrero|MoonWalker";
-
+	private String pluginDescription = "";
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private static int HELP_COMMAND_NUMBER_OF_PAGES = 2;
-
+	private String pluginVersion = "";
 	@Getter
-	private static boolean ADDONS_SYSTEM_ENABLED = false;
-
-	@Getter
-	private static File PLUGIN_ADDONS_FOLDER = new File(PLUGIN_INSTANCE.getDataFolder().getPath() + "Addons");
+	@Setter(AccessLevel.PROTECTED)
+	private String pluginAuthor = "";
 
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private static boolean PLUGIN_A_STELLAR_MINIGAME = false;
+	private int helpCommandPages = 2;
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	private boolean addonsEnabled = false;
 
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	private boolean pluginIsAStellarMinigame = false;
 
+	private StellarPlugin() {
+	}
 
 	@Override
 	public void onLoad() {
 		try {
-			// Declare the plugin main class as the instance of the plugin
-			// When this is called in the son class of the plugin of this class using super.onLoad()
 
-			if (PLUGIN_INSTANCE == null){
-				PLUGIN_INSTANCE = this;
+			if (pluginInstance == null){
+				setPluginInstance(this);
 			}
 
-			checkIfInstanceIsNull();
-			setVariablesValues();
-			if (!StellarUtils.pluginFileExist(PLUGIN_FOLDER, true)){
+
+			if (!StellarUtils.pluginFileExist(pluginFolder, true)){
 				return;
 			}
-			StellarUtils.loadPluginConfigs();
-			StellarUtils.sendDebugMessage("The instance of the framework is the plugin:" + PLUGIN_INSTANCE.getName() + " , who have the main class:" + PLUGIN_INSTANCE.getClass().getName());
 
+			setVariablesValues();
+			StellarUtils.loadPluginConfigs();
+			StellarUtils.sendDebugMessage("The instance of the stellar framework is the plugin:" + pluginInstance.getName() + " , who have the main class:" + pluginInstance.getClass().getName());
+
+			if (addonsEnabled) {
+				addonsFolder = new File(getPluginInstance().getDataFolder().getPath() + "Addons");
+			}
+
+			StellarUtils.sendMessageDebugStatus();
 			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
 
 		} catch (Exception ex) {
@@ -88,16 +91,17 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 
 	@Override
 	public void onEnable() {
-
 		try {
-			CommandAPI.onEnable(PLUGIN_INSTANCE);
+
+			CommandAPI.onEnable(pluginInstance);
 			StellarUtils.registerCommands();
 
-			// Load the addons system if is enabled with the addons
-			AddonsManager.getInstance().loadAllAddons();
+			if (addonsEnabled){
+				AddonsManager.getInstance().loadAllAddons();
+			}
 
-			StellarUtils.sendMessageDebugStatus();
-			this.consoleSendPluginStartMessage();
+			this.consoleSendPluginLoadMessage();
+
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
 		}
@@ -107,31 +111,40 @@ public abstract class StellarPlugin extends JavaPlugin implements StellarPluginU
 	public void onDisable() {
 
 		try {
+
 			CommandAPI.onDisable();
+
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
 		}
 
 	}
 
-	private static void setVariablesValues() {
+	private void setVariablesValues() {
 
-		PLUGIN_LOGGER = PLUGIN_INSTANCE.getLogger();
-		PLUGIN_FOLDER = PLUGIN_INSTANCE.getDataFolder();
-		ERRORS_LOG = new File(PLUGIN_FOLDER, "errors.log");
-		PLUGIN_NAME = Objects.requireNonNull(PLUGIN_INSTANCE).getName();
-		PLUGIN_DESCRIPTION = PLUGIN_INSTANCE.getDescription().getDescription();
-		PLUGIN_VERSION = PLUGIN_INSTANCE.getDescription().getVersion();
-		PLUGIN_AUTHOR = PLUGIN_INSTANCE.getDescription().getAuthors().toString();
+		pluginManager = Bukkit.getPluginManager();
+		pluginLogger = pluginInstance.getLogger();
+		pluginFolder = pluginInstance.getDataFolder();
+		errorsLog = new File(pluginFolder, "errors.log");
+		pluginName = pluginInstance.getName();
+		pluginDescription = pluginInstance.getDescription().getDescription();
+		pluginVersion = pluginInstance.getDescription().getVersion();
+		pluginAuthor = pluginInstance.getDescription().getAuthors().toString();
 
 	}
 
-	private static void checkIfInstanceIsNull() {
-		if (PLUGIN_INSTANCE == null) {
-			StellarUtils.sendConsoleSevereMessage("&cThe plugin need a restart of the server for work properly.");
-			StellarUtils.sendConsoleSevereMessage("&cDisabling the plugin for avoid errors.... Please restart the server.");
-			PLUGIN_INSTANCE.onDisable();
+	private void consoleSendPluginLoadMessage() {
+
+		StellarUtils.sendConsoleInfoMessage(" ");
+
+	}
+
+	public static StellarPlugin getPluginInstance(){
+
+		if (pluginInstance == null) {
+			throw new IllegalStateException("The instance of the plugin is not initialized yet, please contact the developer of the plugin.");
 		}
+		return pluginInstance;
 	}
 
 }

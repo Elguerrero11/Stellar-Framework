@@ -10,10 +10,13 @@ import org.bukkit.entity.Player;
 
 public class StReloadAddonCmd {
 
+	private StReloadAddonCmd() {
+	}
+
 	public static void registerReloadAddonCmd() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-reloadaddon")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-reloadaddon")
 					.withRequirement((sender) -> {
 
 						if (StellarUtils.senderIsConsole(sender)) {
@@ -27,7 +30,10 @@ public class StReloadAddonCmd {
 					.withHelp("Reload a addon", "Will reload the addon config and messages")
 					.executes((sender, args) -> {
 
-						String addonName = (String) args[0];
+						final String addonName = (String) args[0];
+						final String addonString = "&aThe addon";
+						final String addonString2 = "&cThe addon";
+						final String addonStringPlaceholder = "%addon%";
 
 						// If the sender is the console
 						if (StellarUtils.senderIsConsole(sender)) {
@@ -35,19 +41,19 @@ public class StReloadAddonCmd {
 							if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().reloadAddonConfig(AddonsManager.getInstance().getEnabledAddons().get(addonName));
-								StellarUtils.sendConsoleInfoMessage("&aThe addon " + addonName + " has be reloaded.");
+								StellarUtils.sendConsoleInfoMessage(addonString + addonName + " has be reloaded.");
 
 							} else if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendConsoleInfoMessage("&aThe addon " + addonName + " is not enabled so can't be reloaded.");
+								StellarUtils.sendConsoleInfoMessage(addonString + addonName + " is not enabled so can't be reloaded.");
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendConsoleInfoMessage("&cThe addon " + addonName + " is in the addons folder but it is not registered, restart the server to register it.");
+								StellarUtils.sendConsoleInfoMessage(addonString2 + addonName + " is in the addons folder but it is not registered, restart the server to register it.");
 
 							} else {
 
-								StellarUtils.sendConsoleInfoMessage("&cThe addon " + addonName + " is not in the addons folder.");
+								StellarUtils.sendConsoleInfoMessage(addonString2 + addonName + " is not in the addons folder.");
 
 							}
 
@@ -59,19 +65,19 @@ public class StReloadAddonCmd {
 							if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().reloadAddonConfig(AddonsManager.getInstance().getEnabledAddons().get(addonName));
-								StellarUtils.sendMessagePlayer(player,StellarMessages.getAddon_Reloaded().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player,StellarMessages.getAddon_Reloaded().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Cant_Reload().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Cant_Reload().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Registered().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Registered().replace(addonStringPlaceholder, addonName));
 
 							} else {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Found().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Found().replace(addonStringPlaceholder, addonName));
 
 							}
 

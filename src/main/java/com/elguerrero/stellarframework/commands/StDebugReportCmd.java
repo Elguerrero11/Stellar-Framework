@@ -8,14 +8,17 @@ import dev.jorel.commandapi.CommandAPICommand;
 
 public class StDebugReportCmd {
 
+	private StDebugReportCmd() {
+	}
+
 	public static void registerDebugReportCommand() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-debugreport")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-debugreport")
 					.withRequirement(StellarUtils::senderIsConsole)
 					.executesConsole((sender, args) -> {
 
-						StellarDebugReport.generateDebugReport();
+						StellarDebugReport.getInstance().generateDebugReport();
 
 					})
 					.register();

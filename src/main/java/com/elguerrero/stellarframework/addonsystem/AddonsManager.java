@@ -42,14 +42,14 @@ public class AddonsManager {
 	public void loadAllAddons() {
 
 
-		if (StellarPlugin.isADDONS_SYSTEM_ENABLED()) {
+		if (StellarPlugin.isAddonsEnabled()) {
 
 			StellarUtils.sendConsoleInfoMessage("&aLoading plugin addons...");
 
 			try {
 
-				File addonsFolder = StellarPlugin.getPLUGIN_ADDONS_FOLDER();
-				StellarUtils.pluginFileExist(StellarPlugin.getPLUGIN_ADDONS_FOLDER(), true);
+				File addonsFolder = StellarPlugin.getAddonsFolder();
+				StellarUtils.pluginFileExist(StellarPlugin.getAddonsFolder(), true);
 				File[] addonsFiles = addonsFolder.listFiles();
 
 
@@ -87,7 +87,7 @@ public class AddonsManager {
 
 	public void loadAddon(String jarFileName) {
 
-		File addonFile = new File(StellarPlugin.getPLUGIN_ADDONS_FOLDER(), jarFileName);
+		File addonFile = new File(StellarPlugin.getAddonsFolder(), jarFileName);
 
 		try (URLClassLoader addonClassLoader = new URLClassLoader(new URL[]{addonFile.toURI().toURL()}, AddonsManager.class.getClassLoader())) {
 
@@ -124,7 +124,7 @@ public class AddonsManager {
 
 			// Check if the addon have config or messages file so it need to generate a addon folder
 			if (config){
-				StellarUtils.pluginFileExist(new File(StellarPlugin.getPLUGIN_ADDONS_FOLDER(), addonName), true);
+				StellarUtils.pluginFileExist(new File(StellarPlugin.getAddonsFolder(), addonName), true);
 			}
 
 			// Check if the addon have a main class and load some methods from the addon from the interface
@@ -138,7 +138,7 @@ public class AddonsManager {
 
 				// Set the minigame name variable in the addon class
 
-				addonInstance.setAddonMinigameName(StellarPlugin.getPLUGIN_NAME());
+				addonInstance.setAddonMinigameName(StellarPlugin.getPluginName());
 
 				// Save in variables the addon eventListeners and commandsNames
 				Set<Listener> addonEventListeners = addonInstance.getEventListeners();
@@ -196,13 +196,13 @@ public class AddonsManager {
 	 */
 	public boolean addonIsForThisPlugin(String jarFileName, String plugin) {
 
-		if (StellarPlugin.isPLUGIN_A_STELLAR_MINIGAME() && plugin.equalsIgnoreCase("StellarMinigame")) {
+		if (StellarPlugin.isPluginIsAStellarMinigame() && plugin.equalsIgnoreCase("StellarMinigame")) {
 
 			StellarUtils.sendDebugMessage("&aThe addon " + jarFileName + " is for this StellarMinigame plugin!");
 
 			return true;
 
-		} else if (plugin.equalsIgnoreCase(StellarPlugin.getPLUGIN_NAME())) {
+		} else if (plugin.equalsIgnoreCase(StellarPlugin.getPluginName())) {
 
 			StellarUtils.sendDebugMessage("&aThe addon " + jarFileName + " is for this plugin!");
 
@@ -219,7 +219,7 @@ public class AddonsManager {
 	}
 
 	public boolean addonJarExists(String addonName) {
-		File addonFile = new File(StellarPlugin.getPLUGIN_ADDONS_FOLDER(), addonName + ".jar");
+		File addonFile = new File(StellarPlugin.getAddonsFolder(), addonName + ".jar");
 		return addonFile.exists();
 	}
 
@@ -227,7 +227,7 @@ public class AddonsManager {
 
 	public void reloadAddonConfig(StellarAddon addon) {
 		try {
-			ClassLoader pluginClassLoader = StellarPlugin.getPLUGIN_INSTANCE().getClass().getClassLoader();
+			ClassLoader pluginClassLoader = StellarPlugin.getPluginInstance().getClass().getClassLoader();
 			Class<?> thisMainClass = pluginClassLoader.loadClass(addon.getMainClass());
 			Method getInstanceMethod = thisMainClass.getMethod("getInstance");
 
@@ -265,7 +265,7 @@ public class AddonsManager {
 		Set<Listener> addonEventListeners = addon.getEventsListeners();
 		for (Listener listener : addonEventListeners) {
 
-			Bukkit.getPluginManager().registerEvents(listener, StellarPlugin.getPLUGIN_INSTANCE());
+			Bukkit.getPluginManager().registerEvents(listener, StellarPlugin.getPluginInstance());
 		}
 
 	}

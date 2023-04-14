@@ -8,12 +8,15 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.StringArgument;
 import org.bukkit.entity.Player;
 
-public class StDisableAddonCmd {
+public abstract class StDisableAddonCmd {
+
+	private StDisableAddonCmd() {
+	}
 
 	public static void registerDisableAddonCmd() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-disableaddon")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-disableaddon")
 					.withRequirement((sender) -> {
 
 						if (StellarUtils.senderIsConsole(sender)) {
@@ -27,24 +30,26 @@ public class StDisableAddonCmd {
 					.withHelp("Disable a addon for the plugin", "")
 					.executes((sender, args) -> {
 
-						String addonName = (String) args[0];
+						final String addonName = (String) args[0];
+						final String addonString = "&cThe addon";
+						final String addonStringPlaceholder = "%addon%";
 
 						// If the sender is the console
 						if (StellarUtils.senderIsConsole(sender)) {
 
 							if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendConsoleInfoMessage("&cThe addon " + addonName + " is already disabled.");
+								StellarUtils.sendConsoleInfoMessage(addonString + addonName + " is already disabled.");
 
 								// If the addon is enabled, unload it
 							} else if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().unregisterAddon(AddonsManager.getInstance().getDisabledAddons().get(addonName));
-								StellarUtils.sendConsoleInfoMessage("&aThe addon " + addonName + " has been disabled.");
+								StellarUtils.sendConsoleInfoMessage(addonString + addonName + " has been disabled.");
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendConsoleInfoMessage("&cThe addon " + addonName + " is in the addons folder but it is not registered, restart the server to register it.");
+								StellarUtils.sendConsoleInfoMessage(addonString + addonName + " is in the addons folder but it is not registered, restart the server to register it.");
 
 							} else {
 
@@ -59,21 +64,21 @@ public class StDisableAddonCmd {
 
 							if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Already_Disabled().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Already_Disabled().replace(addonStringPlaceholder, addonName));
 
 							// If the addon is enabled, unload it
 							} else if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().unregisterAddon(AddonsManager.getInstance().getEnabledAddons().get(addonName));
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Disabled().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Disabled().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Registered().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Registered().replace(addonStringPlaceholder, addonName));
 
 							} else {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Found().replace("%addon%", addonName));
+								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Found().replace(addonStringPlaceholder, addonName));
 
 							}
 

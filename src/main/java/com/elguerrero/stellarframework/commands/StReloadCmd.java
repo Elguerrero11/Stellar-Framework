@@ -8,10 +8,13 @@ import org.bukkit.entity.Player;
 
 public class StReloadCmd {
 
+	private StReloadCmd() {
+	}
+
 	public static void registerReloadCommand() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-reload")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-reload")
 					.withRequirement((sender) -> {
 						if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "reload", true)) {
 							return true;

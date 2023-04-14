@@ -2,18 +2,19 @@ package com.elguerrero.stellarframework.commands.addonscommands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.addonsystem.AddonsManager;
-import com.elguerrero.stellarframework.addonsystem.StellarAddon;
-import com.elguerrero.stellarframework.utils.StellarDebugReport;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.entity.Player;
 
 public class StListEnabledAddonsCmd {
 
+	private StListEnabledAddonsCmd() {
+	}
+
 	public static void registerListEnabledAddonsCommand() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-enabledaddons")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-enabledaddons")
 					.withRequirement((sender) -> {
 
 						if (StellarUtils.senderIsConsole(sender)) {

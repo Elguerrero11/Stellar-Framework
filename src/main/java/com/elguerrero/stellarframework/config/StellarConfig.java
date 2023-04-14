@@ -24,7 +24,7 @@ public abstract class StellarConfig implements StellarConfigManager {
 	private static StellarConfig CHILD_INSTANCE = null;
 	@Getter(AccessLevel.PUBLIC)
 	private static YamlDocument CONFIG_FILE;
-	private static final InputStream resourceStream = StellarPlugin.getPLUGIN_INSTANCE().getResource("StellarPlugin/config.yml");
+	private static final InputStream resourceStream = StellarPlugin.getPluginInstance().getResource("StellarPlugin/config.yml");
 
 	@Getter
 	private static final String CONFIG_PATH = "StellarPlugin/config.yml";
@@ -48,7 +48,7 @@ public abstract class StellarConfig implements StellarConfigManager {
 	public static void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), CONFIG_PATH), Objects.requireNonNull(resourceStream),
+			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPluginFolder(), CONFIG_PATH), Objects.requireNonNull(resourceStream),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(CONFIG_VERSION_PATH)).build());
 
 			loadConfigVariables();

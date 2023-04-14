@@ -30,7 +30,7 @@ public abstract class StellarLangManager implements StellarConfigManager, Stella
 	private static YamlDocument SELECTED_LANGUAGE_FILE = null;
 
 	@Getter
-	private static final File LANG_FOLDER = new File(StellarPlugin.getPLUGIN_FOLDER(), "StellarPlugin/Lang");;
+	private static final File LANG_FOLDER = new File(StellarPlugin.getPluginFolder(), "StellarPlugin/Lang");;
 
 	@Getter
 	private static final String LANG_PATH = "StellarPlugin/Lang/";
@@ -61,14 +61,14 @@ public abstract class StellarLangManager implements StellarConfigManager, Stella
 				StellarUtils.sendConsoleWarnMessage("&cThe language selected in the config is not valid, the default language will be used.");
 			}
 
-			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), LANG_PATH + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPlugin.getPLUGIN_INSTANCE().getResource(LANG_PATH + SELECTED_LANGUAGE + ".yml")),
+			SELECTED_LANGUAGE_FILE = YamlDocument.create(new File(StellarPlugin.getPluginFolder(), LANG_PATH + SELECTED_LANGUAGE + ".yml"), Objects.requireNonNull(StellarPlugin.getPluginInstance().getResource(LANG_PATH + SELECTED_LANGUAGE + ".yml")),
 					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(LANG_VERSION_PATH)).build());
 
 			for (String lang : LANGUAGES_LIST) {
 
 				if (!SELECTED_LANGUAGE.equalsIgnoreCase(lang)) {
 
-					YamlDocument.create(new File(StellarPlugin.getPLUGIN_FOLDER(), LANG_PATH + lang + ".yml"), Objects.requireNonNull(StellarPlugin.getPLUGIN_INSTANCE().getResource(LANG_PATH + lang + ".yml")),
+					YamlDocument.create(new File(StellarPlugin.getPluginFolder(), LANG_PATH + lang + ".yml"), Objects.requireNonNull(StellarPlugin.getPluginInstance().getResource(LANG_PATH + lang + ".yml")),
 							GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(LANG_VERSION_PATH)).build());
 
 				}

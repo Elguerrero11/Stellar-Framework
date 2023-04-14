@@ -6,11 +6,13 @@ import dev.jorel.commandapi.CommandAPICommand;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class StHelpCmd {
+
+	private StHelpCmd() {
+	}
 
 	@Getter(AccessLevel.PROTECTED)
 	private static List<String> descriptionExtraListMessagesPage1 = new ArrayList<>();
@@ -22,7 +24,7 @@ public class StHelpCmd {
 	public static void registerInfoCommand() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-help")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-help")
 					.withRequirement((sender) -> {
 						if (!StellarUtils.senderIsConsole(sender) && (StellarUtils.checkPlayerPermission((Player) sender, "help", true))) {
 							return true;
@@ -38,7 +40,7 @@ public class StHelpCmd {
 						StellarUtils.sendMessagePlayer(player, "&6&m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m");
 						StellarUtils.sendMessagePlayer(player, "");
 						// Add the clickeable message above for go to spigot
-						StellarUtils.sendMessagePlayer(player, "&7[" + StellarPlugin.getPLUGIN_FORMAT() + "&7] - " + StellarPlugin.getPLUGIN_VERSION() + " &bby " + StellarPlugin.getPLUGIN_AUTHOR());
+						StellarUtils.sendMessagePlayer(player, "&7[" + StellarPlugin.getPluginInstance().getPluginFormat() + "&7] - " + StellarPlugin.getPluginInstance().getPluginVersion() + " &bby " + StellarPlugin.getPluginInstance().getPluginAuthor());
 						StellarUtils.sendMessagePlayer(player, " ");
 						StellarUtils.sendMessagePlayer(player, "&6&l<>&r &7Optional arguments &6[] &7Required arguments");
 						StellarUtils.sendMessagePlayer(player, " ");
@@ -48,7 +50,7 @@ public class StHelpCmd {
 						//player.sendMessage("a" + Check if plugin is up to date with method pluginIsUpdated());
 						StellarUtils.sendMessagePlayer(player, " ");
 						//Add the clickeable message above
-						StellarUtils.sendMessagePlayer(player, "Page 1 of " + StellarPlugin.getHELP_COMMAND_NUMBER_OF_PAGES() + " &6&l>>");
+						StellarUtils.sendMessagePlayer(player, "Page 1 of " + StellarPlugin.getPluginInstance().getHelpCommandPages() + " &6&l>>");
 						StellarUtils.sendMessagePlayer(player, "&6&m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m &m");
 					}).register();
 
@@ -80,7 +82,7 @@ public class StHelpCmd {
 
 	private void sendPlayerPage2ClickeableMessage(Player player) {
 		// Add the clickeable message above
-		StellarUtils.sendMessagePlayer(player, "Page 2 of " + StellarPlugin.getHELP_COMMAND_NUMBER_OF_PAGES());
+		StellarUtils.sendMessagePlayer(player, "Page 2 of " + StellarPlugin.getPluginInstance().getHelpCommandPages());
 		// Replace for the clickeable message
 		// Too center the message arrows
 		StellarUtils.sendMessagePlayer(player, "&6&l <<          &6&l>>");

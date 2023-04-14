@@ -9,10 +9,13 @@ import org.bukkit.entity.Player;
 
 public class StDebugCmd {
 
+	private StDebugCmd() {
+	}
+
 	public static void registerDebugCommand() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-debug")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-debug")
 					.withRequirement((sender) -> {
 						if (!StellarUtils.senderIsConsole(sender) && StellarUtils.checkPlayerPermission((Player) sender, "debug", true)) {
 							return true;
@@ -25,8 +28,10 @@ public class StDebugCmd {
 					.withHelp("Enable and disable the debug mode of the plugin", "Send the plugin debug messages to the console and the players")
 					.executes((sender, args) -> {
 
-						if (StellarConfig.getCONFIG_FILE().getBoolean("General_Options.Debug")) {
-							StellarConfig.getCONFIG_FILE().set("General_Options.Debug", false);
+						final String configDebugPath = "General_Options.Debug";
+
+						if (StellarConfig.getCONFIG_FILE().getBoolean(configDebugPath)) {
+							StellarConfig.getCONFIG_FILE().set(configDebugPath, false);
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been disabled by the console. X");
 							} else {
@@ -34,7 +39,7 @@ public class StDebugCmd {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been disabled by " + sender.getName() + ". X");
 							}
 						} else {
-							StellarConfig.getCONFIG_FILE().set("General_Options.Debug", true);
+							StellarConfig.getCONFIG_FILE().set(configDebugPath, true);
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been enabled by the console");
 							} else {

@@ -8,10 +8,13 @@ import org.bukkit.entity.Player;
 
 public class StListDisabledAddonsCmd {
 
+	private StListDisabledAddonsCmd() {
+	}
+
 	public static void registerListDisabledAddonsCmd() {
 
 		try {
-			new CommandAPICommand(StellarPlugin.getPLUGIN_NAME() + "-disabledaddons")
+			new CommandAPICommand(StellarPlugin.getPluginInstance().getPluginName() + "-disabledaddons")
 					.withRequirement((sender) -> {
 
 						if (StellarUtils.senderIsConsole(sender)) {

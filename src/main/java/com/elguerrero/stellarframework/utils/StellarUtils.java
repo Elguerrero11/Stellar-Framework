@@ -9,16 +9,17 @@ import com.elguerrero.stellarframework.commands.addonscommands.*;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.config.StellarLangManager;
 import com.elguerrero.stellarframework.config.StellarMessages;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-public abstract class StellarUtils {
+public class StellarUtils {
+
+	private StellarUtils() {
+	}
 
 	// METHODS WITH MIXED UTILITIES
 
@@ -36,17 +37,11 @@ public abstract class StellarUtils {
 	 * @return String - The message colorized
 	 */
 	public static String colorize(String message) {
-		return message.replaceAll("%plugin_prefix%", StellarMessages.getPLUGIN_PREFIX())
+		return message.replace("%plugin_prefix%", StellarMessages.getPLUGIN_PREFIX())
 				.replaceAll("%plugin_prefix_debug%", StellarMessages.getPLUGIN_PREFIX_DEBUG())
 				.replaceAll("&", "§");
 	}
 
-	/**
-	 * Check if the sender is the console or not
-	 *
-	 * @param sender - The sender to check, can be console or a player
-	 * @return boolean - If the sender is the console
-	 */
 	public static boolean senderIsConsole(Object sender) {
 		return sender instanceof Console;
 	}
@@ -62,7 +57,7 @@ public abstract class StellarUtils {
 	 */
 	public static boolean checkPlayerPermission(Player player, String permission, boolean sendNoPermissionMessage) {
 
-		if (player.hasPermission(StellarPlugin.getPLUGIN_NAME() + ".*") || player.hasPermission(StellarPlugin.getPLUGIN_NAME() + "." + permission)) {
+		if (player.hasPermission(StellarPlugin.getPluginInstance().getPluginName() + ".*") || player.hasPermission(StellarPlugin.getPluginInstance().getPluginName() + "." + permission)) {
 			return true;
 		} else if (sendNoPermissionMessage) {
 			player.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
@@ -78,7 +73,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleInfoMessage(String message) {
-		StellarPlugin.getPLUGIN_LOGGER().info(colorize(message));
+		StellarPlugin.getPluginInstance().getPluginLogger().info(colorize(message));
 	}
 
 	/**
@@ -87,7 +82,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleWarnMessage(String message) {
-		StellarPlugin.getPLUGIN_LOGGER().warning(colorize(message));
+		StellarPlugin.getPluginInstance().getPluginLogger().warning(colorize(message));
 	}
 
 	/**
@@ -96,7 +91,7 @@ public abstract class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleSevereMessage(String message) {
-		StellarPlugin.getPLUGIN_LOGGER().severe(colorize(message));
+		StellarPlugin.getPluginInstance().getPluginLogger().severe(colorize(message));
 	}
 
 	/**
@@ -121,10 +116,6 @@ public abstract class StellarUtils {
 			sendConsoleInfoMessage("&7[&eDEBUG&7] &ei&r" + message);
 		}
 	}
-
-	/**
-	 * Send the status of the debug mode to the console
-	 */
 
 	public static void sendMessageDebugStatus() {
 
@@ -151,11 +142,9 @@ public abstract class StellarUtils {
 		try {
 			if (!file.exists()) {
 				if (isFolder) {
-					file.mkdir();
-					return true;
+					return file.mkdir();
 				} else {
-					file.createNewFile();
-					return true;
+					return file.createNewFile();
 				}
 			} else {
 				return true;
@@ -188,7 +177,8 @@ public abstract class StellarUtils {
 		StDebugReportCmd.registerDebugReportCommand();
 
 		// ADDONS COMMANDS
-		if (StellarPlugin.isADDONS_SYSTEM_ENABLED()){
+		if (StellarPlugin.getPluginInstance().isAddonsEnabled()){
+
 			StDisableAddonCmd.registerDisableAddonCmd();
 			StEnableAddonCmd.registerEnableAddonCmd();
 			StReloadAddonCmd.registerReloadAddonCmd();
@@ -215,7 +205,7 @@ public abstract class StellarUtils {
 
 			String defaultConsoleMessage = "An error ocurred with the plugin, please check the errors.log file in the plugin folder.";
 
-			if (!pluginFileExist(StellarPlugin.getERRORS_LOG(), false)){
+			if (!pluginFileExist(StellarPlugin.getPluginInstance().getErrorsLog(), false)){
 				return;
 			}
 
@@ -226,18 +216,20 @@ public abstract class StellarUtils {
 					.collect(Collectors.joining("\n"));
 
 
-			FileWriter writer = new FileWriter(StellarPlugin.getERRORS_LOG(), true);
-			PrintWriter printWriter = new PrintWriter(writer);
+			try (FileWriter writer = new FileWriter(StellarPlugin.getPluginInstance().getErrorsLog(), true);
+				 PrintWriter printWriter = new PrintWriter(writer)) {
 
-			printWriter.println("[Error date] " + formattedDate);
-			printWriter.println("[Exception type] " + ex);
-			printWriter.println("[Exception StackTrace] " + exceptionStack);
-			printWriter.println("");
 
-			if (consoleMessage.equals("default")){
-				sendConsoleSevereMessage(defaultConsoleMessage);
-			} else {
-				sendConsoleSevereMessage(consoleMessage);
+				printWriter.println("[Error date] " + formattedDate);
+				printWriter.println("[Exception type] " + ex);
+				printWriter.println("[Exception StackTrace] " + exceptionStack);
+				printWriter.println("");
+
+				if (consoleMessage.equals("default")) {
+					sendConsoleSevereMessage(defaultConsoleMessage);
+				} else {
+					sendConsoleSevereMessage(consoleMessage);
+				}
 			}
 
 		} catch (Exception exx) {
@@ -262,30 +254,20 @@ public abstract class StellarUtils {
 	/**
 	 * Method used for manage some errors in the plugin that I cant always manage with errors.log
 	 *
-	 * @param ex
+	 * @param ex - The exception to send to the console
 	 */
 	public static void sendPluginErrorConsole(Exception ex) {
-		// Poner mensaje de Plugin error: x como al generar x carpeta
+
 		sendConsoleWarnMessage("---------------------------------------");
-		// Poner mensaje con el error del exception con el strack, con severe de color rojo
+		sendConsoleWarnMessage("          " + StellarPlugin.getPluginInstance().getPluginName());
+		sendConsoleWarnMessage("                 Error ocurred:");
+		sendConsoleWarnMessage(Arrays.toString(ex.getStackTrace()));
 		sendConsoleWarnMessage("---------------------------------------");
 	}
 
 
 	// PLAYERS UTILS
 
-	/**
-	 * Teleport the player to a specified location
-	 *
-	 * @param player   - The player to teleport
-	 * @param location - The location where the player will be teleported
-	 */
-	public void teleportPlayer(Player player, Location location) {
-		player.teleport(location);
-	}
-
-	/**
-	 * Send a actionbar message to the player
-	 */
+	// TODO: Add a method to send a actionbar message to the player
 
 }
