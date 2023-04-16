@@ -7,49 +7,43 @@ import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
+import dev.dejvokep.boostedyaml.settings.updater.MergeRule;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
 
 public abstract class StellarConfig implements StellarConfigManager {
 
-	@Setter(AccessLevel.PROTECTED)
-	private static StellarConfig CHILD_INSTANCE = null;
-	@Getter(AccessLevel.PUBLIC)
-	private static YamlDocument CONFIG_FILE;
-	private static final InputStream resourceStream = StellarPlugin.getPluginInstance().getResource("StellarPlugin/config.yml");
+	@Getter
+	private YamlDocument configFile = null;
+	private String configFilePath;
+	private InputStream inputStream;
+	private String configVersionPath;
 
-	@Getter
-	private static final String CONFIG_PATH = "StellarPlugin/config.yml";
-	private static final String CONFIG_VERSION_PATH = "Config_Version";
+	private StellarConfig(String configFilePath, String inputStream, String configVersionPath) {
 
-	// The config options
-	@Getter
-	private static String LANG;
-	@Getter
-	private static Integer CONFIG_VERSION;
-	@Getter
-	private static Boolean DEBUG;
-	@Getter
-	private static Boolean BSTATS_METRICS;
+		this.configFilePath = configFilePath;
+		this.inputStream = StellarPlugin.getPluginInstance().getResource(inputStream);
+		this.configVersionPath = configVersionPath;
 
-	/**
-	 * Happen when the plugin load and reload
-	 * <p>
-	 * Create the file if dont exist and update it if is not updated
-	 */
-	public static void loadConfigFile() {
+	}
+
+	public void loadConfigFile() {
 
 		try {
-			CONFIG_FILE = YamlDocument.create(new File(StellarPlugin.getPluginFolder(), CONFIG_PATH), Objects.requireNonNull(resourceStream),
-					GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning(CONFIG_VERSION_PATH)).build());
+
+			this.configFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), this.configFilePath), this.inputStream,
+					GeneralSettings.DEFAULT,
+					LoaderSettings.builder().setAutoUpdate(StellarPlugin.getPluginInstance().getAutoUpdateConfigs()).setAllowDuplicateKeys(false).build(),
+					DumperSettings.DEFAULT,
+					UpdaterSettings.builder().setVersioning(new BasicVersioning(configVersionPath)).setEnableDowngrading(false)
+					.setMergeRule(MergeRule.MAPPINGS,true).setMergeRule(MergeRule.MAPPING_AT_SECTION,true).setMergeRule(MergeRule.SECTION_AT_MAPPING,true)
+					.setKeepAll(true).build());
+
 
 			loadConfigVariables();
 
@@ -59,22 +53,5 @@ public abstract class StellarConfig implements StellarConfigManager {
 
 
 	}
-
-	/**
-	 * Happen when the plugin load and reload Set the variables to the config values
-	 */
-
-	public static void loadConfigVariables() {
-
-		LANG = CONFIG_FILE.getString("Lang");
-		CONFIG_VERSION = CONFIG_FILE.getInt(CONFIG_VERSION_PATH);
-		DEBUG = CONFIG_FILE.getBoolean("Debug_Mode");
-
-		BSTATS_METRICS = CONFIG_FILE.getBoolean("BStats_Metrics");
-
-		CHILD_INSTANCE.loadStellarPluginConfigVariables();
-
-	}
-
 
 }

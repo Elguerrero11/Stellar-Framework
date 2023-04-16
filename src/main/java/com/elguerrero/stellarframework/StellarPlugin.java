@@ -3,6 +3,7 @@ package com.elguerrero.stellarframework;
 import com.elguerrero.stellarframework.addonsystem.AddonsManager;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.utils.StellarUtils;
+import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.AccessLevel;
@@ -29,6 +30,16 @@ public abstract class StellarPlugin extends JavaPlugin{
 	private File addonsFolder = null;
 	@Getter
 	private File errorsLog = null;
+
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	private YamlDocument configFile = null;
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	private YamlDocument langFile = null;
+	@Getter
+	@Setter
+	private Boolean autoUpdateConfigs = true;
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
 	private String pluginName = "";
@@ -133,11 +144,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 
 	}
 
-	private void consoleSendPluginLoadMessage() {
-
-		StellarUtils.sendConsoleInfoMessage(" ");
-
-	}
+	public abstract void consoleSendPluginLoadMessage();
 
 	public static StellarPlugin getPluginInstance(){
 

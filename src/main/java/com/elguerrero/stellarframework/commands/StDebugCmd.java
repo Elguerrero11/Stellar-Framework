@@ -30,8 +30,8 @@ public class StDebugCmd {
 
 						final String configDebugPath = "General_Options.Debug";
 
-						if (StellarConfig.getCONFIG_FILE().getBoolean(configDebugPath)) {
-							StellarConfig.getCONFIG_FILE().set(configDebugPath, false);
+						if (StellarConfig.getConfigFile().getBoolean(configDebugPath)) {
+							StellarConfig.getConfigFile().set(configDebugPath, false);
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been disabled by the console. X");
 							} else {
@@ -39,7 +39,7 @@ public class StDebugCmd {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been disabled by " + sender.getName() + ". X");
 							}
 						} else {
-							StellarConfig.getCONFIG_FILE().set(configDebugPath, true);
+							StellarConfig.getConfigFile().set(configDebugPath, true);
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been enabled by the console");
 							} else {
