@@ -2,8 +2,8 @@ package com.elguerrero.stellarframework;
 
 import com.elguerrero.stellarframework.addonsystem.AddonsManager;
 import com.elguerrero.stellarframework.config.StellarConfig;
+import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
-import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIConfig;
 import lombok.AccessLevel;
@@ -31,15 +31,11 @@ public abstract class StellarPlugin extends JavaPlugin{
 	@Getter
 	private File errorsLog = null;
 
-	@Getter
 	@Setter(AccessLevel.PROTECTED)
-	private YamlDocument configFile = null;
-	@Getter
+	private StellarConfig configInstance = null;
 	@Setter(AccessLevel.PROTECTED)
-	private YamlDocument langFile = null;
-	@Getter
-	@Setter
-	private Boolean autoUpdateConfigs = true;
+	private StellarMessages messagesInstance = null;
+
 	@Getter
 	@Setter(AccessLevel.PROTECTED)
 	private String pluginName = "";
@@ -83,7 +79,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 				return;
 			}
 
-			setVariablesValues();
+			setVariables();
 			StellarUtils.loadPluginConfigs();
 			StellarUtils.sendDebugMessage("The instance of the stellar framework is the plugin:" + pluginInstance.getName() + " , who have the main class:" + pluginInstance.getClass().getName());
 
@@ -92,7 +88,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 			}
 
 			StellarUtils.sendMessageDebugStatus();
-			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDEBUG()).verboseOutput(StellarConfig.getDEBUG()));
+			CommandAPI.onLoad(new CommandAPIConfig().silentLogs(StellarConfig.getDebug()).verboseOutput(StellarConfig.getDebug()));
 
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
@@ -131,7 +127,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 
 	}
 
-	private void setVariablesValues() {
+	private void setVariables() {
 
 		pluginManager = Bukkit.getPluginManager();
 		pluginLogger = pluginInstance.getLogger();
@@ -142,9 +138,12 @@ public abstract class StellarPlugin extends JavaPlugin{
 		pluginVersion = pluginInstance.getDescription().getVersion();
 		pluginAuthor = pluginInstance.getDescription().getAuthors().toString();
 
+		setVariablesAbstract();
+
 	}
 
-	public abstract void consoleSendPluginLoadMessage();
+	protected abstract void setVariablesAbstract();
+	protected abstract void consoleSendPluginLoadMessage();
 
 	public static StellarPlugin getPluginInstance(){
 
@@ -152,6 +151,14 @@ public abstract class StellarPlugin extends JavaPlugin{
 			throw new IllegalStateException("The instance of the plugin is not initialized yet, please contact the developer of the plugin.");
 		}
 		return pluginInstance;
+	}
+
+	public static StellarConfig getConfigInstance(){
+		return pluginInstance.configInstance;
+	}
+
+	public static StellarMessages getMessagesInstance(){
+		return pluginInstance.messagesInstance;
 	}
 
 }

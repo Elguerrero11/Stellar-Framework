@@ -1,9 +1,6 @@
 package com.elguerrero.stellarframework.api;
 
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
-
-import java.util.List;
 import java.util.Set;
 
 public interface AddonsInterfaz {

@@ -1,7 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.entity.Player;
@@ -33,13 +32,13 @@ public class StReloadCmd {
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded. V");
 							} else {
-								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarMessages.getRELOAD()));
+								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getMessagesInstance().getPluginReloaded()));
 								StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded by " + sender.getName() + ". V");
 							}
 						} catch (Exception ex) {
 
 							if (!StellarUtils.senderIsConsole(sender)) {
-								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarMessages.getPLUGIN_ERROR()));
+								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getMessagesInstance().getPluginError()));
 							}
 							StellarUtils.logErrorException(ex, sender.getName() + "has tried to reload the plugin but an error ocurred, please check your errors.log file in the plugin folder.");
 						}

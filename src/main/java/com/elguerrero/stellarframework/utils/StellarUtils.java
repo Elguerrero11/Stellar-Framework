@@ -7,8 +7,6 @@ import com.elguerrero.stellarframework.commands.StHelpCmd;
 import com.elguerrero.stellarframework.commands.StReloadCmd;
 import com.elguerrero.stellarframework.commands.addonscommands.*;
 import com.elguerrero.stellarframework.config.StellarConfig;
-import com.elguerrero.stellarframework.config.StellarLangManager;
-import com.elguerrero.stellarframework.config.StellarMessages;
 import org.bukkit.entity.Player;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -37,8 +35,8 @@ public class StellarUtils {
 	 * @return String - The message colorized
 	 */
 	public static String colorize(String message) {
-		return message.replace("%plugin_prefix%", StellarMessages.getPLUGIN_PREFIX())
-				.replaceAll("%plugin_prefix_debug%", StellarMessages.getPLUGIN_PREFIX_DEBUG())
+		return message.replace("%plugin_prefix%", StellarPlugin.getMessagesInstance().getPluginPrefix())
+				.replaceAll("%plugin_prefix_debug%", StellarPlugin.getMessagesInstance().getPluginPrefixDebug())
 				.replaceAll("&", "§");
 	}
 
@@ -60,7 +58,7 @@ public class StellarUtils {
 		if (player.hasPermission(StellarPlugin.getPluginInstance().getPluginName() + ".*") || player.hasPermission(StellarPlugin.getPluginInstance().getPluginName() + "." + permission)) {
 			return true;
 		} else if (sendNoPermissionMessage) {
-			player.sendMessage(StellarUtils.colorize(StellarMessages.getNO_PERMISSION()));
+			player.sendMessage(StellarUtils.colorize(StellarPlugin.getMessagesInstance().getNoPermission()));
 		}
 		return false;
 	}
@@ -112,14 +110,14 @@ public class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendDebugMessage(String message) {
-		if (StellarConfig.getDEBUG()) {
+		if (StellarConfig.getDebug()) {
 			sendConsoleInfoMessage("&7[&eDEBUG&7] &ei&r" + message);
 		}
 	}
 
 	public static void sendMessageDebugStatus() {
 
-		if (StellarConfig.getDEBUG()) {
+		if (StellarConfig.getDebug()) {
 			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is enabled V");
 		} else {
 			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is disabled X");
@@ -161,8 +159,8 @@ public class StellarUtils {
 	 */
 	public static void loadPluginConfigs() {
 
-		StellarConfig.loadConfigFile();
-		StellarLangManager.loadSelectedLangMessages();
+		StellarPlugin.getConfigInstance().loadConfigFile();
+		StellarPlugin.getMessagesInstance().loadMessagesFile();
 
 	}
 

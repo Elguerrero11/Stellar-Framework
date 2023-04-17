@@ -2,7 +2,6 @@ package com.elguerrero.stellarframework.commands.addonscommands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.addonsystem.AddonsManager;
-import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.StringArgument;
@@ -64,21 +63,21 @@ public abstract class StDisableAddonCmd {
 
 							if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Already_Disabled().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonAlreadyDisabled().replace(addonStringPlaceholder, addonName));
 
 							// If the addon is enabled, unload it
 							} else if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().unregisterAddon(AddonsManager.getInstance().getEnabledAddons().get(addonName));
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Disabled().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonDisabled().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Registered().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonNotRegistered().replace(addonStringPlaceholder, addonName));
 
 							} else {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Found().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonNotFound().replace(addonStringPlaceholder, addonName));
 
 							}
 

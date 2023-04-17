@@ -2,7 +2,6 @@ package com.elguerrero.stellarframework.commands.addonscommands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
 import com.elguerrero.stellarframework.addonsystem.AddonsManager;
-import com.elguerrero.stellarframework.config.StellarMessages;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.StringArgument;
@@ -65,21 +64,21 @@ public class StEnableAddonCmd {
 
 							if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Already_Enabled().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonAlreadyEnabled().replace(addonStringPlaceholder, addonName));
 
 								// If the addon is disabled, load it
 							} else if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().loadAddon(addonName);
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Enabled().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonEnabled().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Registered().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonNotRegistered().replace(addonStringPlaceholder, addonName));
 
 							} else {
 
-								StellarUtils.sendMessagePlayer(player, StellarMessages.getAddon_Not_Found().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonNotFound().replace(addonStringPlaceholder, addonName));
 
 							}
 
