@@ -22,24 +22,24 @@ public abstract class StellarConfig {
 	@Getter
 	private static Boolean debug = false;
 	@Getter
-	private static Boolean bstatsMetrics = null;
+	private static Boolean bStats = null;
 	@Getter
 	private static Boolean autoUpdateConfigs = false;
 	@Getter
-	private YamlDocument configFile = null;
-	private String configFilePath;
-	private InputStream inputStream;
-	private String configVersionKeyPath;
+	protected YamlDocument configFile = null;
+	protected String configFilePath;
+	protected InputStream inputStream;
+	protected String configVersionKeyPath;
 
-	private StellarConfig() {
+	protected StellarConfig() {
 
-		this.configFilePath = "config.yml";
-		this.inputStream = StellarPlugin.getPluginInstance().getResource("config.yml");
-		this.configVersionKeyPath = "Config_Version";
+		configFilePath = "config.yml";
+		inputStream = StellarPlugin.getPluginInstance().getResource("config.yml");
+		configVersionKeyPath = "Config_Version";
 
 	}
 
-	private StellarConfig(String configFilePath, String inputStream, String configVersionKeyPath) {
+	protected StellarConfig(String configFilePath, String inputStream, String configVersionKeyPath) {
 
 		this.configFilePath = configFilePath;
 		this.inputStream = StellarPlugin.getPluginInstance().getResource(inputStream);
@@ -51,6 +51,21 @@ public abstract class StellarConfig {
 
 		try {
 
+			createConfigFile();
+			setGeneralVariables();
+			createConfigFile();
+			callLoadConfigVariables();
+
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+
+	}
+
+	protected void createConfigFile() {
+
+		try {
+
 			configFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), configFilePath), inputStream,
 					GeneralSettings.DEFAULT,
 					LoaderSettings.builder().setAutoUpdate(autoUpdateConfigs).setAllowDuplicateKeys(false).build(),
@@ -59,16 +74,28 @@ public abstract class StellarConfig {
 					.setMergeRule(MergeRule.MAPPINGS,true).setMergeRule(MergeRule.MAPPING_AT_SECTION,true).setMergeRule(MergeRule.SECTION_AT_MAPPING,true)
 					.setKeepAll(true).build());
 
-
-			callLoadConfigVariables();
-
 		} catch (IOException ex) {
 			StellarUtils.logErrorException(ex, "default");
 		}
 
 	}
 
-	private void callLoadConfigVariables() {
+	protected static void setGeneralVariables(){
+
+		try {
+
+			lang = StellarPlugin.getConfigInstance().getConfigFile().getString("Lang");
+			debug = StellarPlugin.getConfigInstance().getConfigFile().getBoolean("Debug_Mode");
+			bStats = StellarPlugin.getConfigInstance().getConfigFile().getBoolean("BStats");
+			autoUpdateConfigs = StellarPlugin.getConfigInstance().getConfigFile().getBoolean("Auto_Update_Configs");
+
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+
+	}
+
+	protected void callLoadConfigVariables() {
 
 		try {
 

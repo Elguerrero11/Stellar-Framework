@@ -68,7 +68,7 @@ public class StReloadAddonCmd {
 
 							} else if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonCantReload().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonCannotReload().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 

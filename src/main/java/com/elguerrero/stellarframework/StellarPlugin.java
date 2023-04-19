@@ -63,6 +63,10 @@ public abstract class StellarPlugin extends JavaPlugin{
 	@Setter(AccessLevel.PROTECTED)
 	private boolean pluginIsAStellarMinigame = false;
 
+	@Getter
+	@Setter(AccessLevel.PROTECTED)
+	private boolean debugReportEnabled = true;
+
 	private StellarPlugin() {
 	}
 

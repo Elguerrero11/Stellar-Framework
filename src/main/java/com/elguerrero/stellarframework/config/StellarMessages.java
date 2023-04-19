@@ -27,13 +27,10 @@ public abstract class StellarMessages {
 
 	protected final File langFolder = new File(StellarPlugin.getPluginInstance().getPluginFolder(), "Lang");
 
-	protected final String langFolderPath = "Lang/";
-
-
 	@Getter
 	protected String pluginPrefix = "";
 	@Getter
-	protected String pluginPrefixDebug = "";
+	protected String pluginDebugPrefix = "";
 	@Getter
 	protected String pluginReloaded = "";
 	@Getter
@@ -63,19 +60,19 @@ public abstract class StellarMessages {
 	@Getter
 	protected String addonNotRegistered = "";
 	@Getter
-	protected String addonCantReload = "";
+	protected String addonCannotReload = "";
 	@Getter
 	protected String addonReloaded = "";
 
-	private StellarMessages() {
+	protected StellarMessages() {
 
-		this.messagesFilePath = langFolderPath + selectedLang;
-		this.inputStream = StellarPlugin.getPluginInstance().getResource(langFolderPath + selectedLang);
-		this.messagesVersionKeyPath = "Messages_Version";
+		messagesFilePath = langFolder.getPath() + selectedLang + ".yml";
+		inputStream = StellarPlugin.getPluginInstance().getResource(langFolder.getPath() + selectedLang);
+		messagesVersionKeyPath = "Messages_Version";
 
 	}
 
-	private void loadSelectedLang(){
+	protected void loadSelectedLang(){
 
 		final String Lang = StellarConfig.getLang();
 
@@ -97,11 +94,11 @@ public abstract class StellarMessages {
 
 	}
 
-	private boolean checkLangFileExist(String fileName) {
+	protected boolean checkLangFileExist(String fileName) {
 
 		try {
 
-			final File yamlFile = new File(langFolder, fileName + ".yml");
+			final File yamlFile = new File(StellarPlugin.getPluginInstance().getPluginFolder() + "Lang", fileName + ".yml");
 
 			if (StellarUtils.pluginFileExist(new File("Lang"),true)) {
 
@@ -137,10 +134,10 @@ public abstract class StellarMessages {
 
 	}
 
-	private void callLoadConfigVariables() {
+	protected void callLoadConfigVariables() {
 
 		pluginPrefix = messagesFile.getString("Plugin_Prefix");
-		pluginPrefixDebug = messagesFile.getString("Plugin_Prefix_Debug");
+		pluginDebugPrefix = messagesFile.getString("Plugin_Debug_Prefix");
 		pluginReloaded = messagesFile.getString("Plugin_Reloaded");
 		pluginError = messagesFile.getString("Plugin_Error");
 		noPermission = messagesFile.getString("No_Permission");
@@ -155,7 +152,7 @@ public abstract class StellarMessages {
 		addonEnabled = messagesFile.getString("Addon_Enabled");
 		addonNotFound = messagesFile.getString("Addon_Not_Found");
 		addonNotRegistered = messagesFile.getString("Addon_Not_Registered");
-		addonCantReload = messagesFile.getString("Addon_Cant_Reload");
+		addonCannotReload = messagesFile.getString("Addon_Cannot_Reload");
 	    addonReloaded = messagesFile.getString("Addon_Reloaded");
 
 		loadMessagesVariables();

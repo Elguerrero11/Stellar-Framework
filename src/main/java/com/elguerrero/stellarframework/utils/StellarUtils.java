@@ -36,7 +36,7 @@ public class StellarUtils {
 	 */
 	public static String colorize(String message) {
 		return message.replace("%plugin_prefix%", StellarPlugin.getMessagesInstance().getPluginPrefix())
-				.replaceAll("%plugin_prefix_debug%", StellarPlugin.getMessagesInstance().getPluginPrefixDebug())
+				.replaceAll("%plugin_prefix_debug%", StellarPlugin.getMessagesInstance().getPluginDebugPrefix())
 				.replaceAll("&", "§");
 	}
 
@@ -159,22 +159,26 @@ public class StellarUtils {
 	 */
 	public static void loadPluginConfigs() {
 
-		StellarPlugin.getConfigInstance().loadConfigFile();
-		StellarPlugin.getMessagesInstance().loadMessagesFile();
+		if (StellarPlugin.getConfigInstance() != null){
+			StellarPlugin.getConfigInstance().loadConfigFile();
+		}
+
+		if (StellarPlugin.getMessagesInstance() != null){
+			StellarPlugin.getMessagesInstance().loadMessagesFile();
+		}
 
 	}
 
-	/**
-	 * Register the plugin commands calling the methods in their classes for register the commands with CommandAPI
-	 */
 	public static void registerCommands() {
 
 		StHelpCmd.registerInfoCommand();
 		StDebugCmd.registerDebugCommand();
 		StReloadCmd.registerReloadCommand();
-		StDebugReportCmd.registerDebugReportCommand();
 
-		// ADDONS COMMANDS
+		if (StellarPlugin.getPluginInstance().isDebugReportEnabled()) {
+			StDebugReportCmd.registerDebugReportCommand();
+		}
+
 		if (StellarPlugin.getPluginInstance().isAddonsEnabled()){
 
 			StDisableAddonCmd.registerDisableAddonCmd();
