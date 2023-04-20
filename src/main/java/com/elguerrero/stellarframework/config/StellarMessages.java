@@ -117,14 +117,25 @@ public abstract class StellarMessages {
 
 		try {
 
-			messagesFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), messagesFilePath), inputStream,
-					GeneralSettings.DEFAULT,
-					LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdateConfigs()).setAllowDuplicateKeys(false).build(),
-					DumperSettings.DEFAULT,
-					UpdaterSettings.builder().setVersioning(new BasicVersioning(messagesVersionKeyPath)).setEnableDowngrading(false)
-					.setMergeRule(MergeRule.MAPPINGS,true).setMergeRule(MergeRule.MAPPING_AT_SECTION,true).setMergeRule(MergeRule.SECTION_AT_MAPPING,true)
-					.setKeepAll(true).build());
+			if (StellarConfig.getAutoUpdateConfigs()){
 
+				messagesFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), messagesFilePath), inputStream,
+						GeneralSettings.DEFAULT,
+						LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdateConfigs()).setAllowDuplicateKeys(false).build(),
+						DumperSettings.DEFAULT,
+						UpdaterSettings.builder().setVersioning(new BasicVersioning(messagesVersionKeyPath)).setEnableDowngrading(false)
+								.setMergeRule(MergeRule.MAPPINGS,true).setMergeRule(MergeRule.MAPPING_AT_SECTION,true).setMergeRule(MergeRule.SECTION_AT_MAPPING,true)
+								.setKeepAll(true).build());
+
+			} else {
+
+				messagesFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), messagesFilePath), inputStream,
+						GeneralSettings.DEFAULT,
+						LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdateConfigs()).setAllowDuplicateKeys(false).build(),
+						DumperSettings.DEFAULT,
+						UpdaterSettings.builder().setEnableDowngrading(false).build());
+
+			}
 
 			callLoadConfigVariables();
 

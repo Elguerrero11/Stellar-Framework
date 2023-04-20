@@ -32,13 +32,13 @@ public class StReloadCmd {
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded. V");
 							} else {
-								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getMessagesInstance().getPluginReloaded()));
+								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getBasicMessagesInstance().getPluginReloaded()));
 								StellarUtils.sendConsoleInfoMessage("&ei &aThe plugin has been reloaded by " + sender.getName() + ". V");
 							}
 						} catch (Exception ex) {
 
 							if (!StellarUtils.senderIsConsole(sender)) {
-								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getMessagesInstance().getPluginError()));
+								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getBasicMessagesInstance().getPluginError()));
 							}
 							StellarUtils.logErrorException(ex, sender.getName() + "has tried to reload the plugin but an error ocurred, please check your errors.log file in the plugin folder.");
 						}

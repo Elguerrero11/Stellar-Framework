@@ -1,7 +1,6 @@
 package com.elguerrero.stellarframework.commands;
 
 import com.elguerrero.stellarframework.StellarPlugin;
-import com.elguerrero.stellarframework.config.StellarConfig;
 import com.elguerrero.stellarframework.utils.StellarUtils;
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.entity.Player;
@@ -29,20 +28,20 @@ public class StDebugCmd {
 
 						final String configDebugPath = "General_Options.Debug";
 
-						if (StellarPlugin.getConfigInstance().getConfigFile().getBoolean(configDebugPath)) {
-							StellarPlugin.getConfigInstance().getConfigFile().set(configDebugPath, false);
+						if (StellarPlugin.getBasicConfigInstance().getConfigFile().getBoolean(configDebugPath)) {
+							StellarPlugin.getBasicConfigInstance().getConfigFile().set(configDebugPath, false);
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been disabled by the console. X");
 							} else {
-								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getMessagesInstance().getDebugDisabled()));
+								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getBasicMessagesInstance().getDebugDisabled()));
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been disabled by " + sender.getName() + ". X");
 							}
 						} else {
-							StellarPlugin.getConfigInstance().getConfigFile().set(configDebugPath, true);
+							StellarPlugin.getBasicConfigInstance().getConfigFile().set(configDebugPath, true);
 							if (StellarUtils.senderIsConsole(sender)) {
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been enabled by the console");
 							} else {
-								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getMessagesInstance().getDebugEnabled()));
+								StellarUtils.sendMessagePlayer((Player) sender, StellarUtils.colorize(StellarPlugin.getBasicMessagesInstance().getDebugEnabled()));
 								StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode has been enabled by " + sender.getName() + ". V");
 							}
 						}

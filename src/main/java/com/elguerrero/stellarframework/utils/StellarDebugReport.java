@@ -101,7 +101,7 @@ public class StellarDebugReport {
 
 			final File debugLogFile = new File(debugReportFolder.getPath(), "debug.log");
 
-			final boolean pluginEnabled = StellarPlugin.getPluginInstance().getPluginManager().isPluginEnabled(StellarPlugin.getPluginInstance());
+			final boolean pluginEnabled = StellarPlugin.getPluginInstance().getBukkitPluginsManager().isPluginEnabled(StellarPlugin.getPluginInstance());
 			final String platform = Bukkit.getVersion().replace("git-", "").replace("\\(MC: .+\\)", "");
 
 

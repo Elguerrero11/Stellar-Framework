@@ -21,7 +21,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 	private static StellarPlugin pluginInstance = null;
 
 	@Getter
-	private PluginManager pluginManager = null;
+	private PluginManager bukkitPluginsManager = null;
 	@Getter
 	private Logger pluginLogger = null;
 	@Getter
@@ -133,7 +133,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 
 	private void setVariables() {
 
-		pluginManager = Bukkit.getPluginManager();
+		bukkitPluginsManager = Bukkit.getPluginManager();
 		pluginLogger = pluginInstance.getLogger();
 		pluginFolder = pluginInstance.getDataFolder();
 		errorsLog = new File(pluginFolder, "errors.log");
@@ -157,11 +157,11 @@ public abstract class StellarPlugin extends JavaPlugin{
 		return pluginInstance;
 	}
 
-	public static StellarConfig getConfigInstance(){
+	public static StellarConfig getBasicConfigInstance(){
 		return pluginInstance.configInstance;
 	}
 
-	public static StellarMessages getMessagesInstance(){
+	public static StellarMessages getBasicMessagesInstance(){
 		return pluginInstance.messagesInstance;
 	}
 

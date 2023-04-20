@@ -8,6 +8,8 @@ import com.elguerrero.stellarframework.commands.StReloadCmd;
 import com.elguerrero.stellarframework.commands.addonscommands.*;
 import com.elguerrero.stellarframework.config.StellarConfig;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -35,8 +37,8 @@ public class StellarUtils {
 	 * @return String - The message colorized
 	 */
 	public static String colorize(String message) {
-		return message.replace("%plugin_prefix%", StellarPlugin.getMessagesInstance().getPluginPrefix())
-				.replaceAll("%plugin_prefix_debug%", StellarPlugin.getMessagesInstance().getPluginDebugPrefix())
+		return message.replace("%plugin_prefix%", StellarPlugin.getBasicMessagesInstance().getPluginPrefix())
+				.replaceAll("%plugin_prefix_debug%", StellarPlugin.getBasicMessagesInstance().getPluginDebugPrefix())
 				.replaceAll("&", "§");
 	}
 
@@ -58,7 +60,7 @@ public class StellarUtils {
 		if (player.hasPermission(StellarPlugin.getPluginInstance().getPluginName() + ".*") || player.hasPermission(StellarPlugin.getPluginInstance().getPluginName() + "." + permission)) {
 			return true;
 		} else if (sendNoPermissionMessage) {
-			player.sendMessage(StellarUtils.colorize(StellarPlugin.getMessagesInstance().getNoPermission()));
+			player.sendMessage(StellarUtils.colorize(StellarPlugin.getBasicMessagesInstance().getNoPermission()));
 		}
 		return false;
 	}
@@ -159,12 +161,13 @@ public class StellarUtils {
 	 */
 	public static void loadPluginConfigs() {
 
-		if (StellarPlugin.getConfigInstance() != null){
-			StellarPlugin.getConfigInstance().loadConfigFile();
+		if (StellarPlugin.getBasicConfigInstance() != null){
+			StellarConfig.setGeneralVariables();
+			StellarPlugin.getBasicConfigInstance().loadConfigFile();
 		}
 
-		if (StellarPlugin.getMessagesInstance() != null){
-			StellarPlugin.getMessagesInstance().loadMessagesFile();
+		if (StellarPlugin.getBasicMessagesInstance() != null){
+			StellarPlugin.getBasicMessagesInstance().loadMessagesFile();
 		}
 
 	}
@@ -265,6 +268,25 @@ public class StellarUtils {
 		sendConsoleWarnMessage("                 Error ocurred:");
 		sendConsoleWarnMessage(Arrays.toString(ex.getStackTrace()));
 		sendConsoleWarnMessage("---------------------------------------");
+	}
+
+	// OTHER METHODS
+
+	/**
+	 * Check if a plugin is enabled
+	 *
+	 * @return - If the plugin is enabled or not
+	 */
+	public static boolean isPluginEnabled(String pluginName) {
+		Plugin plugin = StellarPlugin.getPluginInstance().getBukkitPluginsManager().getPlugin(pluginName);
+		return plugin != null && plugin.isEnabled();
+	}
+
+	/**
+	 * Disable the plugin
+	 */
+	public static void disableThisPlugin() {
+		StellarPlugin.getPluginInstance().getBukkitPluginsManager().disablePlugin(StellarPlugin.getPluginInstance());
 	}
 
 

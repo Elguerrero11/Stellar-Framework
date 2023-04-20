@@ -64,19 +64,19 @@ public class StReloadAddonCmd {
 							if (AddonsManager.getInstance().getEnabledAddons().containsKey(addonName)) {
 
 								AddonsManager.getInstance().reloadAddonConfig(AddonsManager.getInstance().getEnabledAddons().get(addonName));
-								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonReloaded().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getBasicMessagesInstance().getAddonReloaded().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().getDisabledAddons().containsKey(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonCannotReload().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getBasicMessagesInstance().getAddonCannotReload().replace(addonStringPlaceholder, addonName));
 
 							} else if (AddonsManager.getInstance().addonJarExists(addonName)) {
 
-								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonNotRegistered().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getBasicMessagesInstance().getAddonNotRegistered().replace(addonStringPlaceholder, addonName));
 
 							} else {
 
-								StellarUtils.sendMessagePlayer(player, StellarPlugin.getMessagesInstance().getAddonNotFound().replace(addonStringPlaceholder, addonName));
+								StellarUtils.sendMessagePlayer(player, StellarPlugin.getBasicMessagesInstance().getAddonNotFound().replace(addonStringPlaceholder, addonName));
 
 							}
 
