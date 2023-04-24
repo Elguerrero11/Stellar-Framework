@@ -29,6 +29,7 @@ dependencies {
     implementation("dev.dejvokep:boosted-yaml:1.3.1")
     implementation("dev.jorel:commandapi-shade:8.8.0")
     implementation("commons-io:commons-io:2.11.0")
+    implementation("net.kyori:adventure-text-logger-slf4j:4.13.1")
 }
 
 tasks {
@@ -38,6 +39,7 @@ tasks {
                 "dev.jorel.commandapi" to "command-api",
                 "org.apache.commons.io" to "commons-io",
                 "org.jetbrains.annotations" to "jetbrains-annotations",
+                "net.kyori" to "adventure-text-logger-slf4j"
         ).forEach { (packageName, newName) ->
             relocate(packageName, "libs.$newName")
         }

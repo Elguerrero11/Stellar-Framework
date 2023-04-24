@@ -12,8 +12,10 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
-import java.util.logging.Logger;
 
 public abstract class StellarPlugin extends JavaPlugin{
 
@@ -23,7 +25,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 	@Getter
 	private PluginManager bukkitPluginsManager = null;
 	@Getter
-	private Logger pluginLogger = null;
+	private Logger consoleLogger = null;
 	@Getter
 	private File pluginFolder = null;
 	@Getter
@@ -79,7 +81,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 			}
 
 
-			if (!StellarUtils.pluginFileExist(pluginFolder, true)){
+			if (!StellarUtils.filePluginExist(pluginFolder, true)){
 				return;
 			}
 
@@ -111,7 +113,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 				AddonsManager.getInstance().loadAllAddons();
 			}
 
-			this.consoleSendPluginLoadMessage();
+			consoleSendPluginEnableMessage();
 
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
@@ -124,6 +126,7 @@ public abstract class StellarPlugin extends JavaPlugin{
 		try {
 
 			CommandAPI.onDisable();
+			consoleSendPluginDisableMessage();
 
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");
@@ -134,9 +137,9 @@ public abstract class StellarPlugin extends JavaPlugin{
 	private void setVariables() {
 
 		bukkitPluginsManager = Bukkit.getPluginManager();
-		pluginLogger = pluginInstance.getLogger();
+		consoleLogger = LoggerFactory.getLogger("Logger");
 		pluginFolder = pluginInstance.getDataFolder();
-		errorsLog = new File(pluginFolder, "errors.log");
+		errorsLog = new File(pluginFolder, "errors.md");
 		pluginName = pluginInstance.getName();
 		pluginDescription = pluginInstance.getDescription().getDescription();
 		pluginVersion = pluginInstance.getDescription().getVersion();
@@ -147,7 +150,8 @@ public abstract class StellarPlugin extends JavaPlugin{
 	}
 
 	protected abstract void setVariablesAbstract();
-	protected abstract void consoleSendPluginLoadMessage();
+	protected abstract void consoleSendPluginEnableMessage();
+	protected abstract void consoleSendPluginDisableMessage();
 
 	public static StellarPlugin getPluginInstance(){
 

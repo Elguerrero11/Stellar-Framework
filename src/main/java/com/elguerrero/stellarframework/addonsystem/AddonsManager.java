@@ -49,7 +49,7 @@ public class AddonsManager {
 			try {
 
 				File addonsFolder = StellarPlugin.getPluginInstance().getAddonsFolder();
-				StellarUtils.pluginFileExist(StellarPlugin.getPluginInstance().getAddonsFolder(), true);
+				StellarUtils.filePluginExist(StellarPlugin.getPluginInstance().getAddonsFolder(), true);
 				File[] addonsFiles = addonsFolder.listFiles();
 
 
@@ -124,7 +124,7 @@ public class AddonsManager {
 
 			// Check if the addon have config or messages file so it need to generate a addon folder
 			if (config){
-				StellarUtils.pluginFileExist(new File(StellarPlugin.getPluginInstance().getAddonsFolder(), addonName), true);
+				StellarUtils.filePluginExist(new File(StellarPlugin.getPluginInstance().getAddonsFolder(), addonName), true);
 			}
 
 			// Check if the addon have a main class and load some methods from the addon from the interface

@@ -12,8 +12,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StellarUtils {
@@ -37,6 +36,7 @@ public class StellarUtils {
 	 * @return String - The message colorized
 	 */
 	public static String colorize(String message) {
+
 		return message.replace("%plugin_prefix%", StellarPlugin.getBasicMessagesInstance().getPluginPrefix())
 				.replaceAll("%plugin_prefix_debug%", StellarPlugin.getBasicMessagesInstance().getPluginDebugPrefix())
 				.replaceAll("&", "§");
@@ -63,6 +63,7 @@ public class StellarUtils {
 			player.sendMessage(StellarUtils.colorize(StellarPlugin.getBasicMessagesInstance().getNoPermission()));
 		}
 		return false;
+
 	}
 
 	// METHODS FOR SEND MESSAGES TO THE CONSOLE AND PLAYERS
@@ -73,7 +74,7 @@ public class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleInfoMessage(String message) {
-		StellarPlugin.getPluginInstance().getPluginLogger().info(colorize(message));
+		StellarPlugin.getPluginInstance().getConsoleLogger().info(colorize(message)); // NOSONAR
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendConsoleWarnMessage(String message) {
-		StellarPlugin.getPluginInstance().getPluginLogger().warning(colorize(message));
+		StellarPlugin.getPluginInstance().getConsoleLogger().warn(colorize(message)); // NOSONAR
 	}
 
 	/**
@@ -90,8 +91,8 @@ public class StellarUtils {
 	 *
 	 * @param message - The message to send to the console
 	 */
-	public static void sendConsoleSevereMessage(String message) {
-		StellarPlugin.getPluginInstance().getPluginLogger().severe(colorize(message));
+	public static void sendConsoleErrorMessage(String message) {
+		StellarPlugin.getPluginInstance().getConsoleLogger().error(colorize(message)); // NOSONAR
 	}
 
 	/**
@@ -112,14 +113,15 @@ public class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendDebugMessage(String message) {
-		if (StellarConfig.getDebug()) {
-			sendConsoleInfoMessage("&7[&eDEBUG&7] &ei&r" + message);
+		if (StellarConfig.getDebug()) { // NOSONAR
+		StellarPlugin.getPluginInstance().getConsoleLogger().debug(colorize(message)); //  NOSONAR
+		logDebugMessage(message);
 		}
 	}
 
 	public static void sendMessageDebugStatus() {
 
-		if (StellarConfig.getDebug()) {
+		if (StellarConfig.getDebug()) { // NOSONAR
 			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is enabled V");
 		} else {
 			StellarUtils.sendConsoleInfoMessage("&ei &7Debug mode is disabled X");
@@ -137,20 +139,31 @@ public class StellarUtils {
 	 * @param file     - The file or folder to check
 	 * @param isFolder - If the file is a folder or not
 	 */
-	public static boolean pluginFileExist(File file, boolean isFolder) {
+	public static boolean filePluginExist(File file, boolean isFolder) {
 
 		try {
 			if (!file.exists()) {
+
+				boolean result;
+
 				if (isFolder) {
-					return file.mkdir();
+					sendDebugMessage("Creating folder named: " + file.getName() + " in path: " + file.getParent());
+					result = file.mkdir();
+					sendDebugMessage("Folder created: " + result);
 				} else {
-					return file.createNewFile();
+					sendDebugMessage("Creating file named: " + file.getName() + " in path: " + file.getParent());
+					result = file.createNewFile();
+					sendDebugMessage("File created: " + result);
 				}
+				return result;
+
 			} else {
+				sendDebugMessage("File or folder named: " + file.getName() + " already exists in path: " + file.getParent());
 				return true;
 			}
+
 		} catch (Exception ex) {
-			logErrorException(ex,"default");
+			logErrorException(ex, "default");
 			return false;
 		}
 
@@ -204,45 +217,78 @@ public class StellarUtils {
 	 *
 	 * @param ex - The error exception to log
 	 */
-	public static void logErrorException(Exception ex, String consoleMessage) {
+	public static void logErrorException(Exception ex, String consoleErrorMsg) {
+
+		if (mustSendConsoleErrorMsg()){
+			sendPluginErrorConsole(ex);
+			return;
+		}
+
+		final File errorsLog = StellarPlugin.getPluginInstance().getErrorsLog();
+
+		if (!filePluginExist(errorsLog, false)) {
+			sendPluginErrorConsole(ex);
+			return;
+		}
+
+		String formattedDate = getFormatDate();
+		String exceptionStack = getExceptionStackTrace(ex);
+
+		writeToErrorsLog(errorsLog, formattedDate, ex, exceptionStack);
+		sendConsoleErrorMsg(consoleErrorMsg);
+
+	}
+
+	private static boolean mustSendConsoleErrorMsg(){
+		return StellarPlugin.getPluginInstance() == null || StellarPlugin.getPluginInstance().getPluginFolder() == null;
+	}
+
+	private static String getFormatDate() {
+		Date date = new Date();
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+	}
+
+	private static String getExceptionStackTrace(Exception ex) {
+		return Arrays.stream(ex.getStackTrace())
+				.map(StackTraceElement::toString)
+				.collect(Collectors.joining("\n"));
+	}
+
+	private static void writeToErrorsLog(File errorsLog, String formattedDate, Exception ex, String exceptionStack) {
 
 		try {
 
-			String defaultConsoleMessage = "An error ocurred with the plugin, please check the errors.log file in the plugin folder.";
-
-			if (!pluginFileExist(StellarPlugin.getPluginInstance().getErrorsLog(), false)){
-				return;
-			}
-
-			Date date = new Date();
-			String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-			String exceptionStack = Arrays.stream(ex.getStackTrace())
-					.map(StackTraceElement::toString)
-					.collect(Collectors.joining("\n"));
-
-
-			try (FileWriter writer = new FileWriter(StellarPlugin.getPluginInstance().getErrorsLog(), true);
+			try (FileWriter writer = new FileWriter(errorsLog, true);
 				 PrintWriter printWriter = new PrintWriter(writer)) {
 
-
-				printWriter.println("[Error date] " + formattedDate);
-				printWriter.println("[Exception type] " + ex);
-				printWriter.println("[Exception StackTrace] " + exceptionStack);
-				printWriter.println("");
-
-				if (consoleMessage.equals("default")) {
-					sendConsoleSevereMessage(defaultConsoleMessage);
-				} else {
-					sendConsoleSevereMessage(consoleMessage);
-				}
+				printWriter.println("### <span style='color:#046E70'>Error date</span>");
+				printWriter.println("**<span style='color:#1D7C7E'>" + formattedDate + "</span>**");
+				printWriter.println("### <span style='color:#F1C232'>Exception type</span>");
+				printWriter.println("**<span style='color:#F1C232'>" + ex + "</span>**");
+				printWriter.println("### <span style='color:#F22424'>Exception StackTrace</span>");
+				printWriter.println("```");
+				printWriter.println(exceptionStack);
+				printWriter.println("```");
+				printWriter.println("# ");
 			}
 
-		} catch (Exception exx) {
-			exx.printStackTrace();
-			ex.printStackTrace();
+		} catch (Exception e) {
+			sendPluginErrorConsole(e);
 		}
 
 	}
+
+	private static void sendConsoleErrorMsg(String consoleErrorMsg){
+
+		final String defaultConsoleMessage = "An error ocurred with the plugin, please check the errors.log file in the plugin folder.";
+
+		if ("default".equals(consoleErrorMsg)) {
+			sendConsoleErrorMessage(defaultConsoleMessage);
+		} else {
+			sendConsoleErrorMessage(consoleErrorMsg);
+		}
+	}
+
 
 
 	// METHODS RELATED TO THE OTHER ERRORS
@@ -253,7 +299,7 @@ public class StellarUtils {
 	 * @param message - The message to send to the console
 	 */
 	public static void sendErrorMessageConsole(String message) {
-		sendConsoleSevereMessage(message);
+		sendConsoleErrorMessage(message);
 	}
 
 	/**
@@ -261,14 +307,19 @@ public class StellarUtils {
 	 *
 	 * @param ex - The exception to send to the console
 	 */
-	public static void sendPluginErrorConsole(Exception ex) {
-
+	private static void sendPluginErrorConsole(Exception ex) {
 		sendConsoleWarnMessage("---------------------------------------");
 		sendConsoleWarnMessage("          " + StellarPlugin.getPluginInstance().getPluginName());
-		sendConsoleWarnMessage("                 Error ocurred:");
-		sendConsoleWarnMessage(Arrays.toString(ex.getStackTrace()));
+		sendConsoleWarnMessage("              Error ocurred:");
+
+		Arrays.stream(ex.getStackTrace())
+				.map(StackTraceElement::toString)
+				.forEach(StellarUtils::sendConsoleWarnMessage);
+
 		sendConsoleWarnMessage("---------------------------------------");
 	}
+
+
 
 	// OTHER METHODS
 
@@ -288,6 +339,49 @@ public class StellarUtils {
 	public static void disableThisPlugin() {
 		StellarPlugin.getPluginInstance().getBukkitPluginsManager().disablePlugin(StellarPlugin.getPluginInstance());
 	}
+
+	public static void writeToFile(File file, String content) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			writer.write(content);
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+	}
+
+
+	private static void logDebugMessage(String message) {
+
+		try {
+
+			final File debugLogsFolder = new File(StellarPlugin.getPluginInstance().getPluginFolder(), "DebugLogs");
+
+			filePluginExist(debugLogsFolder, true);
+
+			final File todayDebugLog = checkDebugLogExist(debugLogsFolder);
+
+			writeToFile(todayDebugLog, "<span style='color:#046E70'> [DEBUG] </span>" + "<span style='color:#07B7BA'>" + message + "</span>");
+
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+
+	}
+
+
+
+	private static File checkDebugLogExist(File folderPath) {
+
+		final String currentDate = new SimpleDateFormat("yyyy_MM_dd").format(new Date());
+		final File debugLog = new File(folderPath, "debugLog-" + currentDate + ".md");
+
+		if (!debugLog.exists()) {
+			filePluginExist(debugLog, false);
+		}
+		return debugLog;
+
+	}
+
+
 
 
 	// PLAYERS UTILS

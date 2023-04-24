@@ -1,6 +1,7 @@
 package com.elguerrero.stellarframework.utils;
 
 import com.elguerrero.stellarframework.StellarPlugin;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -9,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,139 +22,160 @@ import java.util.zip.ZipOutputStream;
 public class StellarDebugReport {
 
 	private static StellarDebugReport instance = null;
-	private File debugReportsFolder = null;
+	private final File debugReportsFolder = new File(StellarPlugin.getPluginInstance().getPluginFolder(),"DebugReports");
 	private List<String> ignoreLines = new ArrayList<>();
 	private Map<String, String> replaceLines = new HashMap<>();
+	private List<Path> filesToCopy = new ArrayList<>();
 
 	private StellarDebugReport() {
 	}
 
+	// TODO: Change the way of ignore and reeplace lines to that check if start with the keys that will allways be like  Host: Is a more secure method for check
 	private void setVariables() {
 
-		this.debugReportsFolder = new File(StellarPlugin.getPluginInstance().getPluginFolder(),"Debug reports");
+		final Path pluginFolder = StellarPlugin.getPluginInstance().getPluginFolder().toPath();
+		StellarUtils.filePluginExist(debugReportsFolder, true);
 
-		this.replaceLines.put("Host:", "# The Host: line is omited for security");
-		this.replaceLines.put("Port:", "# The Port: line is omited for security");
-		this.replaceLines.put("Database_Name:", "# The Database_Name: line is omited for security");
-		this.replaceLines.put("Username:", "# The Username: line is omited for security");
-		this.replaceLines.put("Password:", "# The Password: line is omited for security");
+		replaceLines.put("Host:", "# The Host: line is omited for security");
+		replaceLines.put("Port:", "# The Port: line is omited for security");
+		replaceLines.put("Database_Name:", "# The Database_Name: line is omited for security");
+		replaceLines.put("Username:", "# The Username: line is omited for security");
+		replaceLines.put("Password:", "# The Password: line is omited for security");
 
-		this.ignoreLines.add("# Define the address and port for the database.");
-		this.ignoreLines.add("# - The standard DB engine port is used by default");
-		this.ignoreLines.add("#   (MySQL and MariaDB: 3306)");
-		this.ignoreLines.add("# The name of the database to store LuckPerms data in.");
-		this.ignoreLines.add("# Credentials for the database.");
+		ignoreLines.add("# Define the address and port for the database.");
+		ignoreLines.add("# - The standard DB engine port is used by default");
+		ignoreLines.add("#   (MySQL and MariaDB: 3306)");
+		ignoreLines.add("# The name of the database to store LuckPerms data in.");
+		ignoreLines.add("# Credentials for the database.");
+
+		filesToCopy.add(pluginFolder.resolve("Lang"));
+		filesToCopy.add(pluginFolder.resolve("errors.md"));
+
 	}
 
 	public void generateDebugReport() {
 
 		try {
 
-			final String configPath = "config.yml";
+			final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			final File debugReportFolder = new File(debugReportsFolder, "DebugReport_" + LocalDateTime.now().format(dateFormatter));
+			final Path debugReportFolderPath = debugReportFolder.toPath();
+
+
+			if (!StellarUtils.filePluginExist(debugReportsFolder, true)){
+				return;
+			}
+
+			if (!StellarUtils.filePluginExist(debugReportFolder, true)){
+				return;
+			}
 
 			getInstance().setVariables();
 
-			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			createDebugReportLog(debugReportFolder);
+			copyConfigFile(debugReportFolderPath);
+			copyFilesToCopy(debugReportFolderPath);
 
-			final File debugReportFolder = new File(debugReportsFolder, "Debug_" + LocalDateTime.now().format(dateFormatter));
+			zipDebugReportFolder(debugReportFolder);
 
-			if (!StellarUtils.pluginFileExist(debugReportsFolder, true)){
-				return;
-			}
-			if (!debugReportFolder.mkdir()){
-				return;
-			}
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+	}
 
-			// Copy the config file to the debug report folder
-			// Don't copy the lines that contains the strings in the ignoreLines list
-			// Replace the lines that contains the strings in the replaceLines map with the value of the map
+	private void copyConfigFile(Path debugReportFolderPath) {
 
-			final File originalConfigFile = new File(StellarPlugin.getPluginInstance().getPluginFolder().getPath(), configPath);
-			final File debugConfigFile = new File(debugReportFolder.getPath(), configPath);
-			FileUtils.copyFile(originalConfigFile, debugConfigFile,StandardCopyOption.COPY_ATTRIBUTES);
+		try {
 
+			final String configPath = "config.yml";
+			final Path pluginFolderPath = StellarPlugin.getPluginInstance().getPluginFolder().toPath();
+			final Path originalConfigPath = pluginFolderPath.resolve(configPath);
+			final Path debugConfigPath = debugReportFolderPath.resolve(configPath);
 
-			final List<String> debugConfigLines = Files.readAllLines(originalConfigFile.toPath(), StandardCharsets.UTF_8).stream()
+			Files.copy(originalConfigPath, debugConfigPath, StandardCopyOption.COPY_ATTRIBUTES);
+			StellarUtils.sendDebugMessage("Config copied to: " + debugConfigPath);
+
+			final List<String> debugConfigLines = Files.readAllLines(debugConfigPath, StandardCharsets.UTF_8).stream()
 					.filter(line -> ignoreLines.stream().noneMatch(line::contains))
 					.map(line -> replaceLines.getOrDefault(line, line))
 					.toList();
-			Files.write(debugReportFolder.toPath().resolve(configPath), debugConfigLines, StandardCharsets.UTF_8);
 
+			Files.write(debugReportFolderPath.resolve(configPath), debugConfigLines, StandardCharsets.UTF_8);
 
-			// Copy the lang folder to the debug report folder with all the lang files
+		} catch(Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
 
-			final File originalLangFolder = new File(StellarPlugin.getPluginInstance().getPluginFolder() + "Lang");
-			final File debugLangFolder = new File(debugReportFolder.getPath());
+	}
 
-			FileUtils.copyDirectory(originalLangFolder, debugLangFolder, true);
+	private void createDebugReportLog(File debugReportFolder){
 
-			// If exist, copy the errors.log file to the debug report folder
+		try {
 
-			final File originalErrorsLogFile = new File(StellarPlugin.getPluginInstance().getPluginFolder() + "errors.log");
-
-			if (originalErrorsLogFile.exists()){
-
-			final File debugReportErrorsLogFile = new File(debugReportFolder.getPath());
-			FileUtils.copyFile(originalErrorsLogFile, debugReportErrorsLogFile, StandardCopyOption.COPY_ATTRIBUTES);
-
-			}
-
-			// Create the debug.log file with the debug info about the plugin and server
-
-			final File debugLogFile = new File(debugReportFolder.getPath(), "debug.log");
-
-			final boolean pluginEnabled = StellarPlugin.getPluginInstance().getBukkitPluginsManager().isPluginEnabled(StellarPlugin.getPluginInstance());
+			final File debugLogFile = new File(debugReportFolder, "debugReportLog.md");
 			final String platform = Bukkit.getVersion().replace("git-", "").replace("\\(MC: .+\\)", "");
-
-
-			String pluginsList = Arrays.stream(Bukkit.getPluginManager().getPlugins())
+			final String pluginsList = Arrays.stream(Bukkit.getPluginManager().getPlugins())
 					.map(Plugin::getName)
 					.collect(Collectors.joining(", "));
 
+			StellarUtils.filePluginExist(debugLogFile, true);
 
-			try (FileWriter writer = new FileWriter(debugLogFile)) {
-
-				writer.write("[Java version] " + System.getProperty("java.version") + "\n");
-				writer.write("[Minecraft version] " + Bukkit.getBukkitVersion() + "\n");
-				writer.write("[Server platform] " + platform + "\n");
-				writer.write("[Plugin status] " + (pluginEnabled ? "Enabled V" : "Disabled X") + "\n");
-				writer.write("[Version of " + StellarPlugin.getPluginInstance().getPluginName() + "] " + StellarPlugin.getPluginInstance().getPluginVersion() + "\n");
-				writer.write("[Plugins] " + pluginsList + "\n");
-
-			}
-
-
-			// Create the debug.zip file with all the debug report files
-			final File normalDebugFolder = new File(debugReportFolder.getPath());
-			final File debugZippedFolder = new File(normalDebugFolder, normalDebugFolder.getName());
-
-
-			// Create the ZIP file
-			try (FileOutputStream fos = new FileOutputStream(debugZippedFolder)) {
-				final ZipOutputStream zos = new ZipOutputStream(fos);
-
-				// Add the original debug report folder to the debug report zip file
-				for (File file : FileUtils.listFiles(normalDebugFolder, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)) {
-					String relativePath = normalDebugFolder.toURI().relativize(file.toURI()).getPath();
-					ZipEntry zipEntry = new ZipEntry(relativePath);
-					zos.putNextEntry(zipEntry);
-					zos.write(IOUtils.toByteArray(file.toURI()));
-					zos.closeEntry();
-				}
-
-				// Close the zip objects
-				zos.close();
-			}
-
-			// Remove the old debug report folder that is not zipped
-			FileUtils.deleteDirectory(debugReportFolder);
-
-			// Send to the console the message of that the debug report was generated with success in the debug report folder
-			StellarUtils.sendConsoleInfoMessage("&aDebug report generated with success in: " + debugReportsFolder);
+			StellarUtils.writeToFile(debugLogFile, "[Java version] " + System.getProperty("java.version") + "\n");
+			StellarUtils.writeToFile(debugLogFile, "[Minecraft version] " + Bukkit.getBukkitVersion() + "\n");
+			StellarUtils.writeToFile(debugLogFile, "[Server platform] " + platform + "\n");
+			StellarUtils.writeToFile(debugLogFile, "[Version of " + StellarPlugin.getPluginInstance().getPluginName() + "] " + StellarPlugin.getPluginInstance().getPluginVersion() + "\n");
+			StellarUtils.writeToFile(debugLogFile, "[Plugins] " + pluginsList + "\n");
 
 		} catch (Exception ex) {
-			StellarUtils.sendPluginErrorConsole(ex);
+			StellarUtils.logErrorException(ex, "default");
 		}
+
+	}
+	private void copyFilesToCopy(Path debugReportFolderPath) {
+
+		try {
+
+			for (Path file : filesToCopy) {
+
+				Files.copy(file, debugReportFolderPath, StandardCopyOption.COPY_ATTRIBUTES);
+				StellarUtils.sendDebugMessage("File copied: " + file + " to " + debugReportFolderPath);
+
+			}
+
+		} catch (Exception ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+
+	}
+
+	private void zipDebugReportFolder(File debugReportFolder) {
+
+		final File parentFolder = debugReportFolder.getParentFile();
+		final File debugZippedFolder = new File(parentFolder, debugReportFolder.getName() + ".zip");
+
+		try (FileOutputStream fos = new FileOutputStream(debugZippedFolder);
+			 ZipOutputStream zos = new ZipOutputStream(fos)) {
+
+			for (File file : FileUtils.listFiles(debugReportFolder, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)) {
+				String relativePath = debugReportFolder.toURI().relativize(file.toURI()).getPath();
+				ZipEntry zipEntry = new ZipEntry(relativePath);
+				zos.putNextEntry(zipEntry);
+				zos.write(IOUtils.toByteArray(file.toURI()));
+				zos.closeEntry();
+			}
+
+			FileUtils.deleteDirectory(debugReportFolder);
+
+			StellarUtils.sendConsoleInfoMessage("&aDebug report generated with success in: " + debugReportsFolder);
+
+		} catch (IOException ex) {
+			StellarUtils.logErrorException(ex, "default");
+		}
+	}
+
+
+	public void addFileToCopy(Path path) {
+		filesToCopy.add(path);
 	}
 
 	public static StellarDebugReport getInstance() {

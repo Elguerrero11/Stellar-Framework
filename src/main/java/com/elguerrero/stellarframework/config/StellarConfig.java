@@ -26,18 +26,18 @@ public abstract class StellarConfig {
 	@Getter
 	private static Boolean bStats = null;
 	@Getter
-	private static Boolean autoUpdateConfigs = false;
+	private static Boolean autoUpdater = false;
 	@Getter
 	protected YamlDocument configFile = null;
 	protected String configFilePath;
 	protected InputStream inputStream;
 	protected String configVersionKeyPath;
-	protected Boolean autoUpdateThisConfig;
+	protected Boolean thisConfigAutoUpdateEnabled;
 	protected YamlSerializer serializer = null;
 
-	protected StellarConfig(Boolean autoUpdateThisConfig) {
+	protected StellarConfig(Boolean thisConfigAutoUpdateEnabled) {
 
-		this.autoUpdateThisConfig = autoUpdateThisConfig;
+		this.thisConfigAutoUpdateEnabled = thisConfigAutoUpdateEnabled;
 		configFilePath = "config.yml";
 		inputStream = StellarPlugin.getPluginInstance().getResource("config.yml");
 		configVersionKeyPath = "Config_Version";
@@ -46,9 +46,9 @@ public abstract class StellarConfig {
 
 	}
 
-	protected StellarConfig(Boolean autoUpdateThisConfig, String configFilePath, String inputStream, String configVersionKeyPath) {
+	protected StellarConfig(Boolean thisConfigAutoUpdateEnabled, String configFilePath, String inputStream, String configVersionKeyPath) {
 
-		this.autoUpdateThisConfig = autoUpdateThisConfig;
+		this.thisConfigAutoUpdateEnabled = thisConfigAutoUpdateEnabled;
 		this.configFilePath = configFilePath;
 		this.inputStream = StellarPlugin.getPluginInstance().getResource(inputStream);
 		this.configVersionKeyPath = configVersionKeyPath;
@@ -57,9 +57,9 @@ public abstract class StellarConfig {
 
 	}
 
-	protected StellarConfig(Boolean autoUpdateThisConfig, String configFilePath, String inputStream, String configVersionKeyPath, YamlSerializer serializer) {
+	protected StellarConfig(Boolean thisConfigAutoUpdateEnabled, String configFilePath, String inputStream, String configVersionKeyPath, YamlSerializer serializer) {
 
-		this.autoUpdateThisConfig = autoUpdateThisConfig;
+		this.thisConfigAutoUpdateEnabled = thisConfigAutoUpdateEnabled;
 		this.configFilePath = configFilePath;
 		this.inputStream = StellarPlugin.getPluginInstance().getResource(inputStream);
 		this.configVersionKeyPath = configVersionKeyPath;
@@ -90,7 +90,7 @@ public abstract class StellarConfig {
 			final GeneralSettings generalSettings2 = GeneralSettings.builder().setSerializer(serializer).build();
 
 			final LoaderSettings loaderSettingsDefault = LoaderSettings.builder().setAutoUpdate(false).setAllowDuplicateKeys(false).build();
-			final LoaderSettings loaderSettings2 = LoaderSettings.builder().setAutoUpdate(autoUpdateConfigs).setAllowDuplicateKeys(false).build();
+			final LoaderSettings loaderSettings2 = LoaderSettings.builder().setAutoUpdate(autoUpdater).setAllowDuplicateKeys(false).build();
 
 			final DumperSettings dumperSettingsDefault = DumperSettings.DEFAULT;
 
@@ -100,7 +100,7 @@ public abstract class StellarConfig {
 					.setKeepAll(true).build();
 
 
-			if (autoUpdateThisConfig) {
+			if (thisConfigAutoUpdateEnabled) {
 
 				if (serializer != null) {
 
@@ -155,7 +155,7 @@ public abstract class StellarConfig {
 			lang = StellarPlugin.getBasicConfigInstance().getConfigFile().getString("Lang");
 			debug = StellarPlugin.getBasicConfigInstance().getConfigFile().getBoolean("Debug_Mode");
 			bStats = StellarPlugin.getBasicConfigInstance().getConfigFile().getBoolean("BStats");
-			autoUpdateConfigs = StellarPlugin.getBasicConfigInstance().getConfigFile().getBoolean("Auto_Update_Configs");
+			autoUpdater = StellarPlugin.getBasicConfigInstance().getConfigFile().getBoolean("Auto_Update_Configs");
 
 		} catch (Exception ex) {
 			StellarUtils.logErrorException(ex, "default");

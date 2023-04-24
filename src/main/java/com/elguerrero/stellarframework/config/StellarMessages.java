@@ -100,7 +100,7 @@ public abstract class StellarMessages {
 
 			final File yamlFile = new File(StellarPlugin.getPluginInstance().getPluginFolder() + "Lang", fileName + ".yml");
 
-			if (StellarUtils.pluginFileExist(new File("Lang"),true)) {
+			if (StellarUtils.filePluginExist(new File("Lang"),true)) {
 
 				return yamlFile.exists() && yamlFile.isFile();
 
@@ -117,11 +117,13 @@ public abstract class StellarMessages {
 
 		try {
 
-			if (StellarConfig.getAutoUpdateConfigs()){
+			loadSelectedLang();
+
+			if (StellarConfig.getAutoUpdater()){
 
 				messagesFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), messagesFilePath), inputStream,
 						GeneralSettings.DEFAULT,
-						LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdateConfigs()).setAllowDuplicateKeys(false).build(),
+						LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdater()).setAllowDuplicateKeys(false).build(),
 						DumperSettings.DEFAULT,
 						UpdaterSettings.builder().setVersioning(new BasicVersioning(messagesVersionKeyPath)).setEnableDowngrading(false)
 								.setMergeRule(MergeRule.MAPPINGS,true).setMergeRule(MergeRule.MAPPING_AT_SECTION,true).setMergeRule(MergeRule.SECTION_AT_MAPPING,true)
@@ -131,13 +133,13 @@ public abstract class StellarMessages {
 
 				messagesFile = YamlDocument.create(new File(StellarPlugin.getPluginInstance().getPluginFolder(), messagesFilePath), inputStream,
 						GeneralSettings.DEFAULT,
-						LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdateConfigs()).setAllowDuplicateKeys(false).build(),
+						LoaderSettings.builder().setAutoUpdate(StellarConfig.getAutoUpdater()).setAllowDuplicateKeys(false).build(),
 						DumperSettings.DEFAULT,
 						UpdaterSettings.builder().setEnableDowngrading(false).build());
 
 			}
 
-			callLoadConfigVariables();
+			callLoadMessagesVariables();
 
 		} catch (IOException ex) {
 			StellarUtils.logErrorException(ex, "default");
@@ -145,28 +147,35 @@ public abstract class StellarMessages {
 
 	}
 
-	protected void callLoadConfigVariables() {
+	protected void callLoadMessagesVariables() {
 
-		pluginPrefix = messagesFile.getString("Plugin_Prefix");
-		pluginDebugPrefix = messagesFile.getString("Plugin_Debug_Prefix");
-		pluginReloaded = messagesFile.getString("Plugin_Reloaded");
-		pluginError = messagesFile.getString("Plugin_Error");
-		noPermission = messagesFile.getString("No_Permission");
-		debugEnabled = messagesFile.getString("Debug_Enabled");
-		debugDisabled = messagesFile.getString("Debug_Disabled");
-		debugStatusEnabled = messagesFile.getString("Debug_Status_Enabled");
-		debugStatusDisabled = messagesFile.getString("Debug_Status_Disabled");
-		debugMessageFormat = messagesFile.getString("Debug_Message_Format");
-		addonAlreadyEnabled = messagesFile.getString("Addon_Already_Enabled");
-		addonAlreadyDisabled = messagesFile.getString("Addon_Already_Disabled");
-		addonDisabled = messagesFile.getString("Addon_Disabled");
-		addonEnabled = messagesFile.getString("Addon_Enabled");
-		addonNotFound = messagesFile.getString("Addon_Not_Found");
-		addonNotRegistered = messagesFile.getString("Addon_Not_Registered");
-		addonCannotReload = messagesFile.getString("Addon_Cannot_Reload");
-	    addonReloaded = messagesFile.getString("Addon_Reloaded");
+		try {
 
-		loadMessagesVariables();
+			pluginPrefix = messagesFile.getString("Plugin_Prefix");
+			pluginDebugPrefix = messagesFile.getString("Plugin_Debug_Prefix");
+			pluginReloaded = messagesFile.getString("Plugin_Reloaded");
+			pluginError = messagesFile.getString("Plugin_Error");
+			noPermission = messagesFile.getString("No_Permission");
+			debugEnabled = messagesFile.getString("Debug_Enabled");
+			debugDisabled = messagesFile.getString("Debug_Disabled");
+			debugStatusEnabled = messagesFile.getString("Debug_Status_Enabled");
+			debugStatusDisabled = messagesFile.getString("Debug_Status_Disabled");
+			debugMessageFormat = messagesFile.getString("Debug_Message_Format");
+			addonAlreadyEnabled = messagesFile.getString("Addon_Already_Enabled");
+			addonAlreadyDisabled = messagesFile.getString("Addon_Already_Disabled");
+			addonDisabled = messagesFile.getString("Addon_Disabled");
+			addonEnabled = messagesFile.getString("Addon_Enabled");
+			addonNotFound = messagesFile.getString("Addon_Not_Found");
+			addonNotRegistered = messagesFile.getString("Addon_Not_Registered");
+			addonCannotReload = messagesFile.getString("Addon_Cannot_Reload");
+			addonReloaded = messagesFile.getString("Addon_Reloaded");
+
+			loadMessagesVariables();
+
+		} catch (Exception ex){
+			StellarUtils.logErrorException(ex,"default");
+		}
+
 	}
 
 	abstract void loadMessagesVariables();
